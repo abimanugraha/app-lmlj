@@ -36,35 +36,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        return var_dump($request);
-        die();
-        $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-            'role' => 'required',
-        ]);
+        // $data = json_decode($request->getContent(), false);
+        $data = $request->getContent();
+        // $data = $request->getContent();
+        
+        $response = [
+            'data' => $request->input('username')
+        ];
+        return $data['username'];
+        // $validator = Validator::make($request->all(), [
+        //     'username' => 'required',
+        //     'password' => 'required',
+        //     'role' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(
+        //         $validator->errors(),
+        //         HttpFoundationResponse::HTTP_UNPROCESSABLE_ENTITY
+        //     );
+        // }
 
-        try {
-            $user = User::create($request->all());
+        // try {
+        //     $user = User::create($request->all());
 
-            $response = [
-                'message' => 'Berhasil disimpan',
-                'data' => $user,
-            ];
+        //     $response = [
+        //         'message' => 'Berhasil disimpan',
+        //         'data' => $user,
+        //     ];
 
-            return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => "Gagal " . $e->errorInfo,
-            ]);
-        }
+        //     return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
+        // } catch (QueryException $e) {
+        //     return response()->json([
+        //         'message' => "Gagal " . $e->errorInfo,
+        //     ]);
+        // }
     }
 
     /**

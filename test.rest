@@ -3,6 +3,9 @@ GET http://127.0.0.1:8000/api/user  HTTP/1.1
 ###
 
 GET http://127.0.0.1:8000/api/user?page=2
+
+
+
 ###
 
 POST http://127.0.0.1:8000/api/user HTTP/1.1
@@ -13,3 +16,5 @@ content-type: application/json
     "password": "uit2022",
     "role": "it",
 }
+
+###
