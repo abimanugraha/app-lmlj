@@ -36,6 +36,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        return var_dump($request);
+        die();
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
