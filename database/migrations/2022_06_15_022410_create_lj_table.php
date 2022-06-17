@@ -20,6 +20,7 @@ class CreateLjTable extends Migration
             $table->string('analisamasalah');
             $table->string('nilaitambah');
             $table->string('urgensi');
+            $table->string('target');
             $table->string('perbaikan');
             $table->string('keputusan');
             $table->string('lampiran');

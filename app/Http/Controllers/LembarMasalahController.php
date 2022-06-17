@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LembarMasalah;
 use App\Models\User;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Database\QueryException;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
-class UserController extends Controller
+class LembarMasalahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +20,10 @@ class UserController extends Controller
     public function index()
     {
         //
-        $user = User::orderBy('created_at', 'DESC')->paginate(5);
+        $lembarmasalah = LembarMasalah::orderBy('created_at', 'DESC')->paginate(5);
         $response = [
-            'message' => 'Data user',
-            'data' => $user,
+            'message' => 'Data lembarmasalah',
+            'data' => $lembarmasalah,
         ];
         return response()->json($response, HttpFoundationResponse::HTTP_OK);
     }
@@ -36,9 +37,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-            'role' => 'required',
+            'nolmlj' => 'required',
+            'namaproduk' => 'required',
+            'nomorproduk' => 'required',            
+            'unittujuan' => 'required',
+            'fotomasalah' => 'required',
+            'detailmasalah' => 'required',
+            'urgensi' => 'required',
+            'namapembuat' => 'required',
+            'unitpembuat' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -48,18 +55,18 @@ class UserController extends Controller
             );
         }
 
-        try {
-            $user = User::create($request->all());
+        $lembarmasalah = LembarMasalah::create($request->all());
 
+        try {
             $response = [
                 'message' => 'Berhasil disimpan',
-                'data' => $user,
+                'data' => $lembarmasalah,
             ];
 
             return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal " . $e->errorInfo,
+                'message' => "Gagal ".$e->errorInfo,
             ]);
         }
     }
@@ -73,14 +80,14 @@ class UserController extends Controller
     public function show($id)
     {
         //
-        $user = User::where('id', $id)->firstOrFail();
-        if (is_null($user)) {
-            return $this->sendError('user tidak diemukan');
+        $lembarmasalah = lembarmasalah::where('id', $id)->firstOrFail();
+        if (is_null($lembarmasalah)) {
+            return $this->sendError('lembarmasalah tidak diemukan');
         }
         return response()->json([
             "success" => true,
-            "message" => "Data user ditemukan.",
-            "data" => $user,
+            "message" => "Data lembarmasalah ditemukan.",
+            "data" => $lembarmasalah,
         ]);
     }
 
@@ -94,12 +101,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $user = User::find($id);
-        $user->update($request->all());
+        $lembarmasalah = lembarmasalah::find($id);
+        $lembarmasalah->update($request->all());
         return response()->json([
             "success" => true,
-            "message" => "Data user telah diubah.",
-            "data" => $user,
+            "message" => "Data lembarmasalah telah diubah.",
+            "data" => $lembarmasalah,
         ]);
     }
 
@@ -112,10 +119,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $deletedRows = User::where('id', $id)->delete();
+        $deletedRows = lembarmasalah::where('id', $id)->delete();
         return response()->json([
             "success" => true,
-            "message" => "Data user berhasil dihapus.",
+            "message" => "Data lembarmasalah berhasil dihapus.",
             "data" => $deletedRows,
         ]);
     }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\LembarJawaban;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
-class UserController extends Controller
+class LembarJawabanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +19,10 @@ class UserController extends Controller
     public function index()
     {
         //
-        $user = User::orderBy('created_at', 'DESC')->paginate(5);
+        $lembarjawaban = LembarJawaban::orderBy('created_at', 'DESC')->paginate(5);
         $response = [
-            'message' => 'Data user',
-            'data' => $user,
+            'message' => 'Data lembarjawaban',
+            'data' => $lembarjawaban,
         ];
         return response()->json($response, HttpFoundationResponse::HTTP_OK);
     }
@@ -36,9 +36,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
-            'role' => 'required',
+            'nolmlj' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -48,18 +46,18 @@ class UserController extends Controller
             );
         }
 
-        try {
-            $user = User::create($request->all());
+        $lembarjawaban = lembarjawaban::create($request->all());
 
+        try {
             $response = [
                 'message' => 'Berhasil disimpan',
-                'data' => $user,
+                'data' => $lembarjawaban,
             ];
 
             return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal " . $e->errorInfo,
+                'message' => "Gagal ".$e->errorInfo,
             ]);
         }
     }
@@ -73,14 +71,14 @@ class UserController extends Controller
     public function show($id)
     {
         //
-        $user = User::where('id', $id)->firstOrFail();
-        if (is_null($user)) {
-            return $this->sendError('user tidak diemukan');
+        $lembarjawaban = lembarjawaban::where('id', $id)->firstOrFail();
+        if (is_null($lembarjawaban)) {
+            return $this->sendError('lembarjawaban tidak diemukan');
         }
         return response()->json([
             "success" => true,
-            "message" => "Data user ditemukan.",
-            "data" => $user,
+            "message" => "Data lembarjawaban ditemukan.",
+            "data" => $lembarjawaban,
         ]);
     }
 
@@ -94,12 +92,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $user = User::find($id);
-        $user->update($request->all());
+        $lembarjawaban = lembarjawaban::find($id);
+        $lembarjawaban->update($request->all());
         return response()->json([
             "success" => true,
-            "message" => "Data user telah diubah.",
-            "data" => $user,
+            "message" => "Data lembarjawaban telah diubah.",
+            "data" => $lembarjawaban,
         ]);
     }
 
@@ -112,10 +110,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $deletedRows = User::where('id', $id)->delete();
+        $deletedRows = lembarjawaban::where('id', $id)->delete();
         return response()->json([
             "success" => true,
-            "message" => "Data user berhasil dihapus.",
+            "message" => "Data lembarjawaban berhasil dihapus.",
             "data" => $deletedRows,
         ]);
     }
