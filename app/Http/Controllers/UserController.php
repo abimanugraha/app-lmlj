@@ -43,7 +43,7 @@ class UserController extends Controller
         $response = [
             'data' => $request->input('username')
         ];
-        return $data['username'];
+        return $data;
         // $validator = Validator::make($request->all(), [
         //     'username' => 'required',
         //     'password' => 'required',
