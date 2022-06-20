@@ -20,20 +20,38 @@ Route::get('/auth', function () {
     return view('auth/auth');
 });
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard/dashboard', [
+        'title' => 'Dashboard',
+        'slug'  => 'dashboard'
+    ]);
 });
-Route::get('/form-ajuan', function () {
-    return view('LMLJ/formajuan');
+Route::get('/pengajuan-lmlj', function () {
+    return view('LMLJ/formajuan', [
+        'title' => 'Pengajuan LMLJ',
+        'slug'  => 'pengajuan-lmlj'
+    ]);
 });
-Route::get('/form-jawaban', function () {
-    return view('LMLJ/formjawaban');
+Route::get('/kotak-masuk-lmlj', function () {
+    return view('LMLJ/formjawaban', [
+        'title' => 'Kotak Masuk LMLJ',
+        'slug'  => 'kotak-masuk-lmlj'
+    ]);
 });
-Route::get('/form-rekap', function () {
-    return view('LMLJ/formrekap');
+Route::get('/rekap-progress-lmlj', function () {
+    return view('LMLJ/formrekap', [
+        'title' => 'Rekap Progress LMLJ',
+        'slug'  => 'rekap-progress-lmlj'
+    ]);
 });
-Route::get('/status/{id}', function () {
-    return view('LMLJ/status');
+Route::get('/status', function () {
+    return view('LMLJ/status', [
+        'title' => 'Status LMLJ',
+        'slug'  => 'dashboard'
+    ]);
 });
-Route::get('/detail/{id}', function () {
-    return view('LMLJ/detail');
+Route::get('/detail', function () {
+    return view('LMLJ/detail', [
+        'title' => 'Detail LMLJ',
+        'slug'  => 'dashboard'
+    ]);
 });
