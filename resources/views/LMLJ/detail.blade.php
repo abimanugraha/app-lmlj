@@ -148,7 +148,8 @@
                     <div class="row">
                         <div class="col">
                             <div class="progress mb-3" data-height="5">
-                                <div class="progress-bar" role="progressbar" data-width="40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" data-width="40%" aria-valuenow="40"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -169,11 +170,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4">
-                                                <h4 class="mt-2 text-dark">Unit Tujuan</h4>
+                                            <h4 class="mt-2 text-dark">Unit Tujuan</h4>
                                         </div>
                                         <div class="col-4 text-center">
-                                            <figure class="avatar mt-1 avatar-md bg-warning text-white" data-initial="7"></figure><br>
-                                            <div class="badge badge-info mt-3">Diteruskan</div>
+                                            <figure class="avatar mt-1 avatar-md bg-warning text-white" data-initial="7">
+                                            </figure><br>
+                                            <div class="badge badge-info mt-3">Diteruskan</div><br>
+
                                         </div>
                                         <div class="col-4 text-right">
                                             <div class="row mb-2">
@@ -181,7 +184,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col">
-                                                    <figure class="avatar mr-2 avatar-sm" data-initial="AN"></figure>                                                    
+                                                    <figure class="avatar mr-2 avatar-sm" data-initial="AN"></figure>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -189,6 +192,91 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="collapse" id="detailjawaban">
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                Analisa Masalah
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-dark">1. Lorem ipsum dolor sit, amet consectetur adipisicing
+                                                    elit. A
+                                                    minus est dolorem cupiditate consectetur excepturi nemo magnam quae
+                                                    corrupti ullam?
+                                                </p>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                Perbaikan 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-dark">1. Lorem ipsum dolor sit, amet consectetur adipisicing
+                                                    elit. A
+                                                    minus est dolorem cupiditate consectetur excepturi nemo magnam quae
+                                                    corrupti ullam?
+                                                </p>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                Nilai Tambah 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-dark">1. Lorem ipsum dolor sit, amet consectetur adipisicing
+                                                    elit. A
+                                                    minus est dolorem cupiditate consectetur excepturi nemo magnam quae
+                                                    corrupti ullam?
+                                                </p>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                Keputusan 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <p class="text-dark">1. Lorem ipsum dolor sit, amet consectetur adipisicing
+                                                    elit. A
+                                                    minus est dolorem cupiditate consectetur excepturi nemo magnam quae
+                                                    corrupti ullam?
+                                                </p>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                Lampiran 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="gallery gallery-md">
+                                                    <div class="gallery-item" data-image="assets/img/news/img03.jpg"
+                                                        data-title="Image 1"></div>
+                                                    <div class="gallery-item" data-image="assets/img/news/img14.jpg"
+                                                        data-title="Image 2"></div>
+                                                    <div class="gallery-item" data-image="assets/img/news/img08.jpg"
+                                                        data-title="Image 3"></div>
+                                                    <div class="gallery-item" data-image="assets/img/news/img05.jpg"
+                                                        data-title="Image 4"></div>
+                                                    <div class="gallery-item gallery-more" data-image="assets/img/news/img08.jpg"
+                                                        data-title="Image 12">
+                                                        <div>+2</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a data-toggle="collapse" href="#detailjawaban" class="btn btn-icon btn-primary"><i
+                                            class="fas fa-angle-down"></i></a>
                                 </div>
                             </div>
                         </div>
