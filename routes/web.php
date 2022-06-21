@@ -26,32 +26,39 @@ Route::get('/dashboard', function () {
     ]);
 });
 Route::get('/pengajuan-lmlj', function () {
-    return view('LMLJ/formajuan', [
+    return view('LMLJ/lembar-masalah', [
         'title' => 'Pengajuan LMLJ',
         'slug'  => 'pengajuan-lmlj'
     ]);
 });
 Route::get('/kotak-masuk-lmlj', function () {
-    return view('LMLJ/formjawaban', [
+    return view('LMLJ/kotak-masuk', [
         'title' => 'Kotak Masuk LMLJ',
         'slug'  => 'kotak-masuk-lmlj'
     ]);
 });
 Route::get('/rekap-progress-lmlj', function () {
-    return view('LMLJ/formrekap', [
+    return view('LMLJ/kotak-rekap', [
         'title' => 'Rekap Progress LMLJ',
         'slug'  => 'rekap-progress-lmlj'
     ]);
 });
-Route::get('/status', function () {
-    return view('LMLJ/status', [
-        'title' => 'Status LMLJ',
-        'slug'  => 'dashboard'
+Route::get('/lembar-jawaban', function () {
+    return view('LMLJ/lembar-jawaban', [
+        'title' => 'Lembar Jawaban LMLJ',
+        'slug'  => 'kotak-masuk-lmlj',
+    ]);
+});
+Route::get('/lembar-rekap-progress', function () {
+    return view('LMLJ/lembar-rekap', [
+        'title' => 'Rekap Progress LMLJ',
+        'slug'  => 'rekap-progress-lmlj',
     ]);
 });
 Route::get('/detail', function () {
     return view('LMLJ/detail', [
         'title' => 'Detail LMLJ',
-        'slug'  => 'dashboard'
+        'slug'  => 'dashboard',
+        'lebar_status' => '24%'
     ]);
 });

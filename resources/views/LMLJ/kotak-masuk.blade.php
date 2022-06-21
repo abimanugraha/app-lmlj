@@ -11,7 +11,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Rekap Progress LMLJ</h4>
+                        <h4>Kotak Masuk LMLJ</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -43,7 +43,7 @@
                                             <img src="assets/img/warning.png" alt="masalah" width="50">
                                         </td>
                                         <td>Unit Pengaju</td>
-                                        <td><a href="#" class="btn btn-warning">Rekap</a></td>
+                                        <td><a href="/lembar-jawaban" class="btn btn-success">Jawab</a></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -58,7 +58,7 @@
                                             <img src="assets/img/warning.png" alt="masalah" width="50">
                                         </td>
                                         <td>Unit Pengaju</td>
-                                        <td><a href="#" class="btn btn-warning">Rekap</a></td>
+                                        <td><a href="/lembar-jawaban" class="btn btn-success">Jawab</a></td>
                                     </tr>                                   
                                 </tbody>
                             </table>
