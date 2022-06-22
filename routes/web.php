@@ -25,6 +25,12 @@ Route::get('/dashboard', function () {
         'slug'  => 'dashboard'
     ]);
 });
+Route::post('/dashboard', function () {
+    return view('dashboard/dashboard', [
+        'title' => 'Dashboard',
+        'slug'  => 'dashboard'
+    ]);
+});
 Route::get('/pengajuan-lmlj', function () {
     return view('LMLJ/lembar-masalah', [
         'title' => 'Pengajuan LMLJ',

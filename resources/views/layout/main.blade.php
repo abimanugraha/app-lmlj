@@ -62,7 +62,7 @@
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item has-icon text-danger">
+                            <a href="/" class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </div>
@@ -75,7 +75,7 @@
                         <a href="index.html">Aplikasi LMLJ</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">LMLJ</a>
+                        <a href="/dashboard">LMLJ</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Menu</li>

@@ -28,7 +28,7 @@ class CreateLjTable extends Migration
             $table->string('status');
             $table->string('unittujuan');
             $table->string('namapenerima');
-            $table->string('tanggalditerima');
+            $table->timestamp('tanggalditerima');
             $table->timestamps();
         });
     }

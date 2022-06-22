@@ -208,7 +208,6 @@
         document.getElementById("check-teruskan").onclick = function() {
             show()
         };
-
         function show() {
             var x=$("#check-teruskan").is(":checked");
             if(x){

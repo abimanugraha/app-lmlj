@@ -9,24 +9,25 @@ class LembarMasalah extends Model
 {
     use HasFactory;
     protected $table="lm";
-    protected $fillable = [
-        'nolmlj', 
-        'namaproduk',
-        'nomorproduk',
-        'namakomponen',
-        'nomorkomponen',
-        'unittujuan',
-        'masalah',
-        'fotomasalah',
-        'detailmasalah',
-        'nilaitambah',
-        'urgensi',
-        'namapembuat',
-        'unitpembuat',
-        'tanggaldibuat',
-        'namapenerima',
-        'tanggalditerima',
-        'status',
-        'keterangan',
-    ];
+    protected $guarded = ["id"];
+    // protected $fillable = [
+    //     'nolmlj', 
+    //     'namaproduk',
+    //     'nomorproduk',
+    //     'namakomponen',
+    //     'nomorkomponen',
+    //     'unittujuan',
+    //     'masalah',
+    //     'fotomasalah',
+    //     'detailmasalah',
+    //     'nilaitambah',
+    //     'urgensi',
+    //     'namapembuat',
+    //     'unitpembuat',
+    //     'tanggaldibuat',
+    //     'namapenerima',
+    //     'tanggalditerima',
+    //     'status',
+    //     'keterangan',
+    // ];
 }

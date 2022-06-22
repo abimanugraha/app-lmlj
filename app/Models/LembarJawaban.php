@@ -9,20 +9,21 @@ class LembarJawaban extends Model
 {
     use HasFactory;
     protected $table="lj";
-    protected $fillable = [
-        'nolmlj', 
-        'nomor',
-        'analisamasalah',
-        'nilaitambah',
-        'urgensi',
-        'target',
-        'perbaikan',
-        'keputusan',
-        'lampiran',
-        'namapembuat',
-        'status',
-        'unittujuan',
-        'namapenerima',
-        'tanggalditerima',
-    ];
+    protected $guarded = ['id'];
+    // protected $fillable = [
+    //     'nolmlj', 
+    //     'nomor',
+    //     'analisamasalah',
+    //     'nilaitambah',
+    //     'urgensi',
+    //     'target',
+    //     'perbaikan',
+    //     'keputusan',
+    //     'lampiran',
+    //     'namapembuat',
+    //     'status',
+    //     'unittujuan',
+    //     'namapenerima',
+    //     'tanggalditerima',
+    // ];
 }

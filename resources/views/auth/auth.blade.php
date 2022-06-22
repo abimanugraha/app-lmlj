@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Login &mdash; Stisla</title>
+  <title>Aplikasi LMLJ | Login</title>
   <link rel="icon" href="assets/img/logo-mak-text.png">
 
   <!-- General CSS Files -->
@@ -30,10 +30,11 @@
               <div class="card-header"><h4>Login</h4></div>
 
               <div class="card-body">
-                <form method="POST" action="#" class="needs-validation" novalidate="">
+                <form method="POST" action="/dashboard" class="needs-validation" novalidate="">
+                  @csrf
                   <div class="form-group">
                     <label for="username">Username</label>
-                    <input id="username" type="username" class="form-control" name="username" tabindex="1" required autofocus>
+                    <input id="username" type="username" class="form-control" name="username" tabindex="1" autofocus>
                     <div class="invalid-feedback">
                       Please fill in your username
                     </div>
@@ -43,12 +44,12 @@
                     <div class="d-block">
                     	<label for="password" class="control-label">Password</label>
                       <div class="float-right">
-                        <a href="#" class="text-small">
+                        {{-- <a href="#" class="text-small">
                           Forgot Password?
-                        </a>
+                        </a> --}}
                       </div>
                     </div>
-                    <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
+                    <input id="password" type="password" class="form-control" name="password" tabindex="2">
                     <div class="invalid-feedback">
                       please fill in your password
                     </div>
