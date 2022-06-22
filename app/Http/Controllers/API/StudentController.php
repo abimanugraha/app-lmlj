@@ -23,7 +23,7 @@ class StudentController extends Controller
     function store(StudentRequest $request)
     {
         $student = Student::create($request->all());
-        return response()->json(['msg' => 'Data created', 'data' => $student], 201);
+        return response()->json(['msg' => 'Data created', 'data' => $student], 200);
     }
 
     function update($id, StudentRequest $request)
