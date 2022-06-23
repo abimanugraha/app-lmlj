@@ -98,7 +98,7 @@
                                         <td>
                                             <div class="badge badge-success">Completed</div>
                                         </td>
-                                        <td><a href="/detail" class="btn btn-primary">Detail</a></td>
+                                        <td><a href="{{ url('detail')}}" class="btn btn-primary">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -119,7 +119,7 @@
                                         <td>
                                             <div class="badge badge-warning">On Progress</div>
                                         </td>
-                                        <td><a href="/detail" class="btn btn-primary">Detail</a></td>
+                                        <td><a href="{{ url('detail')}}" class="btn btn-primary">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -140,7 +140,7 @@
                                         <td>
                                             <div class="badge badge-danger">Diteruskan</div>
                                         </td>
-                                        <td><a href="/detail" class="btn btn-primary">Detail</a></td>
+                                        <td><a href="{{ url('detail')}}" class="btn btn-primary">Detail</a></td>
                                     </tr>
 
                                 </tbody>

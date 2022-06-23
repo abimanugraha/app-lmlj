@@ -14,7 +14,7 @@
             <div class="section-header">
                 <h1>{{ $title }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item"><a href="/kotak-masuk-lmlj">Kotak Masuk LMLJ</a></div>
+                    <div class="breadcrumb-item"><a href="{{ url('kotak-masuk-lmlj')}}">Kotak Masuk LMLJ</a></div>
                     <div class="breadcrumb-item">Lembar Jawaban</div>
                 </div>
             </div>

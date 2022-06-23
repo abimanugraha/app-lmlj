@@ -1955,6 +1955,9 @@ body, html {
   min-height: 100%; }
 
 body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;   
   background-color: #f4f6f9;
   font-size: 14px;
   font-weight: 400;

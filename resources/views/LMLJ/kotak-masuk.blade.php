@@ -43,7 +43,7 @@
                                             <img src="assets/img/warning.png" alt="masalah" width="50">
                                         </td>
                                         <td>Unit Pengaju</td>
-                                        <td><a href="/lembar-jawaban" class="btn btn-success">Jawab</a></td>
+                                        <td><a href="{{ url('lembar-jawaban')}}" class="btn btn-success">Jawab</a></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -58,7 +58,7 @@
                                             <img src="assets/img/warning.png" alt="masalah" width="50">
                                         </td>
                                         <td>Unit Pengaju</td>
-                                        <td><a href="/lembar-jawaban" class="btn btn-success">Jawab</a></td>
+                                        <td><a href="{{ url('lembar-jawaban')}}" class="btn btn-success">Jawab</a></td>
                                     </tr>                                   
                                 </tbody>
                             </table>
