@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLecturesTable extends Migration
+class CreateMediaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateLecturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('lectures', function (Blueprint $table) {
+        Schema::create('media', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('masalah_id')->nullable();
+            $table->foreignId('jawaban_id')->nullable();
+            $table->string('file');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateLecturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lectures');
+        Schema::dropIfExists('media');
     }
 }

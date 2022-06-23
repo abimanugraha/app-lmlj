@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LectureFactory extends Factory
+class KomponenFactory extends Factory
 {
     /**
      * Define the model's default state.
