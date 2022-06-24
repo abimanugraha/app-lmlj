@@ -91,31 +91,19 @@
                             </a>
                         </li>
                         <li class="{{ $slug === 'pengajuan-lmlj' ? 'active' : '' }}">
-<<<<<<< HEAD
                             <a class="nav-link" href="{{ url('pengajuan-lmlj')}}">
-=======
-                            <a class="nav-link" href="/pengajuan-lmlj">
->>>>>>> 753b49db6fe7c800cb5a51b5b78eac8eaa4f5a19
                                 <i class="fas fa-plus-circle"></i>
                                 <span>Pengajuan LMLJ</span>
                             </a>
                         </li>
                         <li class="{{ $slug === 'kotak-masuk-lmlj' ? 'active' : '' }}">
-<<<<<<< HEAD
                             <a class="nav-link" href="{{ url('kotak-masuk-lmlj')}}">
-=======
-                            <a class="nav-link" href="/kotak-masuk-lmlj">
->>>>>>> 753b49db6fe7c800cb5a51b5b78eac8eaa4f5a19
                                 <i class="fas fa-inbox"></i>
                                 <span>Kotak Masuk LMLJ</span>
                             </a>
                         </li>
                         <li class="{{ $slug === 'rekap-progress-lmlj' ? 'active' : '' }}">
-<<<<<<< HEAD
                             <a class="nav-link" href="{{ url('rekap-progress-lmlj')}}">
-=======
-                            <a class="nav-link" href="/rekap-progress-lmlj">
->>>>>>> 753b49db6fe7c800cb5a51b5b78eac8eaa4f5a19
                                 <i class="fas fa-book"></i>
                                 <span>Rekap Progress LMLJ</span>
                             </a>
