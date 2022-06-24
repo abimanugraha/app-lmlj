@@ -1,11 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-use App\Http\Controllers\LembarJawabanController;
-use App\Http\Controllers\LembarMasalahController;
-use App\Http\Controllers\UserController;
-use App\Models\LembarJawaban;
-=======
 use App\Http\Controllers\API\DetailMasalahController;
 use App\Http\Controllers\API\JawabanController;
 use App\Http\Controllers\API\KomponenController;
@@ -17,7 +11,6 @@ use App\Http\Controllers\API\roleController;
 use App\Http\Controllers\API\StudentController;
 use App\Http\Controllers\API\UnitController;
 use App\Http\Controllers\API\UserController;
->>>>>>> 92b7e9a5565ad5bb71c7fb630f63b8e6799f266b
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,8 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-<<<<<<< HEAD
-=======
 
 Route::get('users', [UserController::class, 'get']);
 Route::get('user/{id}', [UserController::class, 'get']);
@@ -98,4 +89,3 @@ Route::get('detail/{id}', [DetailMasalahController::class, 'get']);
 Route::post('detail', [DetailMasalahController::class, 'store']);
 Route::put('detail/{id}', [DetailMasalahController::class, 'update']);
 Route::delete('detail/{id}', [DetailMasalahController::class, 'destroy']);
->>>>>>> 92b7e9a5565ad5bb71c7fb630f63b8e6799f266b
