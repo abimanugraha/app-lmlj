@@ -85,11 +85,7 @@
                     <ul class="sidebar-menu">
                         <li class="menu-header">Menu</li>
                         <li class="{{ $slug === 'dashboard' ? 'active' : '' }}">
-<<<<<<< HEAD
                             <a class="nav-link" href="{{ url('dashboard')}}">
-=======
-                            <a class="nav-link" href="/dashboard">
->>>>>>> 753b49db6fe7c800cb5a51b5b78eac8eaa4f5a19
                                 <i class="fas fa-rocket"></i>
                                 <span>Dashboard</span>
                             </a>

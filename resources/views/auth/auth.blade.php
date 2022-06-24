@@ -36,11 +36,7 @@
                             </div>
 
                             <div class="card-body">
-<<<<<<< HEAD
                                 <form method="POST" action="{{ url('dashboard') }}" class="needs-validation" novalidate="">
-=======
-                                <form method="POST" action="/dashboard" class="needs-validation" novalidate="">
->>>>>>> 753b49db6fe7c800cb5a51b5b78eac8eaa4f5a19
                                     @csrf
                                     <input type="text" name="role" id="" value="1" hidden>
                                     <div class="form-group">
