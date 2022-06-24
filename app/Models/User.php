@@ -20,4 +20,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+    
+    public function masalah()
+    {
+        return $this->hasMany(Masalah::class);
+    }
+    
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class);
+    }
 }

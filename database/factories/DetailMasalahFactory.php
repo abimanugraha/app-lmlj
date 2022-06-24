@@ -14,7 +14,8 @@ class DetailMasalahFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'masalah_id' => $this->faker->numberBetween(0, 2),
+            'detail' => $this->faker->text(100),
         ];
     }
 }

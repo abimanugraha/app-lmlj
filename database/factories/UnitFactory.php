@@ -14,7 +14,8 @@ class UnitFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'unit' => $this->faker->words(1, true),
+            'kanit' => $this->faker->unique()->name(),
         ];
     }
 }

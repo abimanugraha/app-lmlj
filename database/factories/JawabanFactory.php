@@ -14,7 +14,13 @@ class JawabanFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'masalah_id' => $this->faker->numberBetween(0, 2),
+            'analisa' => $this->faker->text(150),
+            'urgensi' => $this->faker->numberBetween(0,2),
+            'target' => $this->faker->numberBetween(1,14),
+            'status' => $this->faker->numberBetween(0,2),
+            'tanggal_diterima' => $this->faker->dateTime(),
+            'penerima_id' => $this->faker->numberBetween(0,2),
         ];
     }
 }

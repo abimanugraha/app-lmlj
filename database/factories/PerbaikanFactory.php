@@ -14,7 +14,8 @@ class PerbaikanFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'jawaban_id' => $this->faker->numberBetween(0, 2),
+            'perbaikan' => $this->faker->text(76),
         ];
     }
 }

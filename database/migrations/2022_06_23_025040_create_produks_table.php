@@ -15,7 +15,6 @@ class CreateProduksTable extends Migration
     {
         Schema::create('produks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('masalah_id')->nullable();
             $table->string('nama');
             $table->string('nomor');
             $table->timestamps();

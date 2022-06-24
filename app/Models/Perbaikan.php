@@ -9,4 +9,9 @@ class Perbaikan extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function jawaban()
+    {
+        return $this->belongsTo(Jawaban::class);
+    }
 }

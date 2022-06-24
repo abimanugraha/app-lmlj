@@ -9,4 +9,14 @@ class Komponen extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function masalah()
+    {
+        return $this->hasMany(Masalah::class);
+    }
+    
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class);
+    }
 }

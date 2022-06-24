@@ -14,7 +14,9 @@ class MediaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'masalah_id' => $this->faker->numberBetween(0, 2),
+            'jawaban_id' => $this->faker->numberBetween(0, 2),
+            'file' => $this->faker->word(),
         ];
     }
 }

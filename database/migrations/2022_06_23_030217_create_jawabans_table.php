@@ -19,14 +19,14 @@ class CreateJawabansTable extends Migration
             $table->text('analisa');            
             $table->tinyInteger('urgensi');            
             $table->tinyInteger('target'); 
-            $table->timestamp('tanggal_diterima');            
+            $table->timestamp('tanggal_diterima')->nullable();            
             $table->foreignId('penerima_id')->nullable();   // Nama Penerima            
             // hasMany Perbaikan
-            $table->text('nilai_tambah');            
-            $table->text('keputusan');
+            $table->text('nilai_tambah')->nullable();            
+            $table->text('keputusan')->nullable();
             // hasMany Lampiran {Media}
             $table->foreignId('pic_id')->nullable();   // Nama Pembuat            
-            $table->tinyInteger('status');            
+            $table->tinyInteger('status')->nullable();            
             $table->foreignId('user_tujuan_id')->nullable();    // User Tujuan {Forward}            
             $table->timestamps();
         });
