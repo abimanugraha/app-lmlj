@@ -29,39 +29,52 @@
                             <img src="assets/img/logo-mak.png" alt="logo" width="200" class="img-fluid">
                             <p class="text-dark">Aplikasi LMLJ</p>
                         </div>
-
+                        @if (session('status'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                        @if (session('info'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('info') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                         <div class="card card-primary mt-0">
                             <div class="card-header">
                                 <h4>Login</h4>
                             </div>
 
                             <div class="card-body">
-                                <form method="POST" action="{{ url('dashboard') }}" class="needs-validation" novalidate="">
+                                <form method="POST" action="{{ url('login') }}" class=""
+                                    novalidate="">
                                     @csrf
                                     <input type="text" name="role" id="" value="1" hidden>
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input id="username" type="username" class="form-control" name="username"
-                                            tabindex="1" autofocus>
-                                        <div class="invalid-feedback">
-                                            Please fill in your username
-                                        </div>
+                                        <input id="username" type="text" class="form-control @error('username')is-invalid @enderror" name="username" value="{{ old('username') }}">                                        
+                                        @error('username')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <div class="d-block">
-                                            <label for="password" class="control-label">Password</label>
-                                            <div class="float-right">
-                                                {{-- <a href="#" class="text-small">
-                          Forgot Password?
-                        </a> --}}
+                                            <label for="password" class="control-label">Password</label>                                        
+                                        </div>
+                                        <input id="password" type="password" class="form-control @error('password')is-invalid @enderror" name="password" tabindex="2">
+                                        @error('password')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
                                             </div>
-                                        </div>
-                                        <input id="password" type="password" class="form-control" name="password"
-                                            tabindex="2">
-                                        <div class="invalid-feedback">
-                                            please fill in your password
-                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
