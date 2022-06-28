@@ -25,12 +25,17 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Unit::class);
     }
-    
+
     public function masalah()
     {
-        return $this->hasMany(Masalah::class);
+        return $this->hasMany(Masalah::class, 'pengaju_id');
     }
-    
+
+    public function mengetahui()
+    {
+        return $this->hasMany(Masalah::class, 'ygmengetahui_id');
+    }
+
     public function jawaban()
     {
         return $this->hasMany(Jawaban::class);

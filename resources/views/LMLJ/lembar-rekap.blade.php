@@ -14,7 +14,7 @@
             <div class="section-header">
                 <h1>{{ $title }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item"><a href="{{ url('rekap-progress-lmlj')}}">Rekap Progress LMLJ</a></div>
+                    <div class="breadcrumb-item"><a href="{{ url('rekap-progress-lmlj') }}">Rekap Progress LMLJ</a></div>
                     <div class="breadcrumb-item">Lembar Rekap</div>
                 </div>
             </div>
@@ -78,16 +78,16 @@
                             <div class="row mb-1">
                                 <div class="col">
                                     <div class="gallery gallery-md">
-                                        <div class="gallery-item" data-image="assets/img/news/img03.jpg"
+                                        <div class="gallery-item" data-image="{{ url('assets/img/news/img03.jpg') }}"
                                             data-title="Image 1"></div>
-                                        <div class="gallery-item" data-image="assets/img/news/img14.jpg"
+                                        <div class="gallery-item" data-image="{{ url('assets/img/news/img14.jpg') }}"
                                             data-title="Image 2"></div>
-                                        <div class="gallery-item" data-image="assets/img/news/img08.jpg"
+                                        <div class="gallery-item" data-image="{{ url('assets/img/news/img08.jpg') }}"
                                             data-title="Image 3"></div>
-                                        <div class="gallery-item" data-image="assets/img/news/img05.jpg"
+                                        <div class="gallery-item" data-image="{{ url('assets/img/news/img05.jpg') }}"
                                             data-title="Image 4"></div>
-                                        <div class="gallery-item gallery-more" data-image="assets/img/news/img08.jpg"
-                                            data-title="Image 12">
+                                        <div class="gallery-item gallery-more"
+                                            data-image="{{ url('assets/img/news/img08.jpg') }}" data-title="Image 12">
                                             <div>+2</div>
                                         </div>
                                     </div>
@@ -164,18 +164,15 @@
                             <form>
                                 <div class="form-group">
                                     <label for="input-perbaikan">Perbaikan Masalah</label>
-                                    <textarea style="height: 70px;" class="form-control" id="input-perbaikan"
-                                        placeholder="Masukkan detail masalah"></textarea>
+                                    <textarea style="height: 70px;" class="form-control" id="input-perbaikan" placeholder="Masukkan detail masalah"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="input-nilai-tambah">Nilai Tambah</label>
-                                    <input type="text" class="form-control" id="input-nilai-tambah"
-                                        placeholder="">
+                                    <input type="text" class="form-control" id="input-nilai-tambah" placeholder="">
                                 </div>
                                 <div class="form-group">
                                     <label for="input-keputusan">Keputusan</label>
-                                    <textarea style="height: 70px;" class="form-control" id="input-keputusan"
-                                        placeholder="Masukkan detail masalah"></textarea>
+                                    <textarea style="height: 70px;" class="form-control" id="input-keputusan" placeholder="Masukkan detail masalah"></textarea>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -189,8 +186,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="input-nama-pembuat">Nama Pembuat Rekap</label>
-                                    <input type="text" class="form-control" id="input-nama-pembuat"
-                                        placeholder="">
+                                    <input type="text" class="form-control" id="input-nama-pembuat" placeholder="">
                                 </div>
                                 <div class="form-group float-right">
                                     <button type="submit" class="btn btn-primary">Rekap</button>
@@ -203,18 +199,4 @@
             </div>
         </section>
     </div>
-
-    <script>
-        document.getElementById("check-teruskan").onclick = function() {
-            show()
-        };
-        function show() {
-            var x=$("#check-teruskan").is(":checked");
-            if(x){
-                document.getElementById('input-unit-tujuan').disabled = false;
-            }else{
-                document.getElementById('input-unit-tujuan').disabled = true;
-            }
-        }
-    </script>
 @endsection

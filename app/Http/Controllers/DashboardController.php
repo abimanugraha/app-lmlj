@@ -8,21 +8,33 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    protected function viewDashboard()
+    // protected function viewDashboard()
+    // {
+    //     $temps = Masalah::all();
+    //     for ($i = 0; $i < $temps->count(); $i++) {
+    //         $data[$i]['year'] = $temps[$i]->created_at->format('Y');
+    //         $data[$i]['month'] = $temps[$i]->created_at->format('m');
+    //     }
+    //     return $data;
+    // }
+    public function __construct()
     {
-        $temps = Masalah::all();
-        for ($i = 0; $i < $temps->count(); $i++) {
-            $data[$i]['year'] = $temps[$i]->created_at->format('Y');
-            $data[$i]['month'] = $temps[$i]->created_at->format('m');
-        }
-        return $data;
+        // $user = $this->getKotakMasuk();
     }
 
     public function index()
     {
-        $collection = Masalah::with(['user', 'unit', 'jawaban'])->get();
-        $usercollection = User::with(['unit', 'masalah'])->where('username', auth()->user()->username)->first();
-        dd($usercollection->unit->masalah);
+        // dd(auth()->user()->unit->masalah[2]->jawaban->count());
+        // $collection = Masalah::with(['user', 'unit', 'jawaban'])->get();
+        auth()->user()->unit->masalah = $this->getKotakMasuk();
+        $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
+            ->where('unit_id', auth()->user()->unit->id)
+            ->orWhere('pengaju_id', auth()->user()->id)
+            ->get();
+        // $usercollection = User::with(['unit', 'masalah'])->where('id', auth()->user()->id)->first();
+
+
+        // dd($collection[0]->diketahui);
         $data = [
             'title' => 'Dashboard',
             'slug'  => 'dashboard',
@@ -31,24 +43,37 @@ class DashboardController extends Controller
             'proses' => $this->getCount($collection, "proses"),
             'total' => $this->getCount($collection, "total"),
             'lmlj_proses' => $this->getDataMasalah($collection, "proses"),
-            // 'kotak_masuk' => $this->getKotakMasuk($usercollection)
+            'kotak_masuk' => $this->getKotakMasuk()
         ];
         // $data['selesai'] = $this->getCount($collection, "selesai");
         // $data['proses'] = $this->getCount($collection, "proses");
         // $data['total'] = $this->getCount($collection, "total");
         // $data['lmlj_proses'] = $this->getDataMasalah($collection, "proses");
 
+        // dd($data['kotak_masuk']);
+
 
         // var_dump($data['lmlj_proses']);->append('links');
         // $data['lmlj_proses'][1]->append(['target' => 1]);
         // $collection->push('target');
         foreach ($data['lmlj_proses'] as $item) {
-            $item->target = $this->getTarget($item->jawaban);
+            if ($this->getTarget($item->jawaban) == 0) {
+                $item->target = $this->getDefaultTarget($item->urgensi);
+            } else {
+                $item->target = $this->getTarget($item->jawaban);
+            }
+            $item->color = $this->getUrgensiColor($item->urgensi);
+            $item->text_status = $this->getStatusText($item->status);
+            $item->color_status = $this->getStatusColor($item->status);
             // $data['target'][] = $this->getTarget($item->jawaban);
             // $item->setAppends(['target' => $this->getTarget($item->jawaban)])->toArray();
             // $item->append(['target' => $this->getTarget($item->jawaban)]);
             // echo $item->id;
         }
+
+
+
+        // dd($data['lmlj_proses']);
         // for ($i = 0; $i < $data['lmlj_proses']->count(); $i++) {
         //     echo $data['lmlj_proses'][$i];
         // }
@@ -84,7 +109,7 @@ class DashboardController extends Controller
         // });
 
 
-        dd($data['kotak_masuk']);
+        // dd($data['kotak_masuk']);
 
 
         // return $collection->contains('2022-06');
@@ -93,10 +118,77 @@ class DashboardController extends Controller
         return view('dashboard.index', $data);
     }
 
-
-    public function getKotakMasuk($collection)
+    public function detail(Masalah $masalah)
     {
-        return $collection->masalah;
+        // $collection = Masalah::with(['user', 'unit', 'jawaban'])
+        //     ->where('nolmlj', $nolmlj)
+        //     ->first();
+
+        // dd($collection->detailmasalah);
+        $data = [
+            'title' => 'Detail LMLJ',
+            'slug'  => 'dashboard',
+            'lebar_status' => '24%',
+            'masalah' => $masalah,
+            'media_masalah' => $masalah->media,
+            'detail_masalah' => $masalah->detailmasalah,
+            'jawaban' => $masalah->jawaban,
+            'number' => 1
+        ];
+
+        return view('lmlj.detail', $data);
+    }
+
+
+    public function getDefaultTarget($urgensi)
+    {
+        if ($urgensi == 1) {
+            return 3;
+        } elseif ($urgensi == 2) {
+            return 7;
+        } else {
+            return 14;
+        }
+    }
+    public function getUrgensiColor($urgensi)
+    {
+        if ($urgensi == 1) {
+            return "danger";
+        } elseif ($urgensi == 2) {
+            return "warning";
+        } else {
+            return "success";
+        }
+    }
+    public function getStatusText($status)
+    {
+        if ($status == 0) {
+            return "On Progres";
+        } else {
+            return "Selesai";
+        }
+    }
+    public function getStatusColor($status)
+    {
+        if ($status == 0) {
+            return "info";
+        } else {
+            return "success";
+        }
+    }
+    public function getKotakMasuk()
+    {
+        $data = [];
+        $masalah = auth()->user()->unit->masalah;
+        foreach ($masalah as $item) {
+            if ($item->jawaban->count() == 0) {
+                $item->color = $this->getUrgensiColor($item->urgensi);
+                $item->text_status = $this->getStatusText($item->status);
+                $item->target = $this->getDefaultTarget($item->urgensi);
+                $data[] = $item;
+            }
+        }
+        return $data;
     }
     public function getTarget($collection)
     {

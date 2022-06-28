@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,12 +9,6 @@ class Masalah extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
-
-    public function setPasswordAttribute($password)
-    {
-        $this->attribute["target"] = '';
-    }
 
     public function jawaban()
     {
@@ -47,8 +40,18 @@ class Masalah extends Model
         return $this->belongsTo(Unit::class);
     }
 
-    public function user()
+    public function pengaju()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'pengaju_id');
+    }
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
+    public function diketahui()
+    {
+        return $this->belongsTo(User::class, 'ygmengetahui_id');
     }
 }

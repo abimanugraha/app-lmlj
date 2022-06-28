@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,7 @@ Route::get('/registrasi', function () {
 })->middleware('auth');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/detail/{masalah:nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
 
 Route::get('/pengajuan-lmlj', function () {
     return view('LMLJ/lembar-masalah', [
@@ -59,10 +61,16 @@ Route::get('/lembar-rekap-progress', function () {
         'slug'  => 'rekap-progress-lmlj',
     ]);
 })->middleware('auth');
-Route::get('/detail', function () {
-    return view('LMLJ/detail', [
-        'title' => 'Detail LMLJ',
-        'slug'  => 'dashboard',
-        'lebar_status' => '24%'
+Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
+    return view('LMLJ/lembar-rekap', [
+        'title' => 'Rekap Progress LMLJ',
+        'slug'  => 'rekap-progress-lmlj',
     ]);
 })->middleware('auth');
+// Route::get('/detail', function () {
+//     return view('LMLJ/detail', [
+//         'title' => 'Detail LMLJ',
+//         'slug'  => 'dashboard',
+//         'lebar_status' => '24%'
+//     ]);
+// })->middleware('auth');

@@ -93,19 +93,21 @@
                                                         {{ $item->nolmlj }}
                                                     </div>
                                                 </td>
-                                                <td>{{ $item->user->unit->unit }}</td>
+                                                <td>{{ $item->pengaju->unit->unit }}</td>
                                                 <td>{{ $item->unit->unit }}</td>
                                                 {{-- <td>
                                                     <div class="urgensi rounded-circle bg-danger"></div>
                                                 </td> --}}
                                                 <td>
-                                                    <figure class="avatar mr-2 avatar-sm bg-danger text-white"
+                                                    <figure class="avatar mr-2 avatar-sm bg-{{ $item->color }} text-white"
                                                         data-initial="{{ $item->target }}"></figure>
                                                 </td>
                                                 <td>
-                                                    <div class="badge badge-warning">On Progress</div>
+                                                    <div class="badge badge-{{ $item->color_status }}">
+                                                        {{ $item->text_status }}</div>
                                                 </td>
-                                                <td><a href="{{ url('detail') }}" class="btn btn-primary">Detail</a></td>
+                                                <td><a href="{{ url('detail/' . $item->nolmlj) }}"
+                                                        class="btn btn-primary">Detail</a></td>
                                             </tr>
                                         @endforeach
                                         {{-- <tr>
