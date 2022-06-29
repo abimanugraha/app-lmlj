@@ -20,24 +20,36 @@
                             <div class="card-body">
                                 <form>
                                     <div class="form-group">
-                                        <label for="input-no-lmlj">Nomor LMLJ</label>
-                                        <input type="text" class="form-control" id="input-no-lmlj"
-                                            placeholder="UNIT-LMLJ/MM/YY/###">
+                                        <label for="input-no-lmlj">Nomor LMLJ </label>
+                                        <input type="text" class="form-control" name="input_nolmlj"
+                                            value="{{ $nolmlj }}" disabled>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="input-nama-produk">Nama Produk</label>
-                                            <input type="text" class="form-control" id="input-nama-produk">
+                                            <select class="form-control select2" name="input_nama_produk"
+                                                onchange="showkomponen()" id="input-nama-produk">
+                                                @foreach ($produk as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="input-nomor-produk">Nomor Produk</label>
-                                            <input type="text" class="form-control" id="input-nomor-produk">
+                                            <select class="form-control select2" name="input_nomor_produk">
+                                                {{-- @foreach ($produk as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @endforeach --}}
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="input-nama-komponen">Nama Komponen</label>
-                                            <input type="text" class="form-control" id="input-nama-komponen">
+                                            <select class="form-control select2" name="input_nomor_produk"
+                                                id="input-nama-komponen">
+
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="input-nomor-komponen">Nomor Komponen</label>
@@ -70,18 +82,16 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="input-nilai-tambah">Nilai Tambah</label>
-                                        <input type="text" class="form-control" id="input-nilai-tambah"
-                                            placeholder="">
+                                        <input type="text" class="form-control" id="input-nilai-tambah" placeholder="">
                                     </div>
                                     <div class="form-group">
                                         <label for="input-nama-pengaju">Nama Pengaju</label>
-                                        <input type="text" class="form-control" id="input-nama-pengaju"
-                                            placeholder="">
-                                    </div>    
+                                        <input type="text" class="form-control" id="input-nama-pengaju" placeholder="">
+                                    </div>
                                     <div class="form-group float-right">
-                                        <button type="submit" class="btn btn-primary">Kirim</button>                                        
-                                    </div>                                                                    
-                                </form>                                
+                                        <button type="submit" class="btn btn-primary">Kirim</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -90,3 +100,12 @@
         </section>
     </div>
 @endsection
+
+<script type="text/javascript">
+    function showkomponen() {
+        var e_produk = document.getElementById("input-nama-produk").value;
+        /*
+        
+        */
+    }
+</script>

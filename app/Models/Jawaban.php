@@ -19,13 +19,17 @@ class Jawaban extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function penerima()
+    {
+        return $this->belongsTo(User::class, 'penerima_id');
+    }
 
     public function unit()
     {
         return $this->belongsTo(Unit::class);
     }
 
-    public function analisa()
+    public function analisas()
     {
         return $this->hasMany(Analisa::class);
     }

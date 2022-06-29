@@ -200,11 +200,12 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <figure class="avatar mr-2 avatar-lg" data-initial="NH"></figure>
+                                            <figure class="avatar mr-2 avatar-lg"
+                                                data-initial="{{ substr($masalah->diketahui->nama, 0, 1) }}"></figure>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">Yang Mengetahui</div>
+                                    <div class="row mt-2">
+                                        <div class="col">{{ $masalah->diketahui->nama }}</div>
                                     </div>
                                 </div>
                                 <div class="col text-center">
@@ -217,7 +218,7 @@
                                                 data-initial="{{ substr($masalah->pengaju->nama, 0, 1) }}"></figure>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row mt-2">
                                         <div class="col">{{ $masalah->pengaju->nama }}</div>
                                     </div>
                                 </div>
@@ -231,10 +232,15 @@
                     <div class="row">
                         <div class="col text-center">
                             <ul class="progressbar">
-                                <li class="active">CR</li>
-                                <li class="active">BT</li>
-                                <li class="active">HE</li>
-                                <li class="active">Selesai</li>
+                                <li class="active">{{ $masalah->pengaju->unit->unit }}</li>
+                                @foreach ($jawaban as $item)
+                                    <li>{{ $item->penerima->unit->unit }}</li>
+                                @endforeach
+                                @if ($jawaban->count() == 0)
+                                    <li class="">{{ $masalah->unit->unit }}</li>
+                                @else
+                                    <li class="">Selesai</li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -256,7 +262,151 @@
                         <div class="col">Tanggal Diterima</div>
                         <div class="col">3</div>
                     </div> --}}
-                    <div class="row mt-3">
+
+                    @foreach ($jawaban as $item)
+                        <div class="row mt-3">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Lembar Jawaban</h4>
+                                        <div class="card-header-action">
+                                            {{ $item->created_at->format('d-M-Y') }}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                Unit
+                                                <h4 class="text-dark">{{ $item->penerima->unit->unit }}</h4>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <figure
+                                                    class="avatar mt-1 avatar-md bg-{{ $item->color_urgensi }} text-white"
+                                                    data-initial="{{ $item->target }}">
+                                                </figure><br>
+                                                <a data-toggle="collapse" href="#detailjawaban{{ $item->id }}"
+                                                    id="btn-detail-jawaban-{{ $item->id }}"
+                                                    class="badge badge-{{ $item->color_status }} mt-2"
+                                                    onclick="show({{ $item->id }})">
+                                                    {{ $item->text_status }}
+                                                    <span><i class="fas fa-angle-down"></i></span>
+                                                </a>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <div class="row mb-2">
+                                                    <div class="col">Penerima</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <figure class="avatar mr-2 avatar-sm"
+                                                            data-initial="{{ substr($item->penerima->nama, 0, 1) }}">
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col">{{ $item->penerima->nama }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="detailjawaban{{ $item->id }}">
+                                            <div class="row mt-2">
+                                                <div class="col">
+                                                    Analisa Masalah
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    @php $number = 1; @endphp
+                                                    @foreach ($item->analisas as $analisa)
+                                                        <p class="text-dark">{{ $number++ }}.
+                                                            {{ $analisa->analisa }}
+                                                        </p>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    Perbaikan
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    @php $number = 1; @endphp
+                                                    @foreach ($item->perbaikan as $perbaikan)
+                                                        <p class="text-dark">{{ $number++ }}.
+                                                            <b>{{ $perbaikan->created_at->format('d-M-Y') }}</b>
+                                                            <i class="fas fa-long-arrow-alt-right"></i>
+                                                            {{ $perbaikan->perbaikan }}
+                                                        </p>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    Nilai Tambah
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    @php $number = 1; @endphp
+                                                    <p class="text-dark">1. {{ $item->nilai_tambah }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    Keputusan
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p class="text-dark">1. {{ $item->keputusan }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    Lampiran
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col">
+                                                    <div class="gallery gallery-md">
+                                                        <div class="gallery-item"
+                                                            data-image="{{ url('assets/img/news/img03.jpg') }}"
+                                                            data-title="Image 1"></div>
+                                                        <div class="gallery-item"
+                                                            data-image="{{ url('assets/img/news/img14.jpg') }}"
+                                                            data-title="Image 2"></div>
+                                                        <div class="gallery-item"
+                                                            data-image="{{ url('assets/img/news/img08.jpg') }}"
+                                                            data-title="Image 3"></div>
+                                                        <div class="gallery-item"
+                                                            data-image="{{ url('assets/img/news/img05.jpg') }}"
+                                                            data-title="Image 4"></div>
+                                                        <div class="gallery-item gallery-more"
+                                                            data-image="{{ url('assets/img/news/img08.jpg') }}"
+                                                            data-title="Image 12">
+                                                            <div>+2</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="card-footer text-center">
+                                        <a data-toggle="collapse" href="#detailjawaban" id="btn-detail-jawaban"
+                                            class="btn btn-icon btn-secondary">
+                                            <i class="fas fa-angle-down"></i>
+                                        </a>
+                                    </div> --}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    {{-- <div class="row mt-3">
                         <div class="col">
                             <div class="card">
                                 <div class="card-header">
@@ -385,19 +535,17 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+
                 </div>
             </div>
         </section>
     </div>
 
     <script>
-        document.getElementById("btn-detail-jawaban").onclick = function() {
-            show()
-        };
-
-        function show() {
-            $('#btn-detail-jawaban').find("i").toggleClass("fa-angle-down fa-angle-up");
+        function show($id) {
+            $('#btn-detail-jawaban-' + $id).find("i").toggleClass("fa-angle-down fa-angle-up");
         }
     </script>
 @endsection

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengajuanController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 
@@ -31,12 +32,13 @@ Route::get('/registrasi', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/detail/{masalah:nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
 
-Route::get('/pengajuan-lmlj', function () {
-    return view('LMLJ/lembar-masalah', [
-        'title' => 'Pengajuan LMLJ',
-        'slug'  => 'pengajuan-lmlj'
-    ]);
-})->middleware('auth');
+Route::get('/pengajuan-lmlj', [PengajuanController::class, 'index'])->middleware('auth');
+// Route::get('/pengajuan-lmlj', function () {
+//     return view('LMLJ/lembar-masalah', [
+//         'title' => 'Pengajuan LMLJ',
+//         'slug'  => 'pengajuan-lmlj'
+//     ]);
+// })->middleware('auth');
 Route::get('/kotak-masuk-lmlj', function () {
     return view('LMLJ/kotak-masuk', [
         'title' => 'Kotak Masuk LMLJ',

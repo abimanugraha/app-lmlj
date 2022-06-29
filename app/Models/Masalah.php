@@ -54,4 +54,19 @@ class Masalah extends Model
     {
         return $this->belongsTo(User::class, 'ygmengetahui_id');
     }
+
+    public function getKotakMasuk()
+    {
+        $data = [];
+        $masalah = auth()->user()->unit->masalah;
+        foreach ($masalah as $item) {
+            if ($item->jawaban->count() == 0) {
+                $item->color = $this->getUrgensiColor($item->urgensi);
+                $item->text_status = $this->getStatusText($item->status);
+                $item->target = $this->getDefaultTarget($item->urgensi);
+                $data[] = $item;
+            }
+        }
+        return $data;
+    }
 }

@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
+    <!-- Library CSS -->
+    <link rel="stylesheet" href="{{ url('node_modules/select2/dist/css/select2.min.css') }}">
+
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/components.css') }}">
@@ -164,6 +168,9 @@
     <script src="{{ url('assets/js/scripts.js') }}"></script>
     <script src="{{ url('assets/js/custom.js') }}"></script>
     {{-- <script src="{{ url('assets/js/coco.min.js') }}"></script> --}}
+
+    <!-- Template JS File -->
+    <script src="{{ url('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
 
 </body>
 
