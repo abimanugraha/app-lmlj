@@ -171,6 +171,12 @@
 
     <!-- Template JS File -->
     <script src="{{ url('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    <script>
+        $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    </script>
 
 </body>
 

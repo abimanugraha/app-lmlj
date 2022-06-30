@@ -146,6 +146,14 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'custom' => [
+        'media' => [
+            'mimes' => 'Format file tidak bisa diterima!',
+        ],
+        'media.*' => [
+            'mimes' => 'Format file tidak bisa diterima!',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
