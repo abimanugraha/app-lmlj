@@ -140,6 +140,7 @@
             <!-- Main Content -->
             @yield('content')
 
+
             <!-- Footer -->
             <footer class="main-footer">
                 <div class="footer-left">
@@ -176,6 +177,23 @@
             let fileName = $(this).val().split('\\').pop();
             $(this).next('.custom-file-label').addClass("selected").html(fileName);
         });
+        var is_hide = [false, false, false, false];
+        var number = 2;
+
+        function tampildetail(id) {
+            if (id == 1 && number < 4) {
+                $(`#div-detail-${number}`).attr('class', 'd-inline-flex mb-2');
+                $(`#input-detail-masalah-${number}`).removeAttr('disabled');
+                is_hide[number] = true;
+                number++
+            } else {
+                $(`#div-detail-${number-1}`).attr('class', '');
+                is_hide[id] = false;
+                $(`#input-detail-masalah-${number-1}`).attr('disabled');
+                number--
+            }
+            console.log(number);
+        }
     </script>
 
 </body>

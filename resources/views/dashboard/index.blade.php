@@ -8,6 +8,18 @@
                 <h1>{{ $title }}</h1>
             </div>
             <div class="row">
+                <div class="col-12">
+                    @if (session('status'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('status') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
@@ -99,7 +111,8 @@
                                                     <div class="urgensi rounded-circle bg-danger"></div>
                                                 </td> --}}
                                                 <td>
-                                                    <figure class="avatar mr-2 avatar-sm bg-{{ $item->color }} text-white"
+                                                    <figure
+                                                        class="avatar mr-2 avatar-sm bg-{{ $item->color }} text-white"
                                                         data-initial="{{ $item->target }}"></figure>
                                                 </td>
                                                 <td>

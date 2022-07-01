@@ -13,6 +13,17 @@ class Controller extends BaseController
 
 
 
+    public function getUrgensiByTarget($target)
+    {
+        if ($target <= 3) {
+            return 1;
+        } elseif ($target > 3 && $target <= 7) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
     public function getNoLMLJ($collection)
     {
         $unit   = strtoupper(auth()->user()->unit->unit);

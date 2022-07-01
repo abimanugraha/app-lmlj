@@ -86,29 +86,37 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="input-unit-tujuan">Unit Tujuan</label>
-                                            <select class="form-control select2 @error('unit_id') is-invalid @enderror"
-                                                name="unit_id" onchange="getunittembusan(this.value)"
-                                                id="input-unit-tujuan">
-                                                <option value="" selected>Pilih Unit Tujuan</option>
-                                                @foreach ($unit as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->unit }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('unit_id')
-                                                <div class="invalid-feedback mt-2">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                    <div class="form-group d-flex flex-column">
+                                        <label for="input-detail-masalah">Detail Masalah</label>
+                                        <div class="d-inline-flex mb-2">
+                                            <input name="detail[]" type="text" class="form-control"
+                                                id="input-detail-masalah" placeholder="Masukan detail masalah">
+                                            <a class="btn btn-icon btn-primary ml-1 text-white" id="btn-tambah-detail-1"
+                                                onclick="tampildetail(1)">
+                                                <i class="fas fa-plus mt-2"></i>
+                                            </a>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="input-unit-pengaju">Tembusan</label>
-                                            <select class="form-control select2" multiple="" id="input-tembusan"
-                                                disabled>
-                                            </select>
+                                        <div style="display: none;" class="mb-2" id="div-detail-2">
+                                            <input disabled name="detail[]" type="text" class="form-control"
+                                                id="input-detail-masalah-2" placeholder="Masukan detail masalah">
+                                            <a class="btn btn-icon btn-danger ml-1 text-white" id="btn-tambah-detail-2"
+                                                onclick="tampildetail(2)">
+                                                <i class="fas fa-minus mt-2"></i>
+                                            </a>
                                         </div>
+                                        <div style="display: none;" class="mb-2" id="div-detail-3">
+                                            <input disabled name="detail[]" type="text" class="form-control"
+                                                id="input-detail-masalah-3" placeholder="Masukan detail masalah">
+                                            <a class="btn btn-icon btn-danger ml-1 text-white" id="btn-tambah-detail-3"
+                                                onclick="tampildetail(3)">
+                                                <i class="fas fa-minus mt-2"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-nilai-tambah">Nilai Tambah</label>
+                                        <input type="text" class="form-control" id="input-nilai-tambah"
+                                            name="nilai_tambah" placeholder="Masukan nilai tambah">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
@@ -148,38 +156,29 @@
                                             {{-- <input type="file" class="form-control" id="input-foto-video"> --}}
                                         </div>
                                     </div>
-                                    <div class="form-group d-flex flex-column">
-                                        <label for="input-detail-masalah">Detail Masalah</label>
-                                        <div class="d-inline-flex mb-2">
-                                            <input name="detail[]" type="text" class="form-control"
-                                                id="input-detail-masalah" placeholder="Masukan detail masalah">
-                                            <a class="btn btn-icon btn-primary ml-1 text-white" id="btn-tambah-detail-1"
-                                                onclick="tampildetail(1)">
-                                                <i class="fas fa-plus mt-2"></i>
-                                            </a>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="input-unit-tujuan">Unit Tujuan</label>
+                                            <select class="form-control select2 @error('unit_id') is-invalid @enderror"
+                                                name="unit_id" onchange="getunittembusan(this.value)"
+                                                id="input-unit-tujuan">
+                                                <option value="" selected>Pilih Unit Tujuan</option>
+                                                @foreach ($unit as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->unit }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('unit_id')
+                                                <div class="invalid-feedback mt-2">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-                                        <div style="display: none;" class="mb-2" id="div-detail-2">
-                                            <input disabled name="detail[]" type="text" class="form-control"
-                                                id="input-detail-masalah-2" placeholder="Masukan detail masalah">
-                                            <a class="btn btn-icon btn-danger ml-1 text-white" id="btn-tambah-detail-2"
-                                                onclick="tampildetail(2)">
-                                                <i class="fas fa-minus mt-2"></i>
-                                            </a>
+                                        <div class="form-group col-md-6">
+                                            <label for="input-unit-pengaju">Tembusan</label>
+                                            <select class="form-control select2" multiple="" id="input-tembusan"
+                                                disabled>
+                                            </select>
                                         </div>
-                                        <div style="display: none;" class="mb-2" id="div-detail-3">
-                                            <input disabled name="detail[]" type="text" class="form-control"
-                                                id="input-detail-masalah-3" placeholder="Masukan detail masalah">
-                                            <a class="btn btn-icon btn-danger ml-1 text-white" id="btn-tambah-detail-3"
-                                                onclick="tampildetail(3)">
-                                                <i class="fas fa-minus mt-2"></i>
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="input-nilai-tambah">Nilai Tambah</label>
-                                        <input type="text" class="form-control" id="input-nilai-tambah"
-                                            name="nilai_tambah" placeholder="Masukan nilai tambah">
                                     </div>
                                     <div class="form-group">
                                         <input hidden type="text" value="{{ $user->id }}" name="pengaju_id">
@@ -256,23 +255,5 @@
                 });
             }
         });
-    }
-
-    var is_hide = [false, false, false, false];
-    var number = 2;
-
-    function tampildetail(id) {
-        if (id == 1 && number < 4) {
-            $(`#div-detail-${number}`).attr('class', 'd-inline-flex mb-2');
-            $(`#input-detail-masalah-${number}`).removeAttr('disabled');
-            is_hide[number] = true;
-            number++
-        } else {
-            $(`#div-detail-${number-1}`).attr('class', '');
-            is_hide[id] = false;
-            $(`#input-detail-masalah-${number-1}`).attr('disabled');
-            number--
-        }
-        console.log(number);
     }
 </script>

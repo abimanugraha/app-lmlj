@@ -48,7 +48,7 @@ class PengajuanController extends Controller
             'masalah' => 'required',
             'unit_id' => 'required',
         ]);
-        // dd($request->detail);
+        // dd($request->detail[0]);
 
         if ($validated) {
             $masalah_id = Masalah::orderBy('created_at', 'DESC')->first()->id + 1;
@@ -65,8 +65,8 @@ class PengajuanController extends Controller
                     Media::create($media);
                 }
             }
-            if ($request->detail) {
-                foreach ($request->detail as $item) {
+            foreach ($request->detail as $item) {
+                if ($item) {
                     $detail['masalah_id'] = $masalah_id;
                     $detail['detail'] = $item;
                     DetailMasalah::create($detail);
@@ -74,6 +74,7 @@ class PengajuanController extends Controller
             }
             Masalah::create($request->all());
         }
+        return redirect(url('/dashboard'))->with('status', 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!');
 
 
 

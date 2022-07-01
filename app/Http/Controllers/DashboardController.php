@@ -144,7 +144,7 @@ class DashboardController extends Controller
             $item->text_status = $this->getStatusText($item->status);
             $item->color_status = $this->getStatusColor($item->status);
         }
-        // dd($masalah->jawaban[0]);
+        // dd($masalah->jawaban->count());
 
 
         return view('lmlj.detail', $data);

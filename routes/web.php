@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\KotakMasukController;
+use App\Http\Controllers\RekapController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 
@@ -44,18 +46,22 @@ Route::get('/ajax/unittembusan/{unit_user}/{unit_id}', [PengajuanController::cla
 //         'slug'  => 'pengajuan-lmlj'
 //     ]);
 // })->middleware('auth');
-Route::get('/kotak-masuk-lmlj', function () {
-    return view('LMLJ/kotak-masuk', [
-        'title' => 'Kotak Masuk LMLJ',
-        'slug'  => 'kotak-masuk-lmlj'
-    ]);
-})->middleware('auth');
-Route::get('/rekap-progress-lmlj', function () {
-    return view('LMLJ/kotak-rekap', [
-        'title' => 'Rekap Progress LMLJ',
-        'slug'  => 'rekap-progress-lmlj'
-    ]);
-})->middleware('auth');
+Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middleware('auth');
+Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
+Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
+// Route::get('/kotak-masuk-lmlj', function () {
+//     return view('LMLJ/kotak-masuk', [
+//         'title' => 'Kotak Masuk LMLJ',
+//         'slug'  => 'kotak-masuk-lmlj'
+//     ]);
+// })->middleware('auth');
+Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middleware('auth');
+// Route::get('/rekap-progress-lmlj', function () {
+//     return view('LMLJ/kotak-rekap', [
+//         'title' => 'Rekap Progress LMLJ',
+//         'slug'  => 'rekap-progress-lmlj'
+//     ]);
+// })->middleware('auth');
 Route::get('/lembar-jawaban', function () {
     return view('LMLJ/lembar-jawaban', [
         'title' => 'Lembar Jawaban LMLJ',
