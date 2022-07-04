@@ -37,7 +37,7 @@
                 </form>
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                            class="nav-link notification-toggle nav-link-lg @if (count(auth()->user()->unit->masalah) > 0) beep @endif"><i
+                            class="nav-link notification-toggle nav-link-lg @if (count($kotak_masuk) > 0) beep @endif"><i
                                 class="far fa-envelope"></i></a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
                             <div class="dropdown-header">Notifications
@@ -46,22 +46,34 @@
                                 </div>
                             </div>
                             <div class="dropdown-list-content dropdown-list-icons">
-                                @if (count(auth()->user()->unit->masalah) > 0)
-                                    @foreach (auth()->user()->unit->masalah as $item)
-                                        <a href="#" class="dropdown-item dropdown-item-unread">
+                                @foreach ($kotak_masuk as $item)
+                                    @if ($item->status == 0)
+                                        <a href="{{ url('kotak-masuk-lmlj') }}"
+                                            class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
-                                                {{-- <figure class="avatar mr-2 avatar-sm bg-danger text-white"
-                                                    data-initial="{{ $item->urgensi }}"></figure>
-                                                <i class="fas fa-code"></i> --}}
                                             </div>
                                             <div class="dropdown-item-desc">
                                                 {{ $item->nolmlj }}
-                                                <div class="time text-primary">{{ $item->pengaju->unit->unit }}</div>
+                                                <div class="time text-dark">{{ $item->masalah }}
+                                                </div>
                                             </div>
                                         </a>
-                                    @endforeach
-                                @endif
+                                    @else
+                                        <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
+                                            class="dropdown-item dropdown-item-unread">
+                                            <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
+                                                {{ $item->target }}
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                {{ $item->nolmlj }}
+                                                <div class="time text-dark">{{ $item->masalah }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endif
+                                @endforeach
+
                                 {{-- <a href="#" class="dropdown-item dropdown-item-unread">
                                     <div class="dropdown-item-icon bg-primary text-white">
                                         <i class="fas fa-code"></i>
@@ -192,7 +204,6 @@
                 $(`#input-detail-masalah-${number-1}`).attr('disabled');
                 number--
             }
-            console.log(number);
         }
     </script>
 

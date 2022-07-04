@@ -73,7 +73,8 @@
                                     <div class="form-group col-md-3">
                                         <div class="mt-4"></div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="check-teruskan">
+                                            <input class="form-check-input" type="checkbox" id="check-teruskan"
+                                                name="forward">
                                             <label class="form-check-label" for="check-teruskan">
                                                 Teruskan?
                                             </label>
@@ -81,8 +82,21 @@
                                     </div>
                                     <div class="form-group col-md-9">
                                         <label for="input-unit-tujuan">Unit Tujuan</label>
+                                        <select class="form-control select2 @error('unit_id') is-invalid @enderror"
+                                            name="unit_tujuan_id" id="input-unit-tujuan" disabled>
+                                            <option value="" selected>Pilih Unit Tujuan</option>
+                                            @foreach ($unit as $item)
+                                                <option value="{{ $item->id }}">{{ $item->unit }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('unit_tujuan_id')
+                                            <div class="invalid-feedback mt-2">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                        {{-- <label for="input-unit-tujuan">Unit Tujuan</label>
                                         <input required type="text" name="unit_id" class="form-control"
-                                            id="input-unit-tujuan" disabled>
+                                            id="input-unit-tujuan" disabled> --}}
                                     </div>
                                 </div>
                                 <div class="form-row">

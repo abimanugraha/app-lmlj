@@ -14,16 +14,18 @@ class PengajuanController extends Controller
 {
     public function index()
     {
+        // $kotak_masuk = $this->getKotakMasuk();
         $collection = Masalah::where('created_at', 'like', date('Y') . '%')
             ->get();
         // auth()->user()->unit->masalah = app('App\Http\Controllers\DashboardController')->getKotakMasuk();
-        auth()->user()->unit->masalah = $this->getKotakMasuk();
+        // auth()->user()->unit->masalah = $this->getKotakMasuk();
         // auth()->user()->unit->masalah = $this->model->
         // $collection = Masalah::all();
         // dd(auth()->user()->unit->masalah);
         $data = [
             'title'     => 'Pengajuan LMLJ',
             'slug'      => 'pengajuan-lmlj',
+            'kotak_masuk' => $this->getKotakMasuk(),
             'number'    => 0,
             'nolmlj'    => $this->getNoLMLJ($collection),
             'produk'    => Produk::all(),
@@ -47,19 +49,20 @@ class PengajuanController extends Controller
             'produk_id' => 'required',
             'masalah' => 'required',
             'unit_id' => 'required',
+
         ]);
         // dd($request->detail[0]);
 
         if ($validated) {
-            $masalah_id = Masalah::orderBy('created_at', 'DESC')->first()->id + 1;
+            $masalah_id = Masalah::orderBy('id', 'DESC')->first()->id + 1;
             if ($request->hasFile('media')) {
                 $index = 1;
                 foreach ($request->file('media') as $item) {
                     $id = sprintf("%02d", $index++);
                     $file_name = $item->getClientOriginalExtension();
-                    $name = $request->nolmlj . '-' . $id . '.' . $file_name;
+                    $name = $request->nolmlj . '-M' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
-                    $item->move(public_path() . '/upload_media/' . $unit[0], $name);
+                    $item->move(public_path() . '/upload_media/masalah/' . $unit[0], $name);
                     $media['file'] = $name;
                     $media['masalah_id'] = $masalah_id;
                     Media::create($media);

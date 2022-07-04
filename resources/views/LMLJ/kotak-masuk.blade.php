@@ -9,6 +9,18 @@
             </div>
             <div class="row">
                 <div class="col-12">
+                    @if (session('status'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('status') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <h4>Kotak Masuk LMLJ</h4>
@@ -28,25 +40,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (count(auth()->user()->unit->masalah) > 0)
-                                            @foreach (auth()->user()->unit->masalah as $item)
-                                                <tr>
-                                                    <td>{{ $number++ }}</td>
-                                                    <td>{{ $item->updated_at->format('d-M-Y') }}</td>
-                                                    <td class="align-middle">
-                                                        <div class="badge badge-secondary text-dark">
-                                                            {{ $item->nolmlj }}
-                                                        </div>
-                                                    </td>
-                                                    <td>{{ $item->masalah }}</td>
-                                                    <td>
-                                                        <img src="assets/img/warning.png" alt="masalah" width="50">
-                                                    </td>
-                                                    <td>{{ $item->pengaju->unit->unit }}</td>
-                                                    <td><a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
-                                                            class="btn btn-success">Jawab</a>
-                                                    </td>
-                                                </tr>
+                                        @if (count($masalah) > 0)
+                                            @foreach ($masalah as $item)
+                                                @if ($item->status != 0 || auth()->user()->role_id == 2)
+                                                    <tr>
+                                                        <td>{{ $number++ }}</td>
+                                                        <td>{{ $item->updated_at->format('d-M-Y') }}</td>
+                                                        <td class="align-middle">
+                                                            <div class="badge badge-secondary text-dark">
+                                                                {{ $item->nolmlj }}
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ $item->masalah }}</td>
+                                                        <td>
+                                                            <img src="assets/img/warning.png" alt="masalah" width="50">
+                                                        </td>
+                                                        <td>{{ $item->pengaju->unit->unit }}</td>
+                                                        <td>
+                                                            @if ($item->status == 0 && auth()->user()->role_id == 2)
+                                                                <a href="#" onclick="konfirmasi({{ $item->id }})"
+                                                                    class="btn btn-success">Konfirmasi
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
+                                                                    class="btn btn-success">Jawab
+                                                                </a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         @endif
                                         {{-- @foreach ($masalah as $item)
@@ -111,3 +133,14 @@
         </section>
     </div>
 @endsection
+<script>
+    function konfirmasi(id) {
+        $.ajax({
+            url: `{{ url('ajax/konfirmasi') }}` + `/` + id,
+            success: function(res) {
+                // console.log(res);
+                window.location.href = `{{ url('konfirmasi') }}`;
+            }
+        });
+    }
+</script>

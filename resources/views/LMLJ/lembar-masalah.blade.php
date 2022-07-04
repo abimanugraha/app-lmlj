@@ -153,7 +153,6 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                            {{-- <input type="file" class="form-control" id="input-foto-video"> --}}
                                         </div>
                                     </div>
                                     <div class="form-row">

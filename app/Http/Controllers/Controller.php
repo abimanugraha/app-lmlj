@@ -6,12 +6,22 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use App\Models\Masalah;
+use App\Models\User;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
+    public function getPengajuId()
+    {
+        $unit = auth()->user()->unit;
+        $user = $unit->user;
+        foreach ($user as $item) {
+            $id[] = $item->id;
+        }
+        return $id;
+    }
 
     public function getUrgensiByTarget($target)
     {
@@ -45,9 +55,9 @@ class Controller extends BaseController
     }
     public function getUrgensiColor($urgensi)
     {
-        if ($urgensi == 1) {
+        if ($urgensi <= 3) {
             return "danger";
-        } elseif ($urgensi == 2) {
+        } elseif ($urgensi > 3 && $urgensi <= 7) {
             return "warning";
         } else {
             return "success";
@@ -56,32 +66,60 @@ class Controller extends BaseController
     public function getStatusText($status)
     {
         if ($status == 0) {
-            return "On Progres";
-        } else {
+            return "Menunggu Konfirmasi";
+        } else if ($status == 1) {
+            return "Menunggu Respon";
+        } else if ($status == 2) {
+            return "On Progress";
+        } else if ($status == 3) {
+            return "Forwarding";
+        } else if ($status == 4) {
             return "Selesai";
         }
     }
     public function getStatusColor($status)
     {
         if ($status == 0) {
-            return "info";
+            return "light";
+        } else if ($status > 0 && $status < 3) {
+            return "warning";
+        } else if ($status == 3) {
+            return "danger";
         } else {
             return "success";
         }
     }
     public function getKotakMasuk()
     {
-        $data = [];
-        $masalah = auth()->user()->unit->masalah;
-        foreach ($masalah as $item) {
-            if ($item->jawaban->count() == 0) {
-                $item->color = $this->getUrgensiColor($item->urgensi);
-                $item->text_status = $this->getStatusText($item->status);
-                $item->target = $this->getDefaultTarget($item->urgensi);
-                $data[] = $item;
-            }
+        $pengaju_id = $this->getPengajuId();
+        if (auth()->user()->role_id == 2) {
+            $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
+                ->orwhere([['pengaju_id', $pengaju_id], ['status', 0]])
+                ->get();
+        } else {
+            $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
+                ->get();
         }
-        return $data;
+        // dd($collection);
+
+        foreach ($collection as $item) {
+            $item->color = $this->getUrgensiColor($item->urgensi);
+            $item->text_status = $this->getStatusText($item->status);
+            $item->target = $this->getDefaultTarget($item->urgensi);
+        }
+        return $collection;
+        // $data = [];
+        // $masalah = auth()->user()->unit->masalah;
+
+        // foreach ($masalah as $item) {
+        //     if ($item->status == 0) {
+        //         $item->color = $this->getUrgensiColor($item->urgensi);
+        //         $item->text_status = $this->getStatusText($item->status);
+        //         $item->target = $this->getDefaultTarget($item->urgensi);
+        //         $data[] = $item;
+        //     }
+        // }
+        // return $data;
     }
     public function getTarget($collection)
     {
@@ -90,30 +128,30 @@ class Controller extends BaseController
     public function getCount($collection, $type)
     {
         if ($type == "selesai") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 1);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
             return $filtered->count();
         } elseif ($type == "proses") {
             $month2 = (int)date('m') - 1;
             $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 0);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
             return $filtered->count();
         } elseif ($type == "total") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
             return $filtered->count();
         }
     }
     public function getDataMasalah($collection, $type)
     {
         if ($type == "selesai") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 1);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
             return $filtered;
         } elseif ($type == "proses") {
             $month2 = (int)date('m') - 1;
             $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 0);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
             return $filtered;
         } elseif ($type == "total") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
+            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
             return $filtered;
         }
     }

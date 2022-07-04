@@ -107,12 +107,19 @@
                                     <ul class="progressbar">
                                         <li class="active">{{ $masalah->pengaju->unit->unit }}</li>
                                         @foreach ($jawaban as $item)
-                                            <li>{{ $item->penerima->unit->unit }}</li>
+                                            <li class="active">{{ $item->penerima->unit->unit }}</li>
+                                            @if ($item->status == 3)
+                                                <li class="">{{ $item->unit_tujuan->unit }}</li>
+                                            @endif
                                         @endforeach
                                         @if ($jawaban->count() == 0)
                                             <li class="">{{ $masalah->unit->unit }}</li>
                                         @else
-                                            <li class="">Selesai</li>
+                                            @if ($masalah->status == 4)
+                                                <li class="active">Selesai</li>
+                                            @else
+                                                <li class="">Selesai</li>
+                                            @endif
                                         @endif
                                     </ul>
                                 </div>

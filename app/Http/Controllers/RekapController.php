@@ -6,21 +6,27 @@ use App\Models\Analisa;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
 use App\Models\Jawaban;
-use App\Models\User;
+use App\Models\Media;
+use App\Models\Perbaikan;
 
 class RekapController extends Controller
 {
     public function index()
     {
         auth()->user()->unit->masalah = $this->getKotakMasuk();
-        $collection = Masalah::where('unit_id', auth()->user()->unit->id)
-            ->where('status', 0)
+        $collection = Jawaban::where('penerima_id', auth()->user()->id)
+            ->where('keputusan', null)
             ->get();
-
+        // dd($collection);
+        // foreach ($collection as $item) {
+        //     $masalah[] = $item->masalah;
+        // }
         $data = [
             'title' => 'Rekap Progress LMLJ',
             'slug'  => 'rekap-progress-lmlj',
-            'masalah' => $collection,
+            'jawaban' => $collection,
+            'kotak_masuk' => $this->getKotakMasuk(),
+            // 'masalah' => $masalah,
             'number' => 1
         ];
 
@@ -29,46 +35,69 @@ class RekapController extends Controller
         return view('lmlj.kotak-rekap', $data);
     }
 
-    public function jawab(Masalah $masalah)
+    public function rekap(Masalah $masalah, $_id)
     {
         auth()->user()->unit->masalah = $this->getKotakMasuk();
         $data = [
-            'title' => 'Lembar Jawaban LMLJ',
-            'slug'  => 'kotak-masuk-lmlj',
+            'title' => 'Rekap Progress LMLJ',
+            'slug'  => 'rekap-progress-lmlj',
             'masalah' => $masalah,
+            'kotak_masuk' => $this->getKotakMasuk(),
             'media_masalah' => $masalah->media,
             'detail_masalah' => $masalah->detailmasalah,
-            'jawaban' => $masalah->jawaban,
+            'jawaban_id' => $_id,
             'number' =>  1
         ];
 
-        return view('lmlj.lembar-jawaban', $data);
+        return view('lmlj.lembar-rekap', $data);
     }
 
     public function store(Request $request)
     {
-
-        $data = $request->all();
-        $data['masalah_id'] = Masalah::where('nolmlj', $request->nolmlj)->first()->id;
-        $data['urgensi'] = $this->getUrgensiByTarget($request->target);
-        $data['penerima_id'] = auth()->user()->id;
-        // dd($this->getUrgensiByTarget($request->target));
-        // dd($data);
         $validated = $this->validate($request, [
-            'target' => 'required',
+            'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
         ]);
+        // dd($request->perbaikan);
         if ($validated) {
-            $jawaban_id = Jawaban::orderBy('id', 'DESC')->first()->id + 1;
-            foreach ($request->analisa as $item) {
-                if ($item) {
-                    $analisa['jawaban_id'] = $jawaban_id;
-                    $analisa['analisa'] = $item;
-                    Analisa::create($analisa);
+            if ($request->hasFile('media')) {
+                $index = 1;
+                foreach ($request->file('media') as $item) {
+                    $id = sprintf("%02d", $index++);
+                    $file_name = $item->getClientOriginalExtension();
+                    $name = $request->nolmlj . '-J' . $request->jawaban_id . '-' . $id . '.' . $file_name;
+                    $unit = explode("-", $name);
+                    $item->move(public_path() . '/upload_media/jawaban/' . $unit[0], $name);
+                    $media['jawaban_id'] = $request->jawaban_id;
+                    $media['file'] = $name;
+                    Media::create($media);
                 }
             }
-
-            Jawaban::create($data);
         }
-        return redirect(url('/detail/' . $request->nolmlj))->with('status', 'Jawaban berhasil dikirim');
+        for ($i = 0; $i < count($request->perbaikan); $i++) {
+            $perbaikan['jawaban_id'] = $request->jawaban_id;
+            $perbaikan['perbaikan'] = $request->perbaikan[$i];
+            $perbaikan['created_at'] = $request->tanggal[$i];
+            Perbaikan::create($perbaikan);
+        }
+        // dd($perbaikan);
+
+        $jawaban = Jawaban::find($request->jawaban_id);
+        $masalah = $jawaban->masalah;
+        if ($jawaban->status == 3) {
+            $masalah->status = 2;
+            $masalah->save();
+        } else {
+            $masalah->status = 4;
+            $masalah->save();
+            // dd($masalah);
+        }
+        $jawaban = Jawaban::find($request->jawaban_id);
+        $jawaban->nilai_tambah = $request->nilai_tambah;
+        $jawaban->keputusan = $request->keputusan;
+        $jawaban->pic_id = auth()->user()->id;
+        $jawaban->status = $request->status;
+        // dd($jawaban);
+        $jawaban->save();
+        return redirect(url('/dashboard'))->with('status', 'Rekap progress berhasil disimpan.');
     }
 }

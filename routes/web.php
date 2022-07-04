@@ -49,6 +49,8 @@ Route::get('/ajax/unittembusan/{unit_user}/{unit_id}', [PengajuanController::cla
 Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middleware('auth');
 Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
 Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
+Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasi']);
+Route::get('/konfirmasi', [KotakMasukController::class, 'redirect']);
 // Route::get('/kotak-masuk-lmlj', function () {
 //     return view('LMLJ/kotak-masuk', [
 //         'title' => 'Kotak Masuk LMLJ',
@@ -56,24 +58,26 @@ Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
 //     ]);
 // })->middleware('auth');
 Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middleware('auth');
+Route::get('/lembar-rekap-progress/{masalah:nolmlj}/{id}', [RekapController::class, 'rekap'])->middleware('auth');
+Route::post('/lembar-rekap-progress', [RekapController::class, 'store']);
 // Route::get('/rekap-progress-lmlj', function () {
 //     return view('LMLJ/kotak-rekap', [
 //         'title' => 'Rekap Progress LMLJ',
 //         'slug'  => 'rekap-progress-lmlj'
 //     ]);
 // })->middleware('auth');
-Route::get('/lembar-jawaban', function () {
-    return view('LMLJ/lembar-jawaban', [
-        'title' => 'Lembar Jawaban LMLJ',
-        'slug'  => 'kotak-masuk-lmlj',
-    ]);
-})->middleware('auth');
-Route::get('/lembar-rekap-progress', function () {
-    return view('LMLJ/lembar-rekap', [
-        'title' => 'Rekap Progress LMLJ',
-        'slug'  => 'rekap-progress-lmlj',
-    ]);
-})->middleware('auth');
+// Route::get('/lembar-jawaban', function () {
+//     return view('LMLJ/lembar-jawaban', [
+//         'title' => 'Lembar Jawaban LMLJ',
+//         'slug'  => 'kotak-masuk-lmlj',
+//     ]);
+// })->middleware('auth');
+// Route::get('/lembar-rekap-progress', function () {
+//     return view('LMLJ/lembar-rekap', [
+//         'title' => 'Rekap Progress LMLJ',
+//         'slug'  => 'rekap-progress-lmlj',
+//     ]);
+// })->middleware('auth');
 Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
     return view('LMLJ/lembar-rekap', [
         'title' => 'Rekap Progress LMLJ',
