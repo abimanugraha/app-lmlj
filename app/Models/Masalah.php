@@ -44,6 +44,10 @@ class Masalah extends Model
     {
         return $this->belongsTo(User::class, 'pengaju_id');
     }
+    public function forward()
+    {
+        return $this->hasMany(Forward::class, 'masalah_id');
+    }
 
     // public function user()
     // {

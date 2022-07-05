@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Analisa;
+use App\Models\Forward;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
 use App\Models\Jawaban;
@@ -13,10 +14,18 @@ class KotakMasukController extends Controller
     public function index()
     {
         $pengaju_id = $this->getPengajuId();
-        auth()->user()->unit->masalah = $this->getKotakMasuk();
-        $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
-            ->orwhere([['pengaju_id', $pengaju_id], ['status', 0]])
-            ->get();
+        // auth()->user()->unit->masalah = $this->getKotakMasuk();
+        // $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
+        //     ->orwhere([['pengaju_id', $pengaju_id], ['status', 0]])
+        //     ->get();
+        // $pengaju_id = $this->getPengajuId();
+        // auth()->user()->unit->masalah = $this->getKotakMasuk();
+        $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
+            ->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
+            ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
+            ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
+            ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
+            ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id']);
 
         // dd($collection);
         // $kotak_masuk = $this->getKotakMasuk();
@@ -35,8 +44,9 @@ class KotakMasukController extends Controller
 
     public function jawab(Masalah $masalah)
     {
-        // dd(auth()->user()->unit->id);
-        auth()->user()->unit->masalah = $this->getKotakMasuk();
+
+        $masalah->target = $this->getDefaultTarget($masalah->urgensi);
+        $masalah->color_urgensi = $this->getUrgensiColor($masalah->target);
         $data = [
             'title' => 'Lembar Jawaban LMLJ',
             'slug'  => 'kotak-masuk-lmlj',
@@ -48,6 +58,7 @@ class KotakMasukController extends Controller
             'number' =>  1,
             'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->where('id', '!=', $masalah->pengaju->unit->id)->get()
         ];
+
 
         return view('lmlj.lembar-jawaban', $data);
     }
@@ -74,7 +85,12 @@ class KotakMasukController extends Controller
             'target' => 'required',
         ]);
         if ($validated) {
-            $jawaban_id = Jawaban::orderBy('id', 'DESC')->first()->id + 1;
+            $masalah_id = Jawaban::first();
+            if ($masalah_id) {
+                $jawaban_id = Jawaban::orderBy('id', 'DESC')->first()->id + 1;
+            } else {
+                $jawaban_id = 1;
+            }
             foreach ($request->analisa as $item) {
                 if ($item) {
                     $analisa['jawaban_id'] = $jawaban_id;
@@ -82,14 +98,19 @@ class KotakMasukController extends Controller
                     Analisa::create($analisa);
                 }
             }
-
+            if ($request->forward) {
+                $forward['masalah_id'] = $masalah->id;
+                $forward['unit_id'] = $request->unit_tujuan_id;
+                $forward['status'] = 3;
+                Forward::create($forward);
+            }
             Jawaban::create($data);
         }
         $masalah->save();
         return redirect(url('/detail/' . $request->nolmlj))->with('status', 'Jawaban berhasil dikirim');
     }
 
-    public function konfirmasi(Masalah $masalah)
+    public function konfirmasimasalah(Masalah $masalah)
     {
         $masalah->status = 1;
         $masalah->ygmengetahui_id = auth()->user()->id;
@@ -101,5 +122,12 @@ class KotakMasukController extends Controller
     public function redirect()
     {
         return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
+    }
+    public function konfirmasitembusan(Forward $forward)
+    {
+        $forward->status = 6;
+        $forward->save();
+        // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
+        // $masalah->status = 1;
     }
 }

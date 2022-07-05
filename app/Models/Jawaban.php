@@ -23,6 +23,10 @@ class Jawaban extends Model
     {
         return $this->belongsTo(User::class, 'penerima_id');
     }
+    public function pic()
+    {
+        return $this->belongsTo(User::class, 'pic_id');
+    }
     public function unit_tujuan()
     {
         return $this->belongsTo(Unit::class, 'unit_tujuan_id');

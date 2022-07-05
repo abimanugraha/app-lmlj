@@ -9,6 +9,8 @@
         figcaption {
             rotate: -9deg;
             margin-top: -10%;
+            margin-right: 10%;
+            size: 80%;
             color: rgb(243, 44, 44);
         }
 
@@ -77,7 +79,11 @@
             <div class="section-header">
                 <h1>{{ $title }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></div>
+                    @if (url()->previous() == url('lmlj-selesai'))
+                        <div class="breadcrumb-item"><a href="{{ url()->previous() }}">LMLJ Selesai</a></div>
+                    @else
+                        <div class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></div>
+                    @endif
                     <div class="breadcrumb-item">Detail</div>
                 </div>
             </div>
@@ -108,10 +114,10 @@
                                         <li class="active">{{ $masalah->pengaju->unit->unit }}</li>
                                         @foreach ($jawaban as $item)
                                             <li class="active">{{ $item->penerima->unit->unit }}</li>
-                                            @if ($item->status == 3)
-                                                <li class="">{{ $item->unit_tujuan->unit }}</li>
-                                            @endif
                                         @endforeach
+                                        @if ($item->status == 3)
+                                            <li class="">{{ $item->unit_tujuan->unit }}</li>
+                                        @endif
                                         @if ($jawaban->count() == 0)
                                             <li class="">{{ $masalah->unit->unit }}</li>
                                         @else
@@ -178,13 +184,13 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <figure class="avatar mr-2 avatar-sm"
+                                                        <figure class="avatar mr-2 avatar-sm bg-light text-dark"
                                                             data-initial="{{ substr($item->penerima->nama, 0, 1) }}">
                                                         </figure>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-2">
-                                                    <div class="col">{{ $item->penerima->nama }}</div>
+                                                    <div class="col text-dark">{{ $item->penerima->nama }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,75 +210,83 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    Perbaikan
-                                                </div>
+                                            @if ($item->keputusan)
+                                                <div class="row">
+                                                    <div class="col">
+                                                        Perbaikan
+                                                    </div>
 
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    @php $number = 1; @endphp
-                                                    @foreach ($item->perbaikan as $perbaikan)
-                                                        <p class="text-dark">{{ $number++ }}.
-                                                            <b>{{ $perbaikan->created_at->format('d-M-Y') }}</b>
-                                                            <i class="fas fa-long-arrow-alt-right"></i>
-                                                            {{ $perbaikan->perbaikan }}
-                                                        </p>
-                                                    @endforeach
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    Nilai Tambah
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    @php $number = 1; @endphp
-                                                    <p class="text-dark">1. {{ $item->nilai_tambah }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    Keputusan
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <p class="text-dark">1. {{ $item->keputusan }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    Lampiran
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2">
-                                                <div class="col">
-                                                    <div class="gallery gallery-md">
-                                                        <div class="gallery-item"
-                                                            data-image="{{ url('assets/img/news/img03.jpg') }}"
-                                                            data-title="Image 1"></div>
-                                                        <div class="gallery-item"
-                                                            data-image="{{ url('assets/img/news/img14.jpg') }}"
-                                                            data-title="Image 2"></div>
-                                                        <div class="gallery-item"
-                                                            data-image="{{ url('assets/img/news/img08.jpg') }}"
-                                                            data-title="Image 3"></div>
-                                                        <div class="gallery-item"
-                                                            data-image="{{ url('assets/img/news/img05.jpg') }}"
-                                                            data-title="Image 4"></div>
-                                                        <div class="gallery-item gallery-more"
-                                                            data-image="{{ url('assets/img/news/img08.jpg') }}"
-                                                            data-title="Image 12">
-                                                            <div>+2</div>
-                                                        </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        @php $number = 1; @endphp
+                                                        @foreach ($item->perbaikan as $perbaikan)
+                                                            <p class="text-dark">{{ $number++ }}.
+                                                                <b>{{ $perbaikan->created_at->format('d-M-Y') }}</b>
+                                                                <i class="fas fa-long-arrow-alt-right"></i>
+                                                                {{ $perbaikan->perbaikan }}
+                                                            </p>
+                                                        @endforeach
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        Nilai Tambah
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        @php $number = 1; @endphp
+                                                        <p class="text-dark">1. {{ $item->nilai_tambah }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        Keputusan
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="text-dark">1. {{ $item->keputusan }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                @if ($item->media->count() > 0)
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            Lampiran
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col">
+                                                            <div class="gallery gallery-md">
+                                                                @foreach ($item->media as $media)
+                                                                    <div style="border: 2px solid #cdd3d8;"
+                                                                        class="gallery-item"
+                                                                        data-image="{{ url('upload_media/jawaban/' . $masalah->pengaju->unit->unit . '/' . $media->file) }}"
+                                                                        data-title="Image 1"></div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                <div class="col text-center">
+                                                    <div class="row mb-2">
+                                                        <div class="col">PIC</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <figure class="avatar avatar-md bg-light text-dark"
+                                                                data-initial="{{ substr($item->penerima->nama, 0, 1) }}">
+                                                            </figure>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col text-dark">{{ $item->pic->nama }}</div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     {{-- <div class="card-footer text-center">

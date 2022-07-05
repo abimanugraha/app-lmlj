@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailMasalah;
+use App\Models\Forward;
 use App\Models\Komponen;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
@@ -44,6 +45,8 @@ class PengajuanController extends Controller
 
     function store(Request $request)
     {
+
+        // dd($request->request);
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
             'produk_id' => 'required',
@@ -51,10 +54,14 @@ class PengajuanController extends Controller
             'unit_id' => 'required',
 
         ]);
-        // dd($request->detail[0]);
 
         if ($validated) {
-            $masalah_id = Masalah::orderBy('id', 'DESC')->first()->id + 1;
+            $masalah_id = Masalah::first();
+            if ($masalah_id) {
+                $masalah_id = Masalah::orderBy('id', 'DESC')->first()->id + 1;
+            } else {
+                $masalah_id = 1;
+            }
             if ($request->hasFile('media')) {
                 $index = 1;
                 foreach ($request->file('media') as $item) {
@@ -75,16 +82,19 @@ class PengajuanController extends Controller
                     DetailMasalah::create($detail);
                 }
             }
+            if ($request->forward) {
+                foreach ($request->forward as $item) {
+                    if ($item) {
+                        $forward['masalah_id'] = $masalah_id;
+                        $forward['unit_id'] = $item;
+                        $forward['status'] = 5;
+                        Forward::create($forward);
+                    }
+                }
+            }
             Masalah::create($request->all());
         }
         return redirect(url('/dashboard'))->with('status', 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!');
-
-
-
-        // dd($request->all());
-
-        // $masalah = masalah::create($request->all());
-        // return response()->json(['msg' => 'Data created', 'data' => $masalah], 200);
     }
 
     public function getKomponenByProdukId($produk_id)

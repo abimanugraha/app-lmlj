@@ -58,7 +58,8 @@
                                                         <td>{{ $item->pengaju->unit->unit }}</td>
                                                         <td>
                                                             @if ($item->status == 0 && auth()->user()->role_id == 2)
-                                                                <a href="#" onclick="konfirmasi({{ $item->id }})"
+                                                                <a href="#"
+                                                                    onclick="konfirmasimasalah({{ $item->id }})"
                                                                     class="btn btn-success">Konfirmasi
                                                                 </a>
                                                             @else
@@ -134,7 +135,7 @@
     </div>
 @endsection
 <script>
-    function konfirmasi(id) {
+    function konfirmasimasalah(id) {
         $.ajax({
             url: `{{ url('ajax/konfirmasi') }}` + `/` + id,
             success: function(res) {

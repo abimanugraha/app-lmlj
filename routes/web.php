@@ -33,6 +33,8 @@ Route::get('/registrasi', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/detail/{masalah:nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
+Route::get('/detail-ajax/{masalah:id}', [DashboardController::class, 'detail'])->middleware('auth');
+Route::get('/lmlj-selesai', [DashboardController::class, 'selesai'])->middleware('auth');
 
 Route::get('/pengajuan-lmlj', [PengajuanController::class, 'index'])->middleware('auth');
 Route::post('/pengajuan-lmlj', [PengajuanController::class, 'store']);
@@ -49,7 +51,8 @@ Route::get('/ajax/unittembusan/{unit_user}/{unit_id}', [PengajuanController::cla
 Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middleware('auth');
 Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
 Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
-Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasi']);
+Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasimasalah']);
+Route::get('/ajax/konfirmasitembusan/{forward:id}', [KotakMasukController::class, 'konfirmasitembusan']);
 Route::get('/konfirmasi', [KotakMasukController::class, 'redirect']);
 // Route::get('/kotak-masuk-lmlj', function () {
 //     return view('LMLJ/kotak-masuk', [

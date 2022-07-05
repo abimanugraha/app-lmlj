@@ -15,6 +15,7 @@
 
     <!-- Library CSS -->
     <link rel="stylesheet" href="{{ url('node_modules/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url('node_modules/chocolat/dist/css/chocolat.css') }}">
 
 
     <!-- Template CSS -->
@@ -36,16 +37,18 @@
                     </ul>
                 </form>
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                            class="nav-link notification-toggle nav-link-lg @if (count($kotak_masuk) > 0) beep @endif"><i
-                                class="far fa-envelope"></i></a>
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg"
+                            id="beep">
+                            <i class="far fa-envelope"></i>
+                        </a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
                             <div class="dropdown-header">Notifications
                                 <div class="float-right">
                                     {{-- <a href="#">Mark All As Read</a> --}}
                                 </div>
                             </div>
-                            <div class="dropdown-list-content dropdown-list-icons">
+                            <div class="dropdown-list-content dropdown-list-icons" id="listkotakmasuk">
                                 @foreach ($kotak_masuk as $item)
                                     @if ($item->status == 0)
                                         <a href="{{ url('kotak-masuk-lmlj') }}"
@@ -59,8 +62,21 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @else
+                                    @elseif ($item->status == 1 && $item->unit_id == auth()->user()->unit->id)
                                         <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
+                                            class="dropdown-item dropdown-item-unread">
+                                            <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
+                                                {{ $item->target }}
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                {{ $item->nolmlj }}
+                                                <div class="time text-dark">{{ $item->masalah }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @elseif ($item->forward_status == 5 && auth()->user()->role_id == 2 && auth()->user()->unit->id == $item->unit_forwad_id)
+                                        <a href="#"
+                                            onclick="konfirmasi({{ $item->forward_id . ',' . $item->id }})"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -148,6 +164,18 @@
                     </ul>
                 </aside>
             </div>
+            <script>
+                function konfirmasi(forward_id, masalah_id) {
+                    // console.log(lmlj);
+                    $.ajax({
+                        url: `{{ url('ajax/konfirmasitembusan') }}` + `/` + forward_id,
+                        success: function(res) {
+                            // console.log(res);
+                            window.location.href = `{{ url('detail-ajax') }}` + `/` + masalah_id;
+                        }
+                    });
+                }
+            </script>
 
             <!-- Main Content -->
             @yield('content')
@@ -184,7 +212,14 @@
 
     <!-- Template JS File -->
     <script src="{{ url('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ url('node_modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+
+
     <script>
+        if ($('#listkotakmasuk').children().length > 0) {
+            $('#beep').addClass('beep');
+        }
+
         $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
             $(this).next('.custom-file-label').addClass("selected").html(fileName);

@@ -57,7 +57,6 @@ class RekapController extends Controller
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
         ]);
-        // dd($request->perbaikan);
         if ($validated) {
             if ($request->hasFile('media')) {
                 $index = 1;
@@ -79,24 +78,27 @@ class RekapController extends Controller
             $perbaikan['created_at'] = $request->tanggal[$i];
             Perbaikan::create($perbaikan);
         }
-        // dd($perbaikan);
 
         $jawaban = Jawaban::find($request->jawaban_id);
         $masalah = $jawaban->masalah;
-        if ($jawaban->status == 3) {
+
+        // dd($jawaban->status);
+        // dd($masalah->jawaban->where('id', '!=', $jawaban->id)->sortDesc()->first()->id);
+        if ($masalah->jawaban->count() > 1 && $masalah->jawaban->first()->status == 3) {
+            $update_jawaban = Jawaban::find($masalah->jawaban->where('id', '!=', $jawaban->id)->sortDesc()->first()->id);
+            $update_jawaban->status = 2;
+            $update_jawaban->save();
             $masalah->status = 2;
             $masalah->save();
         } else {
             $masalah->status = 4;
             $masalah->save();
-            // dd($masalah);
         }
         $jawaban = Jawaban::find($request->jawaban_id);
         $jawaban->nilai_tambah = $request->nilai_tambah;
         $jawaban->keputusan = $request->keputusan;
         $jawaban->pic_id = auth()->user()->id;
-        $jawaban->status = $request->status;
-        // dd($jawaban);
+        $jawaban->status = 4;
         $jawaban->save();
         return redirect(url('/dashboard'))->with('status', 'Rekap progress berhasil disimpan.');
     }

@@ -12,14 +12,18 @@ class Unit extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class); 
+        return $this->hasMany(User::class);
     }
     public function masalah()
     {
-        return $this->hasMany(Masalah::class); 
+        return $this->hasMany(Masalah::class);
     }
     public function jawaban()
     {
-        return $this->hasMany(Jawaban::class); 
+        return $this->hasMany(Jawaban::class);
+    }
+    public function from()
+    {
+        return $this->belongsTo(Forward::class);
     }
 }

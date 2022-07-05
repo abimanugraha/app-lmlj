@@ -13,6 +13,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
+
     public function getPengajuId()
     {
         $unit = auth()->user()->unit;
@@ -93,12 +95,18 @@ class Controller extends BaseController
     {
         $pengaju_id = $this->getPengajuId();
         if (auth()->user()->role_id == 2) {
-            $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
-                ->orwhere([['pengaju_id', $pengaju_id], ['status', 0]])
-                ->get();
+            $collection = Masalah::leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
+                ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
+                ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
+                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
+                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5]])
+                ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id']);
         } else {
-            $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
-                ->get();
+            $collection = Masalah::leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
+                ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
+                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
+                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5], ['masalahs.status', 1]])
+                ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id']);
         }
         // dd($collection);
 
@@ -107,6 +115,7 @@ class Controller extends BaseController
             $item->text_status = $this->getStatusText($item->status);
             $item->target = $this->getDefaultTarget($item->urgensi);
         }
+        // dd($collection);
         return $collection;
         // $data = [];
         // $masalah = auth()->user()->unit->masalah;
@@ -127,32 +136,62 @@ class Controller extends BaseController
     }
     public function getCount($collection, $type)
     {
-        if ($type == "selesai") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-            return $filtered->count();
-        } elseif ($type == "proses") {
-            $month2 = (int)date('m') - 1;
-            $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
-            return $filtered->count();
-        } elseif ($type == "total") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
-            return $filtered->count();
+        if (auth()->user()->role_id == 2) {
+            if ($type == "selesai") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
+                return $filtered->count();
+            } elseif ($type == "proses") {
+                $month2 = (int)date('m') - 1;
+                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
+                return $filtered->count();
+            } elseif ($type == "total") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
+                return $filtered->count();
+            }
+        } else {
+            if ($type == "selesai") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4)->where('forward_status', '<', 5);
+                return $filtered->count();
+            } elseif ($type == "proses") {
+                $month2 = (int)date('m') - 1;
+                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4)->where('forward_status', '<', 5);
+                return $filtered->count();
+            } elseif ($type == "total") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0)->where('forward_status', '<', 5);
+                return $filtered->count();
+            }
         }
     }
     public function getDataMasalah($collection, $type)
     {
-        if ($type == "selesai") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-            return $filtered;
-        } elseif ($type == "proses") {
-            $month2 = (int)date('m') - 1;
-            $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
-            return $filtered;
-        } elseif ($type == "total") {
-            $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
-            return $filtered;
+        if (auth()->user()->role_id == 2) {
+            if ($type == "selesai") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
+                return $filtered;
+            } elseif ($type == "proses") {
+                $month2 = (int)date('m') - 1;
+                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
+                return $filtered;
+            } elseif ($type == "total") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
+                return $filtered;
+            }
+        } else {
+            if ($type == "selesai") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4)->where('forward_status', '<', 5);
+                return $filtered;
+            } elseif ($type == "proses") {
+                $month2 = (int)date('m') - 1;
+                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4)->where('forward_status', '<', 5);
+                return $filtered;
+            } elseif ($type == "total") {
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0)->where('forward_status', '<', 5);
+                return $filtered;
+            }
         }
     }
 }

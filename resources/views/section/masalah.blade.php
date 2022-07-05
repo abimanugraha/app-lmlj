@@ -4,7 +4,7 @@
         <div class="card-header">
             <h4>Lembar Masalah</h4>
             <div class="card-header-action">
-                {{ $masalah->updated_at->format('d-M-Y') }}
+                {{ $masalah->created_at->format('d-M-Y') }}
             </div>
         </div>
         <div class="card-body">
@@ -15,7 +15,15 @@
                     </button>
                 </div>
                 <div class="col-2 col-md-2 col-lg-2">
-                    <figure class="avatar mr-2 avatar-lg bg-danger text-white" data-initial="3"></figure>
+                    @if ($masalah->status == 4)
+                        <figure class="avatar mr-2 avatar-lg bg-danger text-white"
+                            data-initial="{{ $masalah->created_at->diffInDays($masalah->updated_at) }}">
+                        </figure>
+                    @else
+                        <figure class="avatar mr-2 avatar-lg bg-{{ $masalah->color_urgensi }} text-white"
+                            data-initial="{{ $masalah->target }}">
+                        </figure>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -53,27 +61,38 @@
                             Masalah <b class="text-dark">{{ $masalah->masalah }}</b>
                         </div>
                     </div>
-                    <div class="row mb-1">
-                        <div class="col">
-                            Foto/Video
+                    @if ($masalah->media->count() > 0)
+                        <div class="row mb-1">
+                            <div class="col">
+                                Foto/Video
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="col-4 text-right">
                     @if ($masalah->status == 4)
                         <figure>
                             <img src="{{ url('assets/img/solved.png') }}" alt="status" style="width:80%">
-                            <figcaption>Tanggal Selesai</figcaption>
+                            <figcaption>{{ $masalah->updated_at->format('d-M-Y') }}</figcaption>
                         </figure>
                     @endif
                 </div>
             </div>
-            <div class="row mb-1">
-                <div class="col">
-                    <div class="gallery gallery-md">
-                        <div class="gallery-item" data-image="{{ url('assets/img/news/img01.jpg') }}"
-                            data-title="Image 1"></div>
-                        <div class="gallery-item" data-image="{{ url('assets/img/news/img02.jpg') }}"
+            @if ($masalah->media->count() > 0)
+                <div class="row mb-1">
+                    <div class="col">
+                        <div class="gallery gallery-md">
+                            @foreach ($masalah->media as $item)
+                                {{-- <video width="100" height="78" controls>
+                                <source
+                                    src="{{ url('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
+                                    type="video/mp4">
+                            </video> --}}
+                                <div style="border: 2px solid #cdd3d8;" class="gallery-item"
+                                    data-image="{{ url('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
+                                    data-title="{{ $item->file }}"></div>
+                            @endforeach
+                            {{-- <div class="gallery-item" data-image="{{ url('assets/img/news/img02.jpg') }}"
                             data-title="Image 2"></div>
                         <div class="gallery-item" data-image="{{ url('assets/img/news/img03.jpg') }}"
                             data-title="Image 3"></div>
@@ -82,10 +101,11 @@
                         <div class="gallery-item gallery-more" data-image="{{ url('assets/img/news/img05.jpg') }}"
                             data-title="Image 12">
                             <div>+2</div>
+                        </div> --}}
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="row mb-1">
                 <div class="col">
                     Detail Masalah

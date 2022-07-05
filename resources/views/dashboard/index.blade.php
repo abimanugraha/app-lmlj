@@ -22,9 +22,11 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
-                        <div class="card-icon bg-success">
-                            <i class="far fa-file-alt"></i>
-                        </div>
+                        <a href="{{ url('lmlj-selesai') }}">
+                            <div class="card-icon bg-success">
+                                <i class="far fa-file-alt"></i>
+                            </div>
+                        </a>
                         <div class="card-wrap">
                             <div class="card-header">
                                 <h4>LMLJ Selesai</h4>
@@ -37,9 +39,11 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
-                        <div class="card-icon bg-warning">
-                            <i class="fas fa-spinner"></i>
-                        </div>
+                        <a href="#">
+                            <div class="card-icon bg-warning">
+                                <i class="fas fa-spinner"></i>
+                            </div>
+                        </a>
                         <div class="card-wrap">
                             <div class="card-header">
                                 <h4>LMLJ Proses</h4>

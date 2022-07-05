@@ -174,8 +174,8 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="input-unit-pengaju">Tembusan</label>
-                                            <select class="form-control select2" multiple="" id="input-tembusan"
-                                                disabled>
+                                            <select name="forward[]" class="form-control select2" multiple=""
+                                                id="input-tembusan" disabled>
                                             </select>
                                         </div>
                                     </div>
