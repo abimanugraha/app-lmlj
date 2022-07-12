@@ -14,18 +14,23 @@ class KotakMasukController extends Controller
     public function index()
     {
         $pengaju_id = $this->getPengajuId();
-        // auth()->user()->unit->masalah = $this->getKotakMasuk();
-        // $collection = Masalah::where([['unit_id', auth()->user()->unit->id], ['status', 1]])
-        //     ->orwhere([['pengaju_id', $pengaju_id], ['status', 0]])
-        //     ->get();
-        // $pengaju_id = $this->getPengajuId();
-        // auth()->user()->unit->masalah = $this->getKotakMasuk();
-        $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
-            ->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
-            ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
-            ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
-            ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
-            ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id']);
+
+        $query = Masalah::query();
+        $query->with(['pengaju', 'diketahui', 'unit', 'jawaban']);
+        $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
+        $query->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]]);
+        foreach ($pengaju_id as $id) {
+            $query->orWhere([['masalahs.pengaju_id', $id], ['masalahs.status', 0]]);
+        }
+        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]]);
+        $collection = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
+
+        // $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
+        //     ->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
+        //     ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
+        //     ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
+        //     ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
+        //     ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id']);
 
         // dd($collection);
         // $kotak_masuk = $this->getKotakMasuk();

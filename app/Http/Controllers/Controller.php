@@ -24,6 +24,15 @@ class Controller extends BaseController
         }
         return $id;
     }
+    public function getPenerimaId()
+    {
+        $unit = auth()->user()->unit;
+        $user = $unit->user;
+        foreach ($user as $item) {
+            $id[] = $item->id;
+        }
+        return $id;
+    }
 
     public function getUrgensiByTarget($target)
     {
@@ -94,41 +103,26 @@ class Controller extends BaseController
     public function getKotakMasuk()
     {
         $pengaju_id = $this->getPengajuId();
+        $query = Masalah::query();
+        $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
+        $query->join('users', 'masalahs.pengaju_id', '=', 'users.id');
+        $query->orwhere([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]]);
+        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 3], ['masalahs.status', 3]]);
         if (auth()->user()->role_id == 2) {
-            $collection = Masalah::leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
-                ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
-                ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
-                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
-                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5]])
-                ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id']);
-        } else {
-            $collection = Masalah::leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
-                ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
-                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
-                ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5], ['masalahs.status', 1]])
-                ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id']);
+            $query->orWhere([['masalahs.status', '>', 0], ['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5]]);
+            foreach ($pengaju_id as $id) {
+                $query->orWhere([['masalahs.status', 0], ['masalahs.pengaju_id', $id]]);
+            }
         }
-        // dd($collection);
-
-        foreach ($collection as $item) {
-            $item->color = $this->getUrgensiColor($item->urgensi);
-            $item->text_status = $this->getStatusText($item->status);
+        $result = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forward_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
+        foreach ($result as $item) {
             $item->target = $this->getDefaultTarget($item->urgensi);
+            $item->color = $this->getUrgensiColor($item->target);
+            $item->text_status = $this->getStatusText($item->status);
         }
-        // dd($collection);
-        return $collection;
-        // $data = [];
-        // $masalah = auth()->user()->unit->masalah;
+        // dd($result);
 
-        // foreach ($masalah as $item) {
-        //     if ($item->status == 0) {
-        //         $item->color = $this->getUrgensiColor($item->urgensi);
-        //         $item->text_status = $this->getStatusText($item->status);
-        //         $item->target = $this->getDefaultTarget($item->urgensi);
-        //         $data[] = $item;
-        //     }
-        // }
-        // return $data;
+        return $result;
     }
     public function getTarget($collection)
     {
@@ -143,29 +137,30 @@ class Controller extends BaseController
             } elseif ($type == "proses") {
                 $month2 = (int)date('m') - 1;
                 $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
                 return $filtered->count();
             } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
                 return $filtered->count();
             }
         } else {
             if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
                 return $filtered->count();
             } elseif ($type == "proses") {
                 $month2 = (int)date('m') - 1;
                 $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
                 return $filtered->count();
             } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
                 return $filtered->count();
             }
         }
     }
     public function getDataMasalah($collection, $type)
     {
+        // dd($collection);
         if (auth()->user()->role_id == 2) {
             if ($type == "selesai") {
                 $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
@@ -173,7 +168,7 @@ class Controller extends BaseController
             } elseif ($type == "proses") {
                 $month2 = (int)date('m') - 1;
                 $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
                 return $filtered;
             } elseif ($type == "total") {
                 $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
@@ -181,15 +176,15 @@ class Controller extends BaseController
             }
         } else {
             if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
                 return $filtered;
             } elseif ($type == "proses") {
                 $month2 = (int)date('m') - 1;
                 $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>', 0)->where('status', '<', 4)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
                 return $filtered;
             } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0)->where('forward_status', '<', 5);
+                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
                 return $filtered;
             }
         }

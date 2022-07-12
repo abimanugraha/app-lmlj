@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-2 col-md-2 col-lg-2">
                     @if ($masalah->status == 4)
-                        <figure class="avatar mr-2 avatar-lg bg-danger text-white"
+                        <figure class="avatar mr-2 avatar-lg bg-{{ $masalah->color_realisasi }} text-white"
                             data-initial="{{ $masalah->created_at->diffInDays($masalah->updated_at) }}">
                         </figure>
                     @else
@@ -72,7 +72,7 @@
                 <div class="col-4 text-right">
                     @if ($masalah->status == 4)
                         <figure>
-                            <img src="{{ url('assets/img/solved.png') }}" alt="status" style="width:80%">
+                            <img src="{{ asset('assets/img/solved.png') }}" alt="status" style="width:80%">
                             <figcaption>{{ $masalah->updated_at->format('d-M-Y') }}</figcaption>
                         </figure>
                     @endif
@@ -85,20 +85,20 @@
                             @foreach ($masalah->media as $item)
                                 {{-- <video width="100" height="78" controls>
                                 <source
-                                    src="{{ url('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
+                                    src="{{ asset('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
                                     type="video/mp4">
                             </video> --}}
                                 <div style="border: 2px solid #cdd3d8;" class="gallery-item"
-                                    data-image="{{ url('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
+                                    data-image="{{ asset('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
                                     data-title="{{ $item->file }}"></div>
                             @endforeach
-                            {{-- <div class="gallery-item" data-image="{{ url('assets/img/news/img02.jpg') }}"
+                            {{-- <div class="gallery-item" data-image="{{ asset('assets/img/news/img02.jpg') }}"
                             data-title="Image 2"></div>
-                        <div class="gallery-item" data-image="{{ url('assets/img/news/img03.jpg') }}"
+                        <div class="gallery-item" data-image="{{ asset('assets/img/news/img03.jpg') }}"
                             data-title="Image 3"></div>
-                        <div class="gallery-item" data-image="{{ url('assets/img/news/img04.jpg') }}"
+                        <div class="gallery-item" data-image="{{ asset('assets/img/news/img04.jpg') }}"
                             data-title="Image 4"></div>
-                        <div class="gallery-item gallery-more" data-image="{{ url('assets/img/news/img05.jpg') }}"
+                        <div class="gallery-item gallery-more" data-image="{{ asset('assets/img/news/img05.jpg') }}"
                             data-title="Image 12">
                             <div>+2</div>
                         </div> --}}
@@ -133,11 +133,26 @@
                     <p class="text-dark"><i class="fas fa-caret-right"></i>
                         {{ $masalah->nilai_tambah }}
                     </p>
-                    {{-- <p class="text-dark">2. Lorem ipsum dolor sit, amet consectetur adipisicing elit. A
-                                        minus est dolorem cupiditate consectetur excepturi nemo magnam quae corrupti ullam?
-                                    </p> --}}
                 </div>
             </div>
+            @if ($masalah->forward->count() > 0)
+                <div class="row mb-1">
+                    <div class="col">
+                        List CC
+                    </div>
+                </div>
+                @foreach ($masalah->forward as $item)
+                    @if ($item->status > 4)
+                        <div class="row mb-1">
+                            <div class="col">
+                                <p class="text-dark"><i class="fas fa-caret-right"></i>
+                                    {{ $item->unit->unit }}
+                                </p>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
             <div class="row mb-1 mt-3">
                 <div class="col text-center">
                     @if ($masalah->ygmengetahui_id)

@@ -32,7 +32,7 @@ class Masalah extends Model
 
     public function komponen()
     {
-        return $this->belongsTo(komponen::class);
+        return $this->belongsTo(Komponen::class);
     }
 
     public function unit()

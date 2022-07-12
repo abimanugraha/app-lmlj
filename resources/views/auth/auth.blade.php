@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Aplikasi LMLJ | Login</title>
-    <link rel="icon" href="assets/img/logo-mak-text.png">
+    <link rel="icon" href="{{ asset('assets/img/logo-mak-text.png') }}">
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -14,8 +14,8 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
 
 <body>
@@ -26,7 +26,8 @@
                     <div
                         class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                         <div class="login-brand">
-                            <img src="assets/img/logo-mak.png" alt="logo" width="200" class="img-fluid">
+                            <img src="{{ asset('assets/img/logo-mak.png') }}" alt="logo" width="200"
+                                class="img-fluid">
                             <p class="text-dark">Aplikasi LMLJ</p>
                         </div>
                         @if (session('status'))
@@ -51,13 +52,14 @@
                             </div>
 
                             <div class="card-body">
-                                <form method="POST" action="{{ url('login') }}" class=""
-                                    novalidate="">
+                                <form method="POST" action="{{ url('login') }}" class="" novalidate="">
                                     @csrf
                                     <input type="text" name="role" id="" value="1" hidden>
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input id="username" type="text" class="form-control @error('username')is-invalid @enderror" name="username" value="{{ old('username') }}">                                        
+                                        <input id="username" type="text"
+                                            class="form-control @error('username') is-invalid @enderror" name="username"
+                                            value="{{ old('username') }}" autofocus>
                                         @error('username')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -67,9 +69,11 @@
 
                                     <div class="form-group">
                                         <div class="d-block">
-                                            <label for="password" class="control-label">Password</label>                                        
+                                            <label for="password" class="control-label">Password</label>
                                         </div>
-                                        <input id="password" type="password" class="form-control @error('password')is-invalid @enderror" name="password" tabindex="2">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            name="password">
                                         @error('password')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -105,13 +109,13 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="assets/js/stisla.js"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- JS Libraies -->
 
     <!-- Template JS File -->
-    <script src="assets/js/scripts.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     <!-- Page Specific JS File -->
 </body>

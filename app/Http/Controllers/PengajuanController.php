@@ -69,7 +69,7 @@ class PengajuanController extends Controller
                     $file_name = $item->getClientOriginalExtension();
                     $name = $request->nolmlj . '-M' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
-                    $item->move(public_path() . '/upload_media/masalah/' . $unit[0], $name);
+                    $item->move(public_path() . '/upload_media/masalah/' . strtolower($unit[0]), $name);
                     $media['file'] = $name;
                     $media['masalah_id'] = $masalah_id;
                     Media::create($media);

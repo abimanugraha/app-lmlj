@@ -13,10 +13,16 @@ class RekapController extends Controller
 {
     public function index()
     {
-        auth()->user()->unit->masalah = $this->getKotakMasuk();
-        $collection = Jawaban::where('penerima_id', auth()->user()->id)
-            ->where('keputusan', null)
-            ->get();
+        $penerima_id = $this->getPenerimaId();
+        $query = Jawaban::query();
+        foreach ($penerima_id as $id) {
+            $query->orWhere([['penerima_id', $id]]);
+        }
+        $query->where('keputusan', null);
+        $collection = $query->get();
+        // $collection = Jawaban::where('penerima_id', auth()->user()->id)
+        //     ->where('keputusan', null)
+        //     ->get();
         // dd($collection);
         // foreach ($collection as $item) {
         //     $masalah[] = $item->masalah;
@@ -37,7 +43,8 @@ class RekapController extends Controller
 
     public function rekap(Masalah $masalah, $_id)
     {
-        auth()->user()->unit->masalah = $this->getKotakMasuk();
+        $masalah->target = $this->getDefaultTarget($masalah->urgensi);
+        $masalah->color_urgensi = $this->getUrgensiColor($masalah->target);
         $data = [
             'title' => 'Rekap Progress LMLJ',
             'slug'  => 'rekap-progress-lmlj',
@@ -65,7 +72,7 @@ class RekapController extends Controller
                     $file_name = $item->getClientOriginalExtension();
                     $name = $request->nolmlj . '-J' . $request->jawaban_id . '-' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
-                    $item->move(public_path() . '/upload_media/jawaban/' . $unit[0], $name);
+                    $item->move(public_path() . '/upload_media/jawaban/' . strtolower($unit[0]), $name);
                     $media['jawaban_id'] = $request->jawaban_id;
                     $media['file'] = $name;
                     Media::create($media);

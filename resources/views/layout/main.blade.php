@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Aplikasi LMLJ | {{ $title }}</title>
-    <link rel="icon" href="{{ url('assets/img/logo-mak-text.png') }}">
+    <link rel="icon" href="{{ asset('assets/img/logo-mak-text.png') }}">
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -14,13 +14,15 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- Library CSS -->
-    <link rel="stylesheet" href="{{ url('node_modules/select2/dist/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ url('node_modules/chocolat/dist/css/chocolat.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/chocolat/dist/css/chocolat.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
 
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ url('assets/css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
 
 <body class="sidebar-mini">
@@ -74,9 +76,21 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @elseif ($item->forward_status == 5 && auth()->user()->role_id == 2 && auth()->user()->unit->id == $item->unit_forwad_id)
+                                    @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->forward_status == 5)
                                         <a href="#"
                                             onclick="konfirmasi({{ $item->forward_id . ',' . $item->id }})"
+                                            class="dropdown-item dropdown-item-unread">
+                                            <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
+                                                {{ $item->target }}
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                {{ $item->nolmlj }}
+                                                <div class="time text-dark">{{ $item->masalah }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->forward_status == 3)
+                                        <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}""
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -108,13 +122,13 @@
                     </li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ url('assets/img/avatar/avatar-1.png') }}"
+                            <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
                                 class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->nama }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-title">Unit {{ auth()->user()->unit->unit }}</div>
-                            <a href="#" class="dropdown-item has-icon">
+                            <a href="{{ url('setting') }}" class="dropdown-item has-icon">
                                 <i class="fas fa-cog"></i> Settings
                             </a>
                             <div class="dropdown-divider"></div>
@@ -161,6 +175,12 @@
                                 <span>Rekap Progress LMLJ</span>
                             </a>
                         </li>
+                        <li class="{{ $slug === 'setting' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('setting') }}">
+                                <i class="fas fa-user"></i>
+                                <span>Setting Profile</span>
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
@@ -203,16 +223,20 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="{{ url('assets/js/stisla.js') }}"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- Template JS File -->
-    <script src="{{ url('assets/js/scripts.js') }}"></script>
-    <script src="{{ url('assets/js/custom.js') }}"></script>
-    {{-- <script src="{{ url('assets/js/coco.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/coco.min.js') }}"></script> --}}
 
-    <!-- Template JS File -->
-    <script src="{{ url('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
-    <script src="{{ url('node_modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+    <!-- JS Libraies -->
+    <script src="{{ asset('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('node_modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
 
 
     <script>

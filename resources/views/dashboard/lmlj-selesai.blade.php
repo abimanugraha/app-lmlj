@@ -32,7 +32,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped" id="table-2">
+                                <table class="table table-striped" id="table-1">
                                     <thead>
                                         <tr>
                                             <th class="text-center">
@@ -43,16 +43,14 @@
                                             <th>Unit Pengaju</th>
                                             <th>Unit Tujuan</th>
                                             <th>Target</th>
+                                            <th>Realisasi</th>
                                             {{-- <th>Target Selesai</th> --}}
-                                            <th>Status</th>
+                                            {{-- <th>Status</th> --}}
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- {{ $lmlj_proses[0]->target }} --}}
-                                        {{-- {{ die() }} --}}
-                                        {{-- {{ dd($lmlj_proses[0]) }} --}}
-                                        @foreach ($lmlj_proses as $item)
+                                        @foreach ($lmlj_selesai as $item)
                                             <tr>
                                                 <td>
                                                     {{ $number++ }}
@@ -73,76 +71,16 @@
                                                         data-initial="{{ $item->target }}"></figure>
                                                 </td>
                                                 <td>
-                                                    <div class="badge badge-{{ $item->color_status }}">
-                                                        {{ $item->text_status }}</div>
+                                                    <figure
+                                                        class="avatar mr-2 avatar-sm bg-{{ $item->color_realisasi }} text-white"
+                                                        data-initial="{{ $item->created_at->diffInDays($item->updated_at) }}">
+                                                    </figure>
                                                 </td>
+
                                                 <td><a href="{{ url('detail/' . $item->nolmlj) }}"
                                                         class="btn btn-primary">Detail</a></td>
                                             </tr>
                                         @endforeach
-                                        {{-- <tr>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>2022-06-01</td>
-                                            <td class="align-middle">
-                                                <div class="badge badge-secondary text-dark">
-                                                    UNIT-LMLJ/06/22/001
-                                                </div>
-                                            </td>
-                                            <td>Unit Pengaju</td>
-                                            <td>Unit Tujuan</td>
-                                            <td>
-                                                <div class="urgensi rounded-circle bg-danger"></div>
-                                            </td>
-                                            <td>3 Hari</td>
-                                            <td>
-                                                <div class="badge badge-success">Completed</div>
-                                            </td>
-                                            <td><a href="{{ url('detail') }}" class="btn btn-primary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                2
-                                            </td>
-                                            <td>2022-06-01</td>
-                                            <td class="align-middle">
-                                                <div class="badge badge-secondary text-dark">
-                                                    UNIT-LMLJ/06/22/001
-                                                </div>
-                                            </td>
-                                            <td>Unit Pengaju</td>
-                                            <td>Unit Tujuan</td>
-                                            <td>
-                                                <div class="urgensi rounded-circle bg-warning"></div>
-                                            </td>
-                                            <td>7 Hari</td>
-                                            <td>
-                                                <div class="badge badge-warning">On Progress</div>
-                                            </td>
-                                            <td><a href="{{ url('detail') }}" class="btn btn-primary">Detail</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                3
-                                            </td>
-                                            <td>2022-06-01</td>
-                                            <td class="align-middle">
-                                                <div class="badge badge-secondary text-dark">
-                                                    UNIT-LMLJ/06/22/001
-                                                </div>
-                                            </td>
-                                            <td>Unit Pengaju</td>
-                                            <td>Unit Tujuan</td>
-                                            <td>
-                                                <div class="urgensi rounded-circle bg-success"></div>
-                                            </td>
-                                            <td>14 Hari</td>
-                                            <td>
-                                                <div class="badge badge-danger">Diteruskan</div>
-                                            </td>
-                                            <td><a href="{{ url('detail') }}" class="btn btn-primary">Detail</a></td>
-                                        </tr> --}}
 
                                     </tbody>
                                 </table>
