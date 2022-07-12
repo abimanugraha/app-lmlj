@@ -15,14 +15,8 @@ class PengajuanController extends Controller
 {
     public function index()
     {
-        // $kotak_masuk = $this->getKotakMasuk();
         $collection = Masalah::where('created_at', 'like', date('Y') . '%')
             ->get();
-        // auth()->user()->unit->masalah = app('App\Http\Controllers\DashboardController')->getKotakMasuk();
-        // auth()->user()->unit->masalah = $this->getKotakMasuk();
-        // auth()->user()->unit->masalah = $this->model->
-        // $collection = Masalah::all();
-        // dd(auth()->user()->unit->masalah);
         $data = [
             'title'     => 'Pengajuan LMLJ',
             'slug'      => 'pengajuan-lmlj',
@@ -34,19 +28,13 @@ class PengajuanController extends Controller
             'user'      => auth()->user(),
             'ygmengetahui' => auth()->user()->unit->user->where('role_id', 2)->first()
         ];
-        // dd(auth()->user()->unit);
-
-        // dd($data['ygmengetahui']);
-
-
-        // dd($data);
-        return view('lmlj.lembar-masalah', $data);
+        return view('lmlj.lembar-masalah-rev1', $data);
     }
 
     function store(Request $request)
     {
 
-        // dd($request->request);
+        dd($request->request);
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
             'produk_id' => 'required',

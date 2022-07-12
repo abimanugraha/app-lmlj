@@ -39,7 +39,7 @@ class LembarMasalahController extends Controller
         $validator = Validator::make($request->all(), [
             'nolmlj' => 'required',
             'namaproduk' => 'required',
-            'nomorproduk' => 'required',            
+            'nomorproduk' => 'required',
             'unittujuan' => 'required',
             'fotomasalah' => 'required',
             'detailmasalah' => 'required',
@@ -66,7 +66,7 @@ class LembarMasalahController extends Controller
             return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal ".$e->errorInfo,
+                'message' => "Gagal " . $e->errorInfo,
             ]);
         }
     }

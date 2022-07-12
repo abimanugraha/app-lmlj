@@ -48,11 +48,10 @@ class Masalah extends Model
     {
         return $this->hasMany(Forward::class, 'masalah_id');
     }
-
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function tujuan()
+    {
+        return $this->hasMany(Tujuan::class, 'masalah_id');
+    }
 
     public function diketahui()
     {
