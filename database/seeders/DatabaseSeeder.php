@@ -79,16 +79,6 @@ class DatabaseSeeder extends Seeder
             $user->save();
         }
 
-        // for ($i = 1; $i < 11; $i++) {
-        //     DB::table('users')->insert([
-        //         'nama' => penyebut($i) . ' CC',
-        //         'username' => penyebut($i) . 'cc',
-        //         'password' => Hash::make("12345"), // password
-        //         'role_id' => 2,
-        //         'unit_id' => $i,
-        //         'picture' => 'user.png'
-        //     ]);
-        // }
         for ($i = 1; $i < 11; $i++) {
             DB::table('units')->insert([
                 'unit' => penyebut($i),
@@ -96,12 +86,9 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // User::factory(10)->create();
-        // Unit::factory(10)->create();
         Produk::factory(10)->create();
         Komponen::factory(50)->create();
 
-        // Role::factory(3)->create();
         // Media::factory(200)->create();
         // DetailMasalah::factory(30)->create();
         // Masalah::factory(15)->create();

@@ -48,6 +48,10 @@ class Masalah extends Model
     {
         return $this->hasMany(Forward::class, 'masalah_id');
     }
+    public function tembusan()
+    {
+        return $this->hasMany(Tembusan::class, 'masalah_id');
+    }
     public function tujuan()
     {
         return $this->hasMany(Tujuan::class, 'masalah_id');
@@ -58,18 +62,8 @@ class Masalah extends Model
         return $this->belongsTo(User::class, 'ygmengetahui_id');
     }
 
-    public function getKotakMasuk()
+    public function lmlj()
     {
-        $data = [];
-        $masalah = auth()->user()->unit->masalah;
-        foreach ($masalah as $item) {
-            if ($item->jawaban->count() == 0) {
-                $item->color = $this->getUrgensiColor($item->urgensi);
-                $item->text_status = $this->getStatusText($item->status);
-                $item->target = $this->getDefaultTarget($item->urgensi);
-                $data[] = $item;
-            }
-        }
-        return $data;
+        return $this->belongsTo(Lmlj::class);
     }
 }

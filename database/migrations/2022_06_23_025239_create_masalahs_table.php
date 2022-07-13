@@ -16,6 +16,7 @@ class CreateMasalahsTable extends Migration
         Schema::create('masalahs', function (Blueprint $table) {
             $table->id();
             $table->string('nolmlj');
+            $table->foreignId('lmlj_id');
             $table->foreignId('produk_id');
             $table->foreignId('komponen_id')->nullable();
             $table->foreignId('unit_id'); // Unit Tujuan
