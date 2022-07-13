@@ -42,7 +42,7 @@ Route::post('/pengajuan-lmlj', [PengajuanController::class, 'store']);
 Route::get('/ajax/komponenbyprodukid/{produk_id}', [PengajuanController::class, 'getKomponenByProdukId']);
 Route::get('/ajax/produkbyid/{produk:id}', [PengajuanController::class, 'getProdukById']);
 Route::get('/ajax/komponenbyid/{komponen:id}', [PengajuanController::class, 'getKomponenById']);
-Route::get('/ajax/unittembusan/{unit_user}/{unit_id}', [PengajuanController::class, 'getUnitTembusan']);
+Route::get('/ajax/unittembusan/{unit_user}', [PengajuanController::class, 'getUnitTembusan']);
 // Route::get('/pengajuan-lmlj', function () {
 //     return view('LMLJ/lembar-masalah', [
 //         'title' => 'Pengajuan LMLJ',

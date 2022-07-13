@@ -51,7 +51,7 @@ class Controller extends BaseController
         $kode   = 'LMLJ';
         $year   = date('y');
         $month  = date('m');
-        $id = sprintf("%03d", ($collection->count() + 1));
+        $id = sprintf("%04d", ($collection->count() + 1));
         return $unit . "-" . $kode . "-" . $month . "-" . $year . "-" . $id;
     }
     public function getDefaultTarget($urgensi)

@@ -34,7 +34,7 @@ class PengajuanController extends Controller
     function store(Request $request)
     {
 
-        dd($request->request);
+        dd($request);
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
             'produk_id' => 'required',
@@ -90,9 +90,9 @@ class PengajuanController extends Controller
         $data = Komponen::where('produk_id', $produk_id)->get();
         return response()->json($data);
     }
-    public function getUnitTembusan($unit_user, $unit_id)
+    public function getUnitTembusan($unit_user, Request $request)
     {
-        $data = Unit::where('id', '!=', $unit_user)->where('id', '!=', $unit_id)->get();
+        $data = Unit::where('id', '!=', $unit_user)->whereNotIn('id', $request->unit_id)->get();
         return response()->json($data);
     }
     public function getProdukById(Produk $produk)

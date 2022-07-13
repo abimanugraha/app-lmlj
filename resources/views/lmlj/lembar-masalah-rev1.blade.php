@@ -58,9 +58,9 @@
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="input-nama-produk">Nama Produk</label>
-                                            <select class="form-control select2 @error('produk_id') is-invalid @enderror"
-                                                name="produk_id" onchange="showkomponen()" id="input-nama-produk">
-                                                <option value="" selected>Pilih Produk</option>
+                                            <select class="form-control select2" name="produk_id" onchange="showkomponen()"
+                                                id="input-nama-produk" required>
+                                                <option value="0" selected>Pilih Produk</option>
                                                 @foreach ($produk as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                                 @endforeach
@@ -89,16 +89,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="form-group float-right mt-3">
-                                        <button type="submit" class="btn btn-primary">Kirim</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row" id="button-kirim-lmlj">
+
                     </div>
 
                 </form>
@@ -107,5 +99,4 @@
         </section>
     </div>
 @endsection
-
 @include('script.script-lembar-masalah')
