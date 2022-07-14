@@ -15,7 +15,7 @@ class CreateTembusansTable extends Migration
     {
         Schema::create('tembusans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('masalah_id');
+            $table->foreignId('lmlj_id');
             $table->foreignId('unit_id');
             $table->tinyInteger('status');
             $table->timestamps();

@@ -15,21 +15,20 @@ class CreateMasalahsTable extends Migration
     {
         Schema::create('masalahs', function (Blueprint $table) {
             $table->id();
-            $table->string('nolmlj');
             $table->foreignId('lmlj_id');
-            $table->foreignId('produk_id');
+            $table->foreignId('unit_tujuan_id'); // Unit Tujuan
             $table->foreignId('komponen_id')->nullable();
-            $table->foreignId('unit_id'); // Unit Tujuan
-            // $table->foreignId('media_id');
-            // $table->foreignId('detail_id');
-            $table->text('masalah');
+            $table->text('masalah')->nullable();
             $table->text('nilai_tambah')->nullable();
-            $table->tinyInteger('urgensi');
-            $table->foreignId('pengaju_id');
-            $table->foreignId('ygmengetahui_id')->nullable();
-            $table->timestamp('tanggal_diterima');
+            $table->tinyInteger('urgensi')->nullable();
             $table->tinyInteger('status');
             $table->string('keterangan');
+            $table->string('nolmlj')->nullable();
+            $table->foreignId('produk_id')->nullable();
+            $table->foreignId('unit_id')->nullable(); // Unit Tujuan
+            $table->foreignId('pengaju_id')->nullable();
+            $table->foreignId('ygmengetahui_id')->nullable();
+            $table->timestamp('tanggal_diterima')->nullable();
             $table->timestamps();
         });
     }

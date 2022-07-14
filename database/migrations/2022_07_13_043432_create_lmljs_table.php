@@ -18,7 +18,7 @@ class CreateLmljsTable extends Migration
             $table->string('nolmlj');
             $table->foreignId('unit_pengaju_id');
             $table->foreignId('pengaju_id');
-            $table->foreignId('spv_pengaju_id');
+            $table->foreignId('spv_pengaju_id')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
         });

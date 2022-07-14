@@ -151,7 +151,7 @@ function getunittembusan() {
                                                     <label for="input-no-lmlj">Uraian Singkat </label>
                                                     <input type="text"
                                                         class="form-control"
-                                                        name="masalah[]" placeholder="Uraian singkat masalah" required>
+                                                        name="masalah[${item.id}]" placeholder="Uraian singkat masalah" required>
                                                 </div>
                                             </div>
                                             <div class="form-group d-flex flex-column" id="box-detail-masalah-${item.id}">
@@ -168,7 +168,7 @@ function getunittembusan() {
                                             <div class="form-group">
                                                 <label for="input-nilai-tambah">Nilai Tambah</label>
                                                 <input type="text" class="form-control" id="input-nilai-tambah-${item.id}"
-                                                    name="nilai_tambah[]" placeholder="Masukan nilai tambah">
+                                                    name="nilai_tambah[${item.id}]" placeholder="Masukan nilai tambah">
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-4">
@@ -196,7 +196,7 @@ function getunittembusan() {
                                                     <div class="custom-file">
                                                         <input type="file"
                                                             class="custom-file-input"
-                                                            name="media[${item.id}][]" id="customFile-${item.id}" multiple onchange="validasiEkstensi(${item.id})">
+                                                            name="media_${item.id}[]" id="customFile-${item.id}" multiple onchange="validasiEkstensi(${item.id})">
                                                         <label class="custom-file-label" id="label-${item.id}" for="customFile-${item.id}">Choose
                                                             file</label>
                                                         <div class="invalid-feedback mt-2">

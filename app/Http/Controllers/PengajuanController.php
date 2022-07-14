@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\DetailMasalah;
 use App\Models\Forward;
 use App\Models\Komponen;
+use App\Models\Lmlj;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
 use App\Models\Produk;
 use App\Models\Unit;
 use App\Models\Media;
+use App\Models\Tembusan;
 
 class PengajuanController extends Controller
 {
     public function index()
     {
-        $collection = Masalah::where('created_at', 'like', date('Y') . '%')
+        $collection = Lmlj::where('created_at', 'like', date('Y') . '%')
             ->get();
         $data = [
             'title'     => 'Pengajuan LMLJ',
@@ -33,56 +35,82 @@ class PengajuanController extends Controller
 
     function store(Request $request)
     {
-
-        dd($request);
-        $validated = $this->validate($request, [
-            'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
-            'produk_id' => 'required',
-            'masalah' => 'required',
-            'unit_id' => 'required',
-
-        ]);
-
-        if ($validated) {
-            $masalah_id = Masalah::first();
-            if ($masalah_id) {
-                $masalah_id = Masalah::orderBy('id', 'DESC')->first()->id + 1;
-            } else {
-                $masalah_id = 1;
+        // dd($request->request);
+        $status = 0;
+        $spv_pengaju_id = null;
+        $pesan = 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!';
+        if (auth()->user()->role_id == 2) {
+            $spv_pengaju_id = auth()->user()->id;
+            $status = 1;
+            $pesan = 'Lembar masalah berhasil dikirim! Menunggu respon unit tujuan!';
+        }
+        $unit_pengaju_id = auth()->user()->unit->id;
+        $pengaju_id = auth()->user()->id;
+        $data_lmlj = [
+            'nolmlj' => $request->nolmlj,
+            'unit_pengaju_id' => $unit_pengaju_id,
+            'pengaju_id' => $pengaju_id,
+            'spv_pengaju_id' => $spv_pengaju_id,
+            'status' => $status,
+            'produk_id' => $request->produk_id
+        ];
+        Lmlj::create($data_lmlj);
+        $lmlj_id = Lmlj::orderBy('id', 'DESC')->first()->id;
+        $masalah_id = Masalah::first();
+        if ($masalah_id) {
+            $masalah_id = Masalah::orderBy('id', 'DESC')->first()->id + 1;
+        } else {
+            $masalah_id = 1;
+        }
+        foreach ($request->unit_tujuan_id as $item) {
+            $data_masalah = [
+                'lmlj_id' => $lmlj_id,
+                'komponen_id' => $request->komponen_id[$item],
+                'masalah' => $request->masalah[$item],
+                'nilai_tambah' => $request->nilai_tambah[$item],
+                'urgensi' => $request->urgensi[$item],
+                'unit_tujuan_id' => $item,
+                'status' => $status,
+                'keterangan' => $this->getStatusText($status)
+            ];
+            Masalah::create($data_masalah);
+            foreach ($request->detail[$item] as $detail) {
+                $data_detail = [
+                    'masalah_id' => $masalah_id,
+                    'detail' => $detail
+                ];
+                DetailMasalah::create($data_detail);
             }
-            if ($request->hasFile('media')) {
+            if ($request->hasFile('media_' . $item)) {
                 $index = 1;
-                foreach ($request->file('media') as $item) {
+                foreach ($request->file('media_' . $item) as $item) {
                     $id = sprintf("%02d", $index++);
                     $file_name = $item->getClientOriginalExtension();
-                    $name = $request->nolmlj . '-M' . $id . '.' . $file_name;
+                    $name = $request->nolmlj . '-M' . $masalah_id . '-' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
                     $item->move(public_path() . '/upload_media/masalah/' . strtolower($unit[0]), $name);
-                    $media['file'] = $name;
-                    $media['masalah_id'] = $masalah_id;
-                    Media::create($media);
+                    $data_media = [
+                        'masalah_id' => $masalah_id,
+                        'file' => $name,
+                    ];
+                    Media::create($data_media);
                 }
             }
-            foreach ($request->detail as $item) {
-                if ($item) {
-                    $detail['masalah_id'] = $masalah_id;
-                    $detail['detail'] = $item;
-                    DetailMasalah::create($detail);
-                }
-            }
-            if ($request->forward) {
-                foreach ($request->forward as $item) {
-                    if ($item) {
-                        $forward['masalah_id'] = $masalah_id;
-                        $forward['unit_id'] = $item;
-                        $forward['status'] = 5;
-                        Forward::create($forward);
-                    }
-                }
-            }
-            Masalah::create($request->all());
+            $masalah_id++;
         }
-        return redirect(url('/dashboard'))->with('status', 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!');
+        if ($request->tembusan) {
+            foreach ($request->tembusan as $item) {
+                if ($item) {
+                    $data_tembusan = [
+                        'lmlj_id' => $lmlj_id,
+                        'unit_id' => $item,
+                        'status' => 0,
+                    ];
+                    Tembusan::create($data_tembusan);
+                }
+            }
+        }
+        return redirect(url('/dashboard'))->with('status', $pesan);
     }
 
     public function getKomponenByProdukId($produk_id)

@@ -37,9 +37,8 @@
                                         <input type="text" name="nolmlj" value={{ $nolmlj }} hidden>
                                         <div class="form-group col-3">
                                             <label for="input-unit-tujuan">Unit Tujuan</label>
-                                            <select class="form-control select2 @error('unit_id') is-invalid @enderror"
-                                                name="unit_id[]" onchange="getunittembusan()" id="input-unit-tujuan"
-                                                multiple>
+                                            <select class="form-control select2" name="unit_tujuan_id[]"
+                                                onchange="getunittembusan()" id="input-unit-tujuan" multiple>
                                                 @foreach ($unit as $item)
                                                     <option value="{{ $item->id }}">{{ $item->unit }}</option>
                                                 @endforeach
@@ -52,7 +51,7 @@
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="input-unit-pengaju">Tembusan</label>
-                                            <select name="forward[]" class="form-control select2" multiple=""
+                                            <select name="tembusan[]" class="form-control select2" multiple=""
                                                 id="input-tembusan" disabled>
                                             </select>
                                         </div>
