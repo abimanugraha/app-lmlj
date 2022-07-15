@@ -16,7 +16,7 @@ class CreateDetailMasalahsTable extends Migration
         Schema::create('detail_masalahs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('masalah_id')->nullable();
-            $table->string('detail');
+            $table->string('detail')->nullable();
             $table->timestamps();
         });
     }

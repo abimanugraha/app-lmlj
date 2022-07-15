@@ -53,8 +53,8 @@ Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middlew
 Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
 Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
 Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasimasalah']);
-Route::get('/ajax/konfirmasitembusan/{forward:id}', [KotakMasukController::class, 'konfirmasitembusan']);
-Route::get('/konfirmasi', [KotakMasukController::class, 'redirect']);
+Route::get('/ajax/konfirmasitembusan/{tembusan:id}', [KotakMasukController::class, 'konfirmasitembusan']);
+Route::get('/ajax/konfirmasi-done/{nolmlj}', [KotakMasukController::class, 'redirect']);
 // Route::get('/kotak-masuk-lmlj', function () {
 //     return view('LMLJ/kotak-masuk', [
 //         'title' => 'Kotak Masuk LMLJ',

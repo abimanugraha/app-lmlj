@@ -14,6 +14,10 @@ class Tembusan extends Model
     {
         return $this->belongsTo(Masalah::class);
     }
+    public function lmlj()
+    {
+        return $this->belongsTo(Lmlj::class);
+    }
     public function unit()
     {
         return $this->belongsTo(Unit::class, 'unit_id');

@@ -69,9 +69,8 @@
                                                         <td class="align-middle">{{ $item->pengaju->unit->unit }}</td>
                                                         <td class="align-middle">
                                                             @if ($item->status == 0 && auth()->user()->role_id == 2)
-                                                                <a href="#"
-                                                                    onclick="konfirmasimasalah({{ $item->id }})"
-                                                                    class="btn btn-success">Konfirmasi
+                                                                <a href="{{ url('detail/' . $item->nolmlj) }}"
+                                                                    class="btn btn-primary">Konfirmasi
                                                                 </a>
                                                             @else
                                                                 <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
@@ -145,14 +144,3 @@
         </section>
     </div>
 @endsection
-<script>
-    function konfirmasimasalah(id) {
-        $.ajax({
-            url: `{{ url('ajax/konfirmasi') }}` + `/` + id,
-            success: function(res) {
-                // console.log(res);
-                window.location.href = `{{ url('konfirmasi') }}`;
-            }
-        });
-    }
-</script>

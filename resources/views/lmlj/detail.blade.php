@@ -106,12 +106,12 @@
                 {{-- Status Progress LMLJ --}}
                 <div class="col-12 col-md-6 col-lg-6">
                     <h2 class="section-title">Status LMLJ</h2>
-                    @if ($masalah->ygmengetahui_id)
+                    @if ($masalah->lmlj->spv_pengaju_id)
                         @if ($jawaban->count() > 0)
                             <div class="row">
                                 <div class="col text-center">
                                     <ul class="progressbar">
-                                        <li class="active">{{ $masalah->pengaju->unit->unit }}</li>
+                                        <li class="active">{{ $masalah->lmlj->pengaju->unit->unit }}</li>
                                         @foreach ($jawaban as $item)
                                             <li class="active">{{ $item->penerima->unit->unit }}</li>
                                         @endforeach
@@ -264,7 +264,7 @@
                                                                 @foreach ($item->media as $media)
                                                                     <div style="border: 2px solid #cdd3d8;"
                                                                         class="gallery-item"
-                                                                        data-image="{{ asset('upload_media/jawaban/' . $masalah->pengaju->unit->unit . '/' . $media->file) }}"
+                                                                        data-image="{{ asset('upload_media/jawaban/' . $masalah->lmlj->pengaju->unit->unit . '/' . $media->file) }}"
                                                                         data-title="Image 1"></div>
                                                                 @endforeach
                                                             </div>

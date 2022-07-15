@@ -3,54 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Forward;
+use App\Models\Lmlj;
 use App\Models\Masalah;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
+    public $user;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            // $this->user = User::with(['unit'])->find(auth()->user()->id);
+            $this->user = auth()->user();
+            return $next($request);
+        });
+    }
+    public function getCollectionMasalah()
+    {
+        $query = Masalah::query();
+        $query->with(['pengaju', 'diketahui', 'unit', 'jawaban', 'user']);
+        $query->leftJoin('lmljs', 'masalahs.lmlj_id', '=', 'lmljs.id');
+        $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
+        $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
+        $query->where('masalahs.created_at', '>', Carbon::now()->subDays(30));
+        $query->where('lmljs.unit_pengaju_id', $this->user->unit->id);
+        $query->orwhere([['masalahs.unit_tujuan_id', $this->user->unit->id], ['masalahs.status', '>', 0]]);
+        $query->orwhere('forwards.unit_id', $this->user->unit->id);
+        if ($this->user->role_id == 2) {
+            $query->orwhere('tembusans.unit_id', $this->user->unit->id);
+        }
+        $list_get = [
+            'masalahs.*',
+            'lmljs.id AS lmlj_id',
+            'lmljs.produk_id',
+            'lmljs.pengaju_id',
+            'lmljs.spv_pengaju_id',
+            'lmljs.unit_pengaju_id',
+            'tembusans.unit_id'
+
+        ];
+        return $query->get($list_get)->unique('id');
+    }
     public function index()
     {
-        $pengaju_id = $this->getPengajuId();
-        $query = Masalah::query();
-        $query->with(['pengaju', 'diketahui', 'unit', 'jawaban']);
-        $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
-        $query->where('masalahs.unit_id', auth()->user()->unit->id);
-        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 3]]);
-        if (auth()->user()->role_id == 2) {
-            $query->orWhere([['masalahs.status', '>', 0], ['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', '>=', 5]]);
-        }
-        foreach ($pengaju_id as $id) {
-            $query->orWhere([['masalahs.pengaju_id', $id]]);
-        }
-        $collection = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forward_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
-        // $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
-        //     ->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
-        //     ->where('masalahs.unit_id', auth()->user()->unit->id)
-        //     ->orWhere('masalahs.pengaju_id', $pengaju_id)
-        //     ->orWhere('forwards.unit_id', auth()->user()->unit->id)
-        //     ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id']);
 
-        foreach ($collection as $item) {
-            if ($item->forward_status == null) {
-                $item->forward_status = 3;
-            }
-            // echo $item->nolmlj . '-------->' . $item->unit->unit;
-            // echo "<br>";
-            // echo $item->forward_status;
-            // echo "<br>";
-            // echo "<br>";
-        }
-        // dd($collection);
+        $data_masalah = $this->getCollectionMasalah();
+        $data_lmlj = $data_masalah->unique('lmlj_id');
+
+        // dd($data_lmlj);
         $data = [
             'title' => 'Dashboard',
             'slug'  => 'dashboard',
             'number'  => 1,
-            'selesai' => $this->getCount($collection, "selesai"),
-            'proses' => $this->getCount($collection, "proses"),
-            'total' => $this->getCount($collection, "total"),
-            'lmlj_proses' => $this->getDataMasalah($collection, "proses"),
+            'selesai' => $this->getCount($data_lmlj, "selesai"),
+            'proses' => $this->getCount($data_lmlj, "proses"),
+            'total' => $this->getCount($data_lmlj, "total"),
+            'lmlj_proses' => $this->getDataMasalah($data_masalah, "proses"),
             'kotak_masuk' => $this->getKotakMasuk()
         ];
 
@@ -67,6 +79,8 @@ class DashboardController extends Controller
             $item->color_status = $this->getStatusColor($item->status);
         }
 
+        // dd($data['kotak_masuk']);
+
         return view('dashboard.index', $data);
     }
 
@@ -74,8 +88,12 @@ class DashboardController extends Controller
     {
 
         // auth()->user()->unit->masalah = $this->getKotakMasuk();
+        $query = Masalah::query();
+        $query->with(['lmlj', 'unit', 'jawaban', 'user']);
+        $masalah = $query->find($masalah->id);
 
-        // dd($masalah->forward);
+        // dd($masalah);
+        // dd($masalah->lmlj->tembusan);
         $pembagi = 1;
         if ($masalah->jawaban->count() > 0) {
             if ($masalah->jawaban->first()->status == 3) {
@@ -103,7 +121,7 @@ class DashboardController extends Controller
             $item->text_status = $this->getStatusText($item->status);
             $item->color_status = $this->getStatusColor($item->status);
         }
-        // dd($masalah->jawaban->count());
+        // dd($masalah->detailmasalah);
 
 
         return view('lmlj.detail', $data);
@@ -111,19 +129,7 @@ class DashboardController extends Controller
 
     public function selesai()
     {
-        $pengaju_id = $this->getPengajuId();
-        $query = Masalah::query();
-        $query->with(['pengaju', 'diketahui', 'unit', 'jawaban']);
-        $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
-        $query->where('masalahs.unit_id', auth()->user()->unit->id);
-        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 3]]);
-        if (auth()->user()->role_id == 2) {
-            $query->orWhere([['masalahs.status', '>', 0], ['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', '>=', 5]]);
-        }
-        foreach ($pengaju_id as $id) {
-            $query->orWhere([['masalahs.pengaju_id', $id]]);
-        }
-        $collection = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forward_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
+        $collection = $this->getCollectionMasalah();
         $data = [
             'title' => 'LMLJ Selesai',
             'slug'  => 'dashboard',

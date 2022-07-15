@@ -7,33 +7,42 @@ use App\Models\Forward;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
 use App\Models\Jawaban;
+use App\Models\Lmlj;
 use App\Models\Unit;
+use App\Models\Tembusan;
 
 class KotakMasukController extends Controller
 {
     public function index()
     {
-        $pengaju_id = $this->getPengajuId();
-
         $query = Masalah::query();
-        $query->with(['pengaju', 'diketahui', 'unit', 'jawaban']);
+        $query->join('lmljs', 'masalahs.lmlj_id', '=', 'lmljs.id');
         $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
-        $query->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]]);
-        foreach ($pengaju_id as $id) {
-            $query->orWhere([['masalahs.pengaju_id', $id], ['masalahs.status', 0]]);
+        $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
+
+        // Pengkondisian
+        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', 1], ['masalahs.status', '<', 4]]);
+        $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 0]]);
+        if (auth()->user()->role_id == 2) {
+            $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', 0]]);
+            $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['tembusans.status', 0]]);
         }
-        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]]);
-        $collection = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
 
-        // $collection = Masalah::with(['pengaju', 'diketahui', 'unit', 'jawaban'])
-        //     ->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id')
-        //     ->where([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]])
-        //     ->orwhere([['masalahs.pengaju_id', $pengaju_id], ['masalahs.status', 0]])
-        //     ->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', 3]])
-        //     ->get(['masalahs.*', 'forwards.unit_id AS unit_forwad_id']);
+        $list_get = [
+            'masalahs.*',
+            'lmljs.id AS lmlj_id',
+            'lmljs.produk_id',
+            'lmljs.pengaju_id',
+            'lmljs.spv_pengaju_id',
+            'lmljs.unit_pengaju_id',
+            'tembusans.unit_id AS unit_tembusan_id',
+            'tembusans.status AS status_tembusan',
+            'forwards.unit_id AS unit_forward_id',
+            'forwards.status AS status_forward'
+        ];
 
-        // dd($collection);
-        // $kotak_masuk = $this->getKotakMasuk();
+
+        $collection = $query->get($list_get)->unique('id');
         $data = [
             'title' => 'Kotak Masuk LMLJ',
             'slug'  => 'kotak-masuk-lmlj',
@@ -61,7 +70,7 @@ class KotakMasukController extends Controller
             'detail_masalah' => $masalah->detailmasalah,
             'jawaban' => $masalah->jawaban,
             'number' =>  1,
-            'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->where('id', '!=', $masalah->pengaju->unit->id)->get()
+            'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->where('id', '!=', $masalah->lmlj->pengaju->unit->id)->get()
         ];
 
 
@@ -117,21 +126,25 @@ class KotakMasukController extends Controller
 
     public function konfirmasimasalah(Masalah $masalah)
     {
+        $lmlj = Lmlj::find($masalah->lmlj->id);
+        $lmlj->spv_pengaju_id = auth()->user()->id;
+        $lmlj->status = 1;
+        $lmlj->save();
         $masalah->status = 1;
-        $masalah->ygmengetahui_id = auth()->user()->id;
         $masalah->keterangan = "Terkirim";
         $masalah->save();
+        return $masalah->nolmlj;
         // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
         // $masalah->status = 1;
     }
-    public function redirect()
+    public function redirect($nolmlj)
     {
-        return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
+        return redirect(url('detail/' . $nolmlj))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
     }
-    public function konfirmasitembusan(Forward $forward)
+    public function konfirmasitembusan(Tembusan $tembusan)
     {
-        $forward->status = 6;
-        $forward->save();
+        $tembusan->status = 1;
+        $tembusan->save();
         // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
         // $masalah->status = 1;
     }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lmlj;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Masalah;
 use App\Models\User;
+use Carbon\Carbon;
 
 class Controller extends BaseController
 {
@@ -102,19 +104,35 @@ class Controller extends BaseController
     }
     public function getKotakMasuk()
     {
-        $pengaju_id = $this->getPengajuId();
         $query = Masalah::query();
+        $query->join('lmljs', 'masalahs.lmlj_id', '=', 'lmljs.id');
         $query->leftJoin('forwards', 'masalahs.id', '=', 'forwards.masalah_id');
-        $query->join('users', 'masalahs.pengaju_id', '=', 'users.id');
-        $query->orwhere([['masalahs.unit_id', auth()->user()->unit->id], ['masalahs.status', 1]]);
-        $query->orWhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 3], ['masalahs.status', 3]]);
+        $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
+
+        // Pengkondisian
+        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '>', 0], ['masalahs.status', '<', 4]]);
+        $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 0]]);
         if (auth()->user()->role_id == 2) {
-            $query->orWhere([['masalahs.status', '>', 0], ['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 5]]);
-            foreach ($pengaju_id as $id) {
-                $query->orWhere([['masalahs.status', 0], ['masalahs.pengaju_id', $id]]);
-            }
+            $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', 0]]);
+            $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['tembusans.status', 0]]);
         }
-        $result = $query->get(['masalahs.*', 'forwards.unit_id AS unit_forward_id', 'forwards.status AS forward_status', 'forwards.id AS forward_id'])->unique('id');
+
+        $list_get = [
+            'masalahs.*',
+            'lmljs.id AS lmlj_id',
+            'lmljs.produk_id',
+            'lmljs.pengaju_id',
+            'lmljs.spv_pengaju_id',
+            'lmljs.unit_pengaju_id',
+            'tembusans.id AS tembusan_id',
+            'tembusans.unit_id AS unit_tembusan_id',
+            'tembusans.status AS status_tembusan',
+            'forwards.unit_id AS unit_forward_id',
+            'forwards.status AS status_forward'
+        ];
+
+
+        $result = $query->get($list_get)->unique('id');
         foreach ($result as $item) {
             $item->target = $this->getDefaultTarget($item->urgensi);
             $item->color = $this->getUrgensiColor($item->target);
@@ -128,65 +146,35 @@ class Controller extends BaseController
     {
         return $collection->sum('target');
     }
+
+
     public function getCount($collection, $type)
     {
-        if (auth()->user()->role_id == 2) {
-            if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-                return $filtered->count();
-            } elseif ($type == "proses") {
-                $month2 = (int)date('m') - 1;
-                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
-                return $filtered->count();
-            } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
-                return $filtered->count();
-            }
-        } else {
-            if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-                return $filtered->count();
-            } elseif ($type == "proses") {
-                $month2 = (int)date('m') - 1;
-                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
-                return $filtered->count();
-            } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
-                return $filtered->count();
-            }
+        if ($type == "selesai") {
+            $filtered = $collection->where('status', 4);
+            return $filtered->count();
+        } elseif ($type == "proses") {
+            $month2 = (int)date('m') - 1;
+            $filtered = $collection->where('status', '>=', 0)->where('status', '<', 4);
+            return $filtered->count();
+        } elseif ($type == "total") {
+            $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
+            return $filtered->count();
         }
     }
     public function getDataMasalah($collection, $type)
     {
         // dd($collection);
-        if (auth()->user()->role_id == 2) {
-            if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-                return $filtered;
-            } elseif ($type == "proses") {
-                $month2 = (int)date('m') - 1;
-                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
-                return $filtered;
-            } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '!=', 0);
-                return $filtered;
-            }
-        } else {
-            if ($type == "selesai") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', 4);
-                return $filtered;
-            } elseif ($type == "proses") {
-                $month2 = (int)date('m') - 1;
-                $last_month = str_replace(date('m'), "0" . $month2, date('m'));
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . $last_month . "-00", date('Y') . "-" . date('m') . "-32"])->where('status', '>=', 0)->where('status', '<', 4);
-                return $filtered;
-            } elseif ($type == "total") {
-                $filtered = $collection->whereBetween('created_at', [date('Y') . "-" . date('m') . "-00", date('Y') . "-" . date('m') . "-32"]);
-                return $filtered;
-            }
+        if ($type == "selesai") {
+            $filtered = $collection->where('status', 4);
+            return $filtered;
+        } elseif ($type == "proses") {
+            $month2 = (int)date('m') - 1;
+            $filtered = $collection->where('status', '>=', 0)->where('status', '<', 4);
+            return $filtered;
+        } elseif ($type == "total") {
+            $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
+            return $filtered;
         }
     }
 }

@@ -36,6 +36,7 @@ class PengajuanController extends Controller
     function store(Request $request)
     {
         // dd($request->request);
+        // dd($request->nolmlj);
         $status = 0;
         $spv_pengaju_id = null;
         $pesan = 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!';
@@ -62,9 +63,20 @@ class PengajuanController extends Controller
         } else {
             $masalah_id = 1;
         }
+        $alphabet = range('A', 'Z');
+        // dd($request->unit_tujuan_id);
+        if (count($request->unit_tujuan_id) > 1) {
+            for ($i = 0; $i < count($request->unit_tujuan_id); $i++) {
+                $nolmlj[$request->unit_tujuan_id[$i]] = $request->nolmlj . '-' . $alphabet[$i];
+            }
+        } else {
+            $nolmlj[$request->unit_tujuan_id[0]] = $request->nolmlj;
+        }
+        // dd($nolmlj);
         foreach ($request->unit_tujuan_id as $item) {
             $data_masalah = [
                 'lmlj_id' => $lmlj_id,
+                'nolmlj' => $nolmlj[$item],
                 'komponen_id' => $request->komponen_id[$item],
                 'masalah' => $request->masalah[$item],
                 'nilai_tambah' => $request->nilai_tambah[$item],

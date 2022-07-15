@@ -37,7 +37,12 @@ class Masalah extends Model
 
     public function unit()
     {
-        return $this->belongsTo(Unit::class);
+        return $this->belongsTo(Unit::class, 'unit_tujuan_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function pengaju()
@@ -48,10 +53,10 @@ class Masalah extends Model
     {
         return $this->hasMany(Forward::class, 'masalah_id');
     }
-    public function tembusan()
-    {
-        return $this->hasMany(Tembusan::class, 'masalah_id');
-    }
+    // public function tembusan()
+    // {
+    //     return $this->hasMany(Tembusan::class, 'masalah_id');
+    // }
     public function tujuan()
     {
         return $this->hasMany(Tujuan::class, 'masalah_id');

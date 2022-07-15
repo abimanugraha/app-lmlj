@@ -16,6 +16,7 @@ class CreateLmljsTable extends Migration
         Schema::create('lmljs', function (Blueprint $table) {
             $table->id();
             $table->string('nolmlj');
+            $table->foreignId('produk_id');
             $table->foreignId('unit_pengaju_id');
             $table->foreignId('pengaju_id');
             $table->foreignId('spv_pengaju_id')->nullable();

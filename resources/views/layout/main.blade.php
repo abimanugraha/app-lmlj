@@ -53,7 +53,7 @@
                             <div class="dropdown-list-content dropdown-list-icons" id="listkotakmasuk">
                                 @foreach ($kotak_masuk as $item)
                                     @if ($item->status == 0)
-                                        <a href="{{ url('kotak-masuk-lmlj') }}"
+                                        <a href="{{ url('detail/' . $item->nolmlj) }}"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @elseif ($item->status == 1 && $item->unit_id == auth()->user()->unit->id)
+                                    @elseif ($item->status == 1)
                                         <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
@@ -76,9 +76,9 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->forward_status == 5)
+                                    @elseif($item->status_tembusan == 0 && $item->unit_tembusan_id == auth()->user()->unit->id)
                                         <a href="#"
-                                            onclick="konfirmasi({{ $item->forward_id . ',' . $item->id }})"
+                                            onclick="konfirmasi({{ $item->tembusan_id . ',' . $item->id }})"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -90,7 +90,7 @@
                                             </div>
                                         </a>
                                     @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->forward_status == 3)
-                                        <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}""
+                                        <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -103,16 +103,6 @@
                                         </a>
                                     @endif
                                 @endforeach
-
-                                {{-- <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-icon bg-primary text-white">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Template update is available now!
-                                        <div class="time text-primary">2 Min Ago</div>
-                                    </div>
-                                </a> --}}
                             </div>
                             <div class="dropdown-footer text-center">
                                 <a href="{{ url('kotak-masuk-lmlj') }}">View All <i
@@ -185,10 +175,10 @@
                 </aside>
             </div>
             <script>
-                function konfirmasi(forward_id, masalah_id) {
-                    // console.log(lmlj);
+                function konfirmasi(tembusan_id, masalah_id) {
+                    // console.log(tembusan_id);
                     $.ajax({
-                        url: `{{ url('ajax/konfirmasitembusan') }}` + `/` + forward_id,
+                        url: `{{ url('ajax/konfirmasitembusan') }}` + `/` + tembusan_id,
                         success: function(res) {
                             // console.log(res);
                             window.location.href = `{{ url('detail-ajax') }}` + `/` + masalah_id;

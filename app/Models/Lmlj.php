@@ -14,4 +14,24 @@ class Lmlj extends Model
     {
         return $this->hasMany(Masalah::class);
     }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class);
+    }
+
+    public function pengaju()
+    {
+        return $this->belongsTo(User::class, 'pengaju_id');
+    }
+
+    public function diketahui()
+    {
+        return $this->belongsTo(User::class, 'spv_pengaju_id');
+    }
+
+    public function tembusan()
+    {
+        return $this->hasMany(Tembusan::class);
+    }
 }

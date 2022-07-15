@@ -30,12 +30,12 @@
                 <div class="col">
                     <div class="row mb-1">
                         <div class="col mb-0">
-                            Nama produk <b class="text-dark">{{ $masalah->produk->nama }}</b>
+                            Nama produk <b class="text-dark">{{ $masalah->lmlj->produk->nama }}</b>
                         </div>
                     </div>
                     <div class="row mb-1">
                         <div class="col">
-                            Nomor produk <b class="text-dark">{{ $masalah->produk->nomor }}</b>
+                            Nomor produk <b class="text-dark">{{ $masalah->lmlj->produk->nomor }}</b>
                         </div>
                     </div>
                     <div class="row mb-1">
@@ -83,13 +83,8 @@
                     <div class="col">
                         <div class="gallery gallery-md">
                             @foreach ($masalah->media as $item)
-                                {{-- <video width="100" height="78" controls>
-                                <source
-                                    src="{{ asset('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
-                                    type="video/mp4">
-                            </video> --}}
                                 <div style="border: 2px solid #cdd3d8;" class="gallery-item"
-                                    data-image="{{ asset('upload_media/masalah/' . $masalah->pengaju->unit->unit . '/' . $item->file) }}"
+                                    data-image="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
                                     data-title="{{ $item->file }}"></div>
                             @endforeach
                             {{-- <div class="gallery-item" data-image="{{ asset('assets/img/news/img02.jpg') }}"
@@ -106,68 +101,77 @@
                     </div>
                 </div>
             @endif
-            <div class="row mb-1">
-                <div class="col">
-                    Detail Masalah
+            @if ($detail_masalah)
+                <div class="row mb-1">
+                    <div class="col">
+                        Detail Masalah
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col">
-                    {{-- {{ dd($detail_masalah) }} --}}
-                    @foreach ($detail_masalah as $item)
-                        <p class="text-dark">{{ $number++ }}. {{ $item->detail }}
+                <div class="row mb-1">
+                    <div class="col">
+                        @foreach ($detail_masalah as $item)
+                            <p class="text-dark">{{ $number++ }}. {{ $item->detail }}
+                            </p>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            @if ($masalah->nilai_tambah)
+                <div class="row mb-1">
+                    <div class="col">
+                        Nilai Tambah
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col">
+                        <p class="text-dark"><i class="fas fa-caret-right"></i>
+                            {{ $masalah->nilai_tambah }}
                         </p>
-                    @endforeach
-                    {{-- <p class="text-dark">2. Lorem ipsum dolor sit, amet consectetur adipisicing elit. A
-                                        minus est dolorem cupiditate consectetur excepturi nemo magnam quae corrupti ullam?
-                                    </p> --}}
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col">
-                    Nilai Tambah
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col">
-                    <p class="text-dark"><i class="fas fa-caret-right"></i>
-                        {{ $masalah->nilai_tambah }}
-                    </p>
-                </div>
-            </div>
-            @if ($masalah->forward->count() > 0)
+            @endif
+            @if ($masalah->lmlj->tembusan->count() > 0)
                 <div class="row mb-1">
                     <div class="col">
                         List CC
                     </div>
                 </div>
-                @foreach ($masalah->forward as $item)
-                    @if ($item->status > 4)
-                        <div class="row mb-1">
-                            <div class="col">
-                                <p class="text-dark"><i class="fas fa-caret-right"></i>
-                                    {{ $item->unit->unit }}
-                                </p>
-                            </div>
+                @foreach ($masalah->lmlj->tembusan as $item)
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="text-dark"><i class="fas fa-caret-right"></i>
+                                {{ $item->unit->unit }}
+                            </p>
                         </div>
-                    @endif
+                    </div>
                 @endforeach
             @endif
             <div class="row mb-1 mt-3">
                 <div class="col text-center">
-                    @if ($masalah->ygmengetahui_id)
+                    @if ($masalah->status >= 1)
                         <div class="row mb-2">
                             <div class="col">Diketahui</div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <figure class="avatar mr-2 avatar-lg bg-light text-dark"
-                                    data-initial="{{ substr($masalah->diketahui->nama, 0, 1) }}">
+                                    data-initial="{{ substr($masalah->lmlj->diketahui->nama, 0, 1) }}">
                                 </figure>
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col text-dark">{{ $masalah->diketahui->nama }}</div>
+                            <div class="col text-dark">{{ $masalah->lmlj->diketahui->nama }}</div>
+                        </div>
+                    @elseif(auth()->user()->role_id == 2 && $masalah->status == 0)
+                        <div class="row mb-2">
+                            <div class="col">Diketahui</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" onclick="konfirmasimasalah({{ $masalah->id }})"
+                                    class="btn btn-success">Konfirmasi
+                                </a>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -178,14 +182,25 @@
                     <div class="row">
                         <div class="col">
                             <figure class="avatar mr-2 avatar-lg bg-light text-dark"
-                                data-initial="{{ substr($masalah->pengaju->nama, 0, 1) }}"></figure>
+                                data-initial="{{ substr($masalah->lmlj->pengaju->nama, 0, 1) }}"></figure>
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col text-dark">{{ $masalah->pengaju->nama }}</div>
+                        <div class="col text-dark">{{ $masalah->lmlj->pengaju->nama }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function konfirmasimasalah(id) {
+        $.ajax({
+            url: `{{ url('ajax/konfirmasi') }}` + `/` + id,
+            success: function(res) {
+                console.log(res);
+                window.location.href = `{{ url('ajax/konfirmasi-done') }}` + `/` + res;
+            }
+        });
+    }
+</script>

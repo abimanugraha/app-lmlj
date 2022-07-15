@@ -45,14 +45,15 @@
                                                     @if ($item->masalah->media->count() > 0)
                                                         <div class="gallery gallery-sm">
                                                             <div style="border: 2px solid #cdd3d8;" class="gallery-item"
-                                                                data-image="{{ asset('upload_media/masalah/' . $item->masalah->pengaju->unit->unit . '/' . $item->masalah->media[0]->file) }}"
+                                                                data-image="{{ asset('upload_media/masalah/' . $item->masalah->lmlj->pengaju->unit->unit . '/' . $item->masalah->media[0]->file) }}"
                                                                 data-title="Foto Masalah"></div>
                                                         </div>
                                                     @else
                                                         <img src="assets/img/warning.png" alt="masalah" width="50">
                                                     @endif
                                                 </td>
-                                                <td class="align-middle">{{ $item->masalah->pengaju->unit->unit }}</td>
+                                                <td class="align-middle">{{ $item->masalah->lmlj->pengaju->unit->unit }}
+                                                </td>
                                                 <td class="align-middle"><a
                                                         href="{{ url('lembar-rekap-progress/' . $item->masalah->nolmlj . '/' . $item->id) }}"
                                                         class="btn btn-warning">Rekap</a></td>
