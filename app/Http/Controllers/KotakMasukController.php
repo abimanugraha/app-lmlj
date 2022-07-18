@@ -79,13 +79,19 @@ class KotakMasukController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->request);
-
         $masalah = Masalah::where('nolmlj', $request->nolmlj)->first();
+
+        if ($masalah->forward->where('unit_id', auth()->user()->unit->id)->count() == 1) {
+            $forward = Forward::find($masalah->forward->where('unit_id', auth()->user()->unit->id)->first()->id);
+            $forward->status = 1;
+            $forward->save();
+        }
+
         $data = $request->all();
         $data['masalah_id'] = $masalah->id;
         $data['urgensi'] = $this->getUrgensiByTarget($request->target);
         $data['penerima_id'] = auth()->user()->id;
+        $data['unit_id'] = auth()->user()->unit->id;
         if ($request->forward) {
             $masalah->status = 3;
             $data['status'] = 3;
@@ -93,8 +99,7 @@ class KotakMasukController extends Controller
             $masalah->status = 2;
             $data['status'] = 2;
         }
-        // dd($this->getUrgensiByTarget($request->target));
-        // dd($data);
+
         $validated = $this->validate($request, [
             'target' => 'required',
         ]);
@@ -113,13 +118,17 @@ class KotakMasukController extends Controller
                 }
             }
             if ($request->forward) {
-                $forward['masalah_id'] = $masalah->id;
-                $forward['unit_id'] = $request->unit_tujuan_id;
-                $forward['status'] = 3;
-                Forward::create($forward);
+                foreach ($request->forward_unit as $item) {
+                    $data_forward['masalah_id'] = $masalah->id;
+                    $data_forward['unit_id'] = $item;
+                    $data_forward['status'] = 0;
+                    Forward::create($data_forward);
+                }
             }
             Jawaban::create($data);
         }
+
+        // dd($masalah);
         $masalah->save();
         return redirect(url('/detail/' . $request->nolmlj))->with('status', 'Jawaban berhasil dikirim');
     }
@@ -137,9 +146,30 @@ class KotakMasukController extends Controller
         // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
         // $masalah->status = 1;
     }
+
+    public function konfirmasijawaban(Jawaban $jawaban)
+    {
+
+        $forward = Forward::where('unit_id', $jawaban->unit_id)->first();
+        $masalah = $jawaban->masalah;
+        if ($forward) {
+            $forward->status = 1;
+            $forward->save();
+        } else {
+            $masalah->status = 4;
+            $masalah->save();
+        }
+        $jawaban->status = 4;
+        $jawaban->save();
+        return $jawaban->masalah->nolmlj;
+    }
     public function redirect($nolmlj)
     {
         return redirect(url('detail/' . $nolmlj))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
+    }
+    public function redirectjawaban($nolmlj)
+    {
+        return redirect(url('detail/' . $nolmlj))->with('status', 'Berhasil dikonfirmasi! Jawaban terkirim');
     }
     public function konfirmasitembusan(Tembusan $tembusan)
     {

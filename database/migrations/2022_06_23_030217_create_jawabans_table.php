@@ -26,6 +26,7 @@ class CreateJawabansTable extends Migration
             $table->text('keputusan')->nullable();
             // hasMany Lampiran {Media}
             $table->foreignId('pic_id')->nullable();   // Nama Pembuat            
+            $table->foreignId('unit_id')->nullable();   // Unit Pembuat            
             $table->tinyInteger('status')->nullable();
             $table->foreignId('unit_tujuan_id')->nullable();    // User Tujuan {Forward}            
             $table->timestamps();

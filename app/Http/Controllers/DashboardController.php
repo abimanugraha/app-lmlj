@@ -95,15 +95,15 @@ class DashboardController extends Controller
         // dd($masalah);
         // dd($masalah->lmlj->tembusan);
         $pembagi = 1;
-        if ($masalah->jawaban->count() > 0) {
-            if ($masalah->jawaban->first()->status == 3) {
-                $pembagi = 2;
-            }
+        if ($masalah->forward->count() > 0) {
+            $pembagi = $masalah->forward->count() + 1;
         }
         $masalah->target = $this->getDefaultTarget($masalah->urgensi);
         $masalah->color_urgensi = $this->getUrgensiColor($masalah->target);
         $masalah->color_realisasi = $this->getUrgensiColor($masalah->created_at->diffInDays($masalah->updated_at));
-        $lebar_status = $masalah->jawaban->count() ? 65 / ($masalah->jawaban->count() + $pembagi) : 50 - 1;
+        $lebar_status = $masalah->jawaban->count() ? 65 / (1 + $pembagi) : 50 - 1;
+        // dd($pembagi);
+        // dd($masalah->jawaban->count());
         // $lebar_status = if( $masalah->jawaban->count()==0) {50-1}  else{} ;
         $data = [
             'title' => 'Detail LMLJ',
@@ -121,7 +121,7 @@ class DashboardController extends Controller
             $item->text_status = $this->getStatusText($item->status);
             $item->color_status = $this->getStatusColor($item->status);
         }
-        // dd($masalah->detailmasalah);
+        // dd($masalah->forward);
 
 
         return view('lmlj.detail', $data);

@@ -89,8 +89,24 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->forward_status == 3)
+                                    @elseif($item->unit_forward_id == auth()->user()->unit->id && $item->status_forward == 0)
                                         <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
+                                            class="dropdown-item dropdown-item-unread">
+                                            <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
+                                                {{ $item->target }}
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                {{ $item->nolmlj }}
+                                                <div class="time text-dark">{{ $item->masalah }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @elseif(($item->unit_forward_id == auth()->user()->unit->id && $item->status_forward == 2) ||
+                                        ($item->status == 2 &&
+                                            $item->unit_tujuan_id == auth()->user()->unit->id &&
+                                            $item->jawaban[0]->status == 0 &&
+                                            auth()->user()->role_id == 2))
+                                        <a href="{{ url('detail/' . $item->nolmlj) }}"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}

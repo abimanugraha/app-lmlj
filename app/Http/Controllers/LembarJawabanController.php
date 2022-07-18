@@ -57,7 +57,7 @@ class LembarJawabanController extends Controller
             return response()->json($response, HttpFoundationResponse::HTTP_CREATED);
         } catch (QueryException $e) {
             return response()->json([
-                'message' => "Gagal ".$e->errorInfo,
+                'message' => "Gagal " . $e->errorInfo,
             ]);
         }
     }

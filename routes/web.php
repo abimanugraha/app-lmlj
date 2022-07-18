@@ -55,6 +55,8 @@ Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
 Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasimasalah']);
 Route::get('/ajax/konfirmasitembusan/{tembusan:id}', [KotakMasukController::class, 'konfirmasitembusan']);
 Route::get('/ajax/konfirmasi-done/{nolmlj}', [KotakMasukController::class, 'redirect']);
+Route::get('/ajax/konfirmasijawaban/{jawaban:id}', [KotakMasukController::class, 'konfirmasijawaban']);
+Route::get('/ajax/konfirmasi-jawaban-done/{nolmlj}', [KotakMasukController::class, 'redirectjawaban']);
 // Route::get('/kotak-masuk-lmlj', function () {
 //     return view('LMLJ/kotak-masuk', [
 //         'title' => 'Kotak Masuk LMLJ',

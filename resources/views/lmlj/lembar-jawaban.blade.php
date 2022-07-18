@@ -66,7 +66,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-12">
                                         <label for="input-target">Target Penyelesaian</label>
-                                        <input type="number" class="form-control" id="input-target" name="target">
+                                        <input type="number" class="form-control" id="input-target" name="target"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -83,8 +84,7 @@
                                     <div class="form-group col-md-9">
                                         <label for="input-unit-tujuan">Unit Tujuan</label>
                                         <select class="form-control select2 @error('unit_id') is-invalid @enderror"
-                                            name="unit_tujuan_id" id="input-unit-tujuan" disabled>
-                                            <option value="" selected>Pilih Unit Tujuan</option>
+                                            name="forward_unit[]" id="input-unit-tujuan" multiple disabled>
                                             @foreach ($unit as $item)
                                                 <option value="{{ $item->id }}">{{ $item->unit }}</option>
                                             @endforeach

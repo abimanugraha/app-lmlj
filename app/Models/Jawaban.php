@@ -51,4 +51,9 @@ class Jawaban extends Model
     {
         return $this->hasMany(Media::class);
     }
+
+    public function forward()
+    {
+        return $this->hasMany(Forward::class);
+    }
 }

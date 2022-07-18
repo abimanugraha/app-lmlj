@@ -116,7 +116,11 @@
                                             <li class="active">{{ $item->penerima->unit->unit }}</li>
                                         @endforeach
                                         @if ($item->status == 3)
-                                            <li class="">{{ $item->unit_tujuan->unit }}</li>
+                                            @foreach ($masalah->forward as $forward)
+                                                @if ($forward->unit->unit != $item->penerima->unit->unit)
+                                                    <li class="">{{ $forward->unit->unit }}</li>
+                                                @endif
+                                            @endforeach
                                         @endif
                                         @if ($jawaban->count() == 0)
                                             <li class="">{{ $masalah->unit->unit }}</li>
@@ -211,79 +215,116 @@
                                                 </div>
                                             </div>
                                             @if ($item->keputusan)
-                                                <div class="row">
-                                                    <div class="col">
-                                                        Perbaikan
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        @php $number = 1; @endphp
-                                                        @foreach ($item->perbaikan as $perbaikan)
-                                                            <p class="text-dark">{{ $number++ }}.
-                                                                <b>{{ $perbaikan->created_at->format('d-M-Y') }}</b>
-                                                                <i class="fas fa-long-arrow-alt-right"></i>
-                                                                {{ $perbaikan->perbaikan }}
-                                                            </p>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        Nilai Tambah
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        @php $number = 1; @endphp
-                                                        <p class="text-dark">1. {{ $item->nilai_tambah }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        Keputusan
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <p class="text-dark">1. {{ $item->keputusan }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                @if ($item->media->count() > 0)
+                                                @if ((auth()->user()->role_id == 2 && $item->unit_id == auth()->user()->unit->id) ||
+                                                    $item->unit_id == auth()->user()->unit->id)
                                                     <div class="row">
                                                         <div class="col">
-                                                            Lampiran
+                                                            Perbaikan
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            @php $number = 1; @endphp
+                                                            @foreach ($item->perbaikan as $perbaikan)
+                                                                <p class="text-dark">{{ $number++ }}.
+                                                                    <b>{{ $perbaikan->created_at->format('d-M-Y') }}</b>
+                                                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                                                    {{ $perbaikan->perbaikan }}
+                                                                </p>
+                                                            @endforeach
                                                         </div>
                                                     </div>
-                                                    <div class="row mt-2">
+                                                    <div class="row">
                                                         <div class="col">
-                                                            <div class="gallery gallery-md">
-                                                                @foreach ($item->media as $media)
-                                                                    <div style="border: 2px solid #cdd3d8;"
-                                                                        class="gallery-item"
-                                                                        data-image="{{ asset('upload_media/jawaban/' . $masalah->lmlj->pengaju->unit->unit . '/' . $media->file) }}"
-                                                                        data-title="Image 1"></div>
-                                                                @endforeach
+                                                            Nilai Tambah
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            @php $number = 1; @endphp
+                                                            <p class="text-dark">1. {{ $item->nilai_tambah }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            Keputusan
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <p class="text-dark">1. {{ $item->keputusan }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    @if ($item->media->count() > 0)
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                Lampiran
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                                <div class="col text-center">
-                                                    <div class="row mb-2">
-                                                        <div class="col">PIC</div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <figure class="avatar avatar-md bg-light text-dark"
-                                                                data-initial="{{ substr($item->penerima->nama, 0, 1) }}">
-                                                            </figure>
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <div class="gallery gallery-md">
+                                                                    @foreach ($item->media as $media)
+                                                                        <div style="border: 2px solid #cdd3d8;"
+                                                                            class="gallery-item"
+                                                                            data-image="{{ asset('upload_media/jawaban/' . $masalah->lmlj->pengaju->unit->unit . '/' . $media->file) }}"
+                                                                            data-title="Image 1"></div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    @endif
+                                                @endif
+                                                <div class="row mb-1 mt-3">
+                                                    <div class="col text-center">
+                                                        @if ($item->status >= 1)
+                                                            <div class="row mb-2">
+                                                                <div class="col">Diketahui</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <figure
+                                                                        class="avatar mr-2 avatar-lg bg-light text-dark"
+                                                                        data-initial="{{ substr($masalah->lmlj->diketahui->nama, 0, 1) }}">
+                                                                    </figure>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-2">
+                                                                <div class="col text-dark">
+                                                                    {{ $masalah->lmlj->diketahui->nama }}</div>
+                                                            </div>
+                                                        @elseif(auth()->user()->role_id == 2 && $item->unit_id == auth()->user()->unit->id && $item->status == 0)
+                                                            <div class="row mb-2">
+                                                                <div class="col">Diketahui</div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <a href="#"
+                                                                        onclick="konfirmasijawaban({{ $item->id }})"
+                                                                        class="btn btn-success">Konfirmasi
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
-                                                    <div class="row mt-2">
-                                                        <div class="col text-dark">{{ $item->pic->nama }}</div>
+                                                    <div class="col text-center">
+                                                        <div class="row mb-2">
+                                                            <div class="col">PIC</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <figure class="avatar mr-2 avatar-lg bg-light text-dark"
+                                                                    data-initial="{{ substr($item->pic->nama, 0, 1) }}">
+                                                                </figure>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col text-dark">
+                                                                {{ $item->pic->nama }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endif
@@ -311,6 +352,16 @@
     <script>
         function show($id) {
             $('#btn-detail-jawaban-' + $id).find("i").toggleClass("fa-angle-down fa-angle-up");
+        }
+
+        function konfirmasijawaban(id) {
+            $.ajax({
+                url: `{{ url('ajax/konfirmasijawaban') }}` + `/` + id,
+                success: function(res) {
+                    console.log(res);
+                    window.location.href = `{{ url('ajax/konfirmasi-jawaban-done') }}` + `/` + res;
+                }
+            });
         }
     </script>
 @endsection

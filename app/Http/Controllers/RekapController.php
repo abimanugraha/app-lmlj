@@ -8,6 +8,7 @@ use App\Models\Masalah;
 use App\Models\Jawaban;
 use App\Models\Media;
 use App\Models\Perbaikan;
+use App\Models\Forward;
 
 class RekapController extends Controller
 {
@@ -16,7 +17,7 @@ class RekapController extends Controller
         $penerima_id = $this->getPenerimaId();
         $query = Jawaban::query();
         foreach ($penerima_id as $id) {
-            $query->orWhere([['penerima_id', $id]]);
+            $query->orWhere([['penerima_id', $id], ['status', '!=', 4]]);
         }
         $query->where('keputusan', null);
         $collection = $query->get();
@@ -87,26 +88,52 @@ class RekapController extends Controller
         }
 
         $jawaban = Jawaban::find($request->jawaban_id);
-        $masalah = $jawaban->masalah;
-
-        // dd($jawaban->status);
-        // dd($masalah->jawaban->where('id', '!=', $jawaban->id)->sortDesc()->first()->id);
-        if ($masalah->jawaban->count() > 1 && $masalah->jawaban->first()->status == 3) {
-            $update_jawaban = Jawaban::find($masalah->jawaban->where('id', '!=', $jawaban->id)->sortDesc()->first()->id);
-            $update_jawaban->status = 2;
-            $update_jawaban->save();
-            $masalah->status = 2;
-            $masalah->save();
-        } else {
-            $masalah->status = 4;
-            $masalah->save();
-        }
-        $jawaban = Jawaban::find($request->jawaban_id);
         $jawaban->nilai_tambah = $request->nilai_tambah;
         $jawaban->keputusan = $request->keputusan;
         $jawaban->pic_id = auth()->user()->id;
-        $jawaban->status = 4;
+        $jawaban->status = 0;
+        if (auth()->user()->role_id == 2) {
+            $jawaban->status = 4;
+        }
         $jawaban->save();
+        $masalah = $jawaban->masalah;
+        if ($masalah->forward->count() > 1) {
+            $masalah->status = 4;
+            foreach ($masalah->jawaban as $item) {
+                if ($item->status != 4) {
+                    $masalah->status = 2;
+                    break;
+                }
+            }
+            $forward = Forward::where('unit_id', $jawaban->unit_id)->first();
+            if ($forward) {
+                $forward->status = 2;
+                if (auth()->user()->role_id == 2) {
+                    $forward->status = 1;
+                }
+                $forward->save();
+            }
+            $masalah->save();
+            // dd($masalah);
+        } else {
+            if ($masalah->jawaban->count() > 1 && $masalah->jawaban->first()->status == 3) {
+                $update_jawaban = Jawaban::find($masalah->jawaban->where('id', '!=', $jawaban->id)->sortDesc()->first()->id);
+                $update_jawaban->status = 2;
+                $update_jawaban->save();
+                $masalah->status = 2;
+                $masalah->save();
+            } else {
+                $masalah->status = 2;
+                if (auth()->user()->role_id == 2) {
+                    $jawaban->status = 4;
+                    $masalah->status = 4;
+                }
+                $masalah->save();
+            }
+        }
+
+
+
         return redirect(url('/dashboard'))->with('status', 'Rekap progress berhasil disimpan.');
     }
 }

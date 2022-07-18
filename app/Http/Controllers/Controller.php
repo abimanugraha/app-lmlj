@@ -114,6 +114,7 @@ class Controller extends BaseController
         $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 0]]);
         if (auth()->user()->role_id == 2) {
             $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', 0]]);
+            $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 2]]);
             $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['tembusans.status', 0]]);
         }
 
