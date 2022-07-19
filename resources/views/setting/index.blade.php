@@ -29,7 +29,7 @@
                     <div class="col-12 col-md-12 col-lg-5">
                         <div class="card profile-widget">
                             <div class="profile-widget-header">
-                                <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                <img alt="image" src="{{ asset('upload_media/user/' . auth()->user()->picture) }}"
                                     class="rounded-circle
                                     profile-widget-picture">
                                 <div class="profile-widget-items">

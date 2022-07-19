@@ -216,7 +216,8 @@
                                             </div>
                                             @if ($item->keputusan)
                                                 @if ((auth()->user()->role_id == 2 && $item->unit_id == auth()->user()->unit->id) ||
-                                                    $item->unit_id == auth()->user()->unit->id)
+                                                    $item->unit_id == auth()->user()->unit->id ||
+                                                    $item->status == 4)
                                                     <div class="row">
                                                         <div class="col">
                                                             Perbaikan
@@ -281,8 +282,10 @@
                                                 <div class="row mb-1 mt-3">
                                                     <div class="col text-center">
                                                         @if ($item->status >= 1)
+                                                            {{ $item->updated_at->format('d, M Y') }}
                                                             <div class="row mb-2">
-                                                                <div class="col">Diketahui</div>
+                                                                <div class="col">Diketahui
+                                                                </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col">
@@ -294,11 +297,13 @@
                                                             </div>
                                                             <div class="row mt-2">
                                                                 <div class="col text-dark">
-                                                                    {{ $masalah->lmlj->diketahui->nama }}</div>
+                                                                    {{ $masalah->lmlj->diketahui->nama }}
+                                                                </div>
                                                             </div>
                                                         @elseif(auth()->user()->role_id == 2 && $item->unit_id == auth()->user()->unit->id && $item->status == 0)
                                                             <div class="row mb-2">
-                                                                <div class="col">Diketahui</div>
+                                                                <div class="col">Diketahui
+                                                                </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col">
@@ -311,7 +316,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="col text-center">
-                                                        <div class="row mb-2">
+                                                        <div class="row mb-2 mt-4">
                                                             <div class="col">PIC</div>
                                                         </div>
                                                         <div class="row">
@@ -341,7 +346,25 @@
                         </div>
                     @endforeach
 
-
+                    {{-- {{ dd($masalah->forward) }} --}}
+                    @if ($masalah->forward->count() > 0)
+                        @foreach ($masalah->forward as $forward)
+                            @if ($forward->status == 0)
+                                <div class="alert alert-light alert-has-icon">
+                                    <div class="alert-icon"><i class="fas fa-spinner"></i></div>
+                                    <div class="alert-body">
+                                        <div class="alert-title">Masalah diforward ke Unit :
+                                            @foreach ($masalah->forward as $data)
+                                                {{ $data->unit->unit }}
+                                            @endforeach
+                                        </div>
+                                        Hubungi unit tujuan!
+                                    </div>
+                                </div>
+                                <?php break; ?>
+                            @endif
+                        @endforeach
+                    @endif
 
 
                 </div>

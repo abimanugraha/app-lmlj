@@ -14,7 +14,12 @@ class Komponen extends Model
     {
         return $this->hasMany(Masalah::class);
     }
-    
+    public function history()
+    {
+        return $this->hasMany(HistoryKomponen::class, 'komponen_lama');
+    }
+
+
     public function produk()
     {
         return $this->belongsTo(Produk::class);

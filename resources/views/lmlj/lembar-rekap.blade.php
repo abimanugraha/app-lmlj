@@ -61,13 +61,13 @@
                                         name="keputusan" required></textarea>
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label for="input-foto-video">Lampiran</label>
                                         <div class="custom-file">
                                             <input type="file"
                                                 class="custom-file-input @error('media.*') is-invalid @enderror"
-                                                name="media[]" id="customFile" multiple>
-                                            <label class="custom-file-label" for="customFile">Choose
+                                                name="media[]" id="customFile" multiple onchange="validasiEkstensi()">
+                                            <label class="custom-file-label" id="label-customFile" for="customFile">Choose
                                                 file</label>
                                             @error('media.*')
                                                 <div class="invalid-feedback mt-2">
@@ -76,19 +76,34 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="input-status">Status</label>
-                                        <select class="form-control select2 @error('status') is-invalid @enderror"
-                                            name="status" onchange="showkomponen()" id="input-nama-produk">
-                                            <option value="4" selected>Selesai</option>
-                                            <option value="5">Tidak Selesai</option>
-                                        </select>
-                                        {{-- <input type="text" class="form-control" id="input-status" name="status"> --}}
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <div class="form-check mt-4">
+                                            <input class="form-check-input" type="checkbox" id="check-tambah-komponen"
+                                                name="checktambahkomponen" onclick="showkomponen()">
+                                            <label class="form-check-label" for="check-tambah-komponen">
+                                                Tambah?
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <label for="input-nama-komponen">Nama Komponen</label>
+                                        <input type="text" class="form-control" id="input-nama-komponen"
+                                            placeholder="Nama Komponen" name="nama" required disabled>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="input-nomor-komponen">Nomor Komponen</label>
+                                        <input type="text" class="form-control" id="input-nomor-komponen"
+                                            placeholder="Nomor Komponen" name="nomor" required disabled>
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <input type="text" hidden name="produk_id" value="{{ $masalah->lmlj->produk_id }}">
+                                    <input type="text" hidden name="komponen_id" value="{{ $masalah->komponen_id }}">
                                     <input type="text" name="jawaban_id" value="{{ $jawaban_id }}" hidden>
                                     <input type="text" name="nolmlj" value="{{ $masalah->nolmlj }}" hidden>
+                                    <input type="text" name="status" value="4" hidden>
                                 </div>
                                 <div class="form-group float-right">
                                     <button type="submit" class="btn btn-primary">Rekap</button>
@@ -115,13 +130,40 @@
                                                 <i class="fas fa-minus mt-2"></i>
                                             </a>
                                         </div>`);
-
         id++;
-
     }
 
     function kurangperbaikan(id_section) {
         $(`#input-tanggal-${id_section}`).remove();
         $(`#div-perbaikan-${id_section}`).remove();
+    }
+
+    function validasiEkstensi() {
+        var inputFile = document.getElementById(`customFile`);
+        var pathFile = inputFile.value;
+        var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if (!ekstensiOk.exec(pathFile)) {
+            inputFile.value = '';
+            $(`#customFile`).attr('class', 'custom-file-input is-invalid');
+            $(`#label-customFile`).html('Choose File');
+            return false;
+        } else {
+            var numFiles = $(`#customFile`)[0].files.length;
+            $(`#customFile`).attr('class', 'custom-file-input');
+            $(`#label-customFile`).html(numFiles + ' file terpilih');
+        }
+    }
+
+
+
+    function showkomponen() {
+        var x = $("#check-tambah-komponen").is(":checked");
+        if (x) {
+            document.getElementById('input-nama-komponen').disabled = false;
+            document.getElementById('input-nomor-komponen').disabled = false;
+        } else {
+            document.getElementById('input-nama-komponen').disabled = true;
+            document.getElementById('input-nomor-komponen').disabled = true;
+        }
     }
 </script>

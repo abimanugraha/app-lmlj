@@ -48,8 +48,10 @@ function showkomponen() {
                 $(`#input-nama-komponen-${item.id}`).prop('disabled', false);
                 $(`#input-nama-komponen-${item.id}`).append(`<option value="">Pilih Komponen</option>`)
                 $.each(res, function(index, data) {
-                    $(`#input-nama-komponen-${item.id}`).append(
-                        `<option value="${data.id}">${data.nama}</option>`)
+                    if(data.status==1){
+                        $(`#input-nama-komponen-${item.id}`).append(
+                            `<option value="${data.id}">${data.nama}</option>`)                        
+                    }
                 });                
             });           
         }

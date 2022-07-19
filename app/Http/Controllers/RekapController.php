@@ -9,6 +9,8 @@ use App\Models\Jawaban;
 use App\Models\Media;
 use App\Models\Perbaikan;
 use App\Models\Forward;
+use App\Models\HistoryKomponen;
+use App\Models\Komponen;
 
 class RekapController extends Controller
 {
@@ -56,12 +58,35 @@ class RekapController extends Controller
             'jawaban_id' => $_id,
             'number' =>  1
         ];
+        // dd($masalah->lmlj);
 
         return view('lmlj.lembar-rekap', $data);
     }
 
     public function store(Request $request)
     {
+        // dd($request->request);
+        if ($request->checktambahkomponen) {
+            $data_komponen = [
+                'produk_id' => $request->produk_id,
+                'nama' => $request->nama,
+                'nomor' => $request->nomor,
+                'status' => 1
+            ];
+            Komponen::create($data_komponen);
+            $komponen_id = Komponen::orderBy('id', 'DESC')->first()->id;
+            $data_history_komponen = [
+                'komponen_lama' => $request->komponen_id,
+                'komponen_baru' => $komponen_id,
+                'status' => 1
+            ];
+            HistoryKomponen::create($data_history_komponen);
+            $komponen_lama = Komponen::find($request->komponen_id)->first();
+            $komponen_lama->status = 0;
+            $komponen_lama->save();
+            // dd($komponen_lama);
+        }
+
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',
         ]);

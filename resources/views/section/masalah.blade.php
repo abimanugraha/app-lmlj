@@ -40,20 +40,34 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col">
-                            Nama Komponen <b class="text-dark">
+                            Nama Komponen
+                            <b class="text-dark">
                                 @if ($masalah->komponen)
                                     {{ $masalah->komponen->nama }}
-                                @endif
                             </b>
+                            @endif
+                            @if ($masalah->komponen->history->count() == 1)
+                                diganti
+                                <b class="text-dark">
+                                    {{ $masalah->komponen->history->first()->komponenbaru->nama }}
+                                </b>
+                            @endif
                         </div>
                     </div>
                     <div class="row mb-1">
                         <div class="col">
-                            Nomor Komponen <b class="text-dark">
+                            Nomor Komponen
+                            <b class="text-dark">
                                 @if ($masalah->komponen)
                                     {{ $masalah->komponen->nomor }}
                                 @endif
                             </b>
+                            @if ($masalah->komponen->history->count() == 1)
+                                diganti
+                                <b class="text-dark">
+                                    {{ $masalah->komponen->history->first()->komponenbaru->nomor }}
+                                </b>
+                            @endif
                         </div>
                     </div>
                     <div class="row mb-1">

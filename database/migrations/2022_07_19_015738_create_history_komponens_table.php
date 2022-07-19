@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKomponensTable extends Migration
+class CreateHistoryKomponensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateKomponensTable extends Migration
      */
     public function up()
     {
-        Schema::create('komponens', function (Blueprint $table) {
+        Schema::create('history_komponens', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('masalah_id')->nullable();
-            $table->foreignId('produk_id')->nullable();
-            $table->string('nama');
-            $table->string('nomor');
-            $table->tinyInteger('status');
+            $table->foreignId('komponen_lama');
+            $table->foreignId('komponen_baru');
+            $table->foreignId('unit_id')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateKomponensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('komponens');
+        Schema::dropIfExists('history_komponens');
     }
 }

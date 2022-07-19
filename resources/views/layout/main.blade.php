@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    @elseif ($item->status == 1)
+                                    @elseif ($item->status == 1 && $item->unit_tujuan_id == auth()->user()->unit->id)
                                         <a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
@@ -128,7 +128,7 @@
                     </li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                            <img alt="image" src="{{ asset('upload_media/user/' . auth()->user()->picture) }}"
                                 class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->nama }}</div>
                         </a>
@@ -250,10 +250,7 @@
             $('#beep').addClass('beep');
         }
 
-        $('.custom-file-input').on('change', function() {
-            let fileName = $(this).val().split('\\').pop();
-            $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        });
+
         var is_hide = [false, false, false, false];
         var number = 2;
 
