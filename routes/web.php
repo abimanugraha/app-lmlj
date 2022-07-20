@@ -6,6 +6,7 @@ use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\KotakMasukController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\HistoryController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 
@@ -100,3 +101,5 @@ Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
 
 Route::get('/setting', [SettingController::class, 'index'])->middleware('auth');
 Route::post('/edit-profile', [SettingController::class, 'update']);
+
+Route::get('/history', [HistoryController::class, 'index'])->middleware('auth');

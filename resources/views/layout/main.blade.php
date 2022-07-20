@@ -187,6 +187,12 @@
                                 <span>Setting Profile</span>
                             </a>
                         </li>
+                        <li class="{{ $slug === 'history' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('history') }}">
+                                <i class="fas fa-archive"></i>
+                                <span>History LMLJ</span>
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>

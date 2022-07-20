@@ -78,6 +78,7 @@ class RekapController extends Controller
             $data_history_komponen = [
                 'komponen_lama' => $request->komponen_id,
                 'komponen_baru' => $komponen_id,
+                'unit_id' => auth()->user()->unit->id,
                 'status' => 1
             ];
             HistoryKomponen::create($data_history_komponen);
@@ -129,6 +130,18 @@ class RekapController extends Controller
                     $masalah->status = 2;
                     break;
                 }
+            }
+            $jawaban_awal = $masalah->jawaban->first();
+            if ($jawaban_awal->unit_id != $jawaban->unit_id) {
+                $jawaban_awal->status = 2;
+                $jawaban_forward = $masalah->jawaban->whereNotIn('id', [$jawaban_awal->id]);
+                foreach ($jawaban_forward as $item) {
+                    if ($item->status != 4) {
+                        $jawaban_awal->status = 3;
+                        break;
+                    }
+                }
+                $jawaban_awal->save();
             }
             $forward = Forward::where('unit_id', $jawaban->unit_id)->first();
             if ($forward) {

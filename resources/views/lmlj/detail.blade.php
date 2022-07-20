@@ -115,9 +115,9 @@
                                         @foreach ($jawaban as $item)
                                             <li class="active">{{ $item->penerima->unit->unit }}</li>
                                         @endforeach
-                                        @if ($item->status == 3)
+                                        @if ($item->status < 4)
                                             @foreach ($masalah->forward as $forward)
-                                                @if ($forward->unit->unit != $item->penerima->unit->unit)
+                                                @if ($forward->unit->unit != $item->penerima->unit->unit && $forward->status == 0)
                                                     <li class="">{{ $forward->unit->unit }}</li>
                                                 @endif
                                             @endforeach

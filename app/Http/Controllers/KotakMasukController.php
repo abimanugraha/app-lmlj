@@ -161,6 +161,21 @@ class KotakMasukController extends Controller
         }
         $jawaban->status = 4;
         $jawaban->save();
+
+        $masalah = $jawaban->masalah;
+        $jawaban_awal = $masalah->jawaban->first();
+        $jawaban_forward = $masalah->jawaban->whereNotIn('id', [$jawaban_awal->id]);
+        if ($jawaban_awal->unit_id != $jawaban->unit_id) {
+            $jawaban_awal->status = 2;
+            $jawaban_forward = $masalah->jawaban->whereNotIn('id', [$jawaban_awal->id]);
+            foreach ($jawaban_forward as $item) {
+                if ($item->status != 4) {
+                    $jawaban_awal->status = 3;
+                    break;
+                }
+            }
+            $jawaban_awal->save();
+        }
         return $jawaban->masalah->nolmlj;
     }
     public function redirect($nolmlj)
