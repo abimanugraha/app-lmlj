@@ -20,24 +20,45 @@
                 </div>
             </div>
             <div class="section-body">
-
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4>History LMLJ</h4>
                                 <div class="card-header-action dropdown">
-                                    <a href="#" data-toggle="dropdown"
-                                        class="btn btn-danger dropdown-toggle">Month</a>
-                                    <div id="tahun" class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                        <li class="dropdown-title">Select Period</li>
-                                        <li><a href="#" class="dropdown-item">Today</a></li>
-                                        <li><a href="#" class="dropdown-item">Week</a></li>
-                                        <li><a href="#" class="dropdown-item active">Month</a></li>
-                                        <li><a href="#" class="dropdown-item">This Year</a></li>
+                                    {{-- <input class="daterangepicker-field"> --}}
+                                    <div class="dropdown d-inline">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Produk
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <input type="text" class="form-control-sm" placeholder="Search">
+                                            {{-- <a class="dropdown-item has-icon" href="#"><i class="far fa-heart"></i>
+                                                Action</a>
+                                            <a class="dropdown-item has-icon" href="#"><i class="far fa-file"></i>
+                                                Another action</a>
+                                            <a class="dropdown-item has-icon" href="#"><i class="far fa-clock"></i>
+                                                Something else here</a> --}}
+                                        </div>
                                     </div>
-                                    <a href="#" class="dropdown-toggle btn btn-primary"
-                                        data-toggle="dropdown">Filter</a>
+                                    <div class="dropdown d-inline">
+                                        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            Unit
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Separated link</a>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-light icon-left btn-icon daterangepicker-field ml-2">
+                                        <i class="fas fa-calendar"></i> Choose Date
+                                    </button>
                                     <div class="dropdown-menu dropdown-menu-right datas">
                                         <a href="#" class="dropdown-item has-icon"><i class="far fa-circle"></i>
                                             Electronic</a>
@@ -51,6 +72,9 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <div class="badges" id="filtered">
+
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-2">
                                         <thead>
@@ -114,9 +138,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </section>
     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Masalah;
+use App\Models\Produk;
 
 class HistoryController extends Controller
 {
@@ -44,6 +45,7 @@ class HistoryController extends Controller
             'slug'  => 'history',
             'masalah' => $collection,
             'kotak_masuk' => $this->getKotakMasuk(),
+            'produk'    => Produk::all(),
             'number' => 1
         ];
 

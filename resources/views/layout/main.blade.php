@@ -14,6 +14,8 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- Library CSS -->
+    {{-- <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('node_modules/daterangepicker/dist/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/chocolat/dist/css/chocolat.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -250,7 +252,11 @@
     <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
 
-
+    <script src="{{ asset('node_modules/daterangepicker/bower_components/moment/moment.js') }}"></script>
+    <script src="{{ asset('node_modules/daterangepicker/bower_components/knockout/dist/knockout.debug.js') }}"></script>
+    <script src="{{ asset('node_modules/daterangepicker/dist/daterangepicker.js') }}"></script>
+    {{-- <script src="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/date-range.js') }}"></script> --}}
     <script>
         if ($('#listkotakmasuk').children().length > 0) {
             $('#beep').addClass('beep');
@@ -273,6 +279,20 @@
                 number--
             }
         }
+        $(".daterangepicker-field").daterangepicker({
+            forceUpdate: false,
+            orientation: 'left',
+            callback: function(startDate, endDate, period) {
+                console.log(period);
+                var title = startDate.format('L') + ' – ' + endDate.format('L');
+                // $(this).html(`<i class="fas fa-calendar"></i> ` + title)
+                if ($('#filter-date')) {
+                    console.log(true);
+                    $('#filter-date').remove();
+                }
+                $('#filtered').append(`<span id="filter-date" class="badge badge-light">${title}</span>`)
+            }
+        });
     </script>
 
 </body>
