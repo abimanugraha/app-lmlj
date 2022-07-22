@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\HistoryController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +45,7 @@ Route::get('/ajax/komponenbyprodukid/{produk_id}', [PengajuanController::class, 
 Route::get('/ajax/produkbyid/{produk:id}', [PengajuanController::class, 'getProdukById']);
 Route::get('/ajax/komponenbyid/{komponen:id}', [PengajuanController::class, 'getKomponenById']);
 Route::get('/ajax/unittembusan/{unit_user}', [PengajuanController::class, 'getUnitTembusan']);
-// Route::get('/pengajuan-lmlj', function () {
-//     return view('LMLJ/lembar-masalah', [
-//         'title' => 'Pengajuan LMLJ',
-//         'slug'  => 'pengajuan-lmlj'
-//     ]);
-// })->middleware('auth');
+
 Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middleware('auth');
 Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
 Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
@@ -58,48 +54,27 @@ Route::get('/ajax/konfirmasitembusan/{tembusan:id}', [KotakMasukController::clas
 Route::get('/ajax/konfirmasi-done/{nolmlj}', [KotakMasukController::class, 'redirect']);
 Route::get('/ajax/konfirmasijawaban/{jawaban:id}', [KotakMasukController::class, 'konfirmasijawaban']);
 Route::get('/ajax/konfirmasi-jawaban-done/{nolmlj}', [KotakMasukController::class, 'redirectjawaban']);
-// Route::get('/kotak-masuk-lmlj', function () {
-//     return view('LMLJ/kotak-masuk', [
-//         'title' => 'Kotak Masuk LMLJ',
-//         'slug'  => 'kotak-masuk-lmlj'
-//     ]);
-// })->middleware('auth');
+
 Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middleware('auth');
 Route::get('/lembar-rekap-progress/{masalah:nolmlj}/{id}', [RekapController::class, 'rekap'])->middleware('auth');
 Route::post('/lembar-rekap-progress', [RekapController::class, 'store']);
-// Route::get('/rekap-progress-lmlj', function () {
-//     return view('LMLJ/kotak-rekap', [
-//         'title' => 'Rekap Progress LMLJ',
-//         'slug'  => 'rekap-progress-lmlj'
-//     ]);
-// })->middleware('auth');
-// Route::get('/lembar-jawaban', function () {
-//     return view('LMLJ/lembar-jawaban', [
-//         'title' => 'Lembar Jawaban LMLJ',
-//         'slug'  => 'kotak-masuk-lmlj',
-//     ]);
-// })->middleware('auth');
-// Route::get('/lembar-rekap-progress', function () {
+
+// Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
 //     return view('LMLJ/lembar-rekap', [
 //         'title' => 'Rekap Progress LMLJ',
 //         'slug'  => 'rekap-progress-lmlj',
 //     ]);
 // })->middleware('auth');
-Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
-    return view('LMLJ/lembar-rekap', [
-        'title' => 'Rekap Progress LMLJ',
-        'slug'  => 'rekap-progress-lmlj',
-    ]);
-})->middleware('auth');
-// Route::get('/detail', function () {
-//     return view('LMLJ/detail', [
-//         'title' => 'Detail LMLJ',
-//         'slug'  => 'dashboard',
-//         'lebar_status' => '24%'
-//     ]);
-// })->middleware('auth');
+
 
 Route::get('/setting', [SettingController::class, 'index'])->middleware('auth');
 Route::post('/edit-profile', [SettingController::class, 'update']);
 
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth');
+Route::post('/ajax/history-lmlj', [HistoryController::class, 'getHistoryLmlj']);
+
+
+// Route::get('/clear-cache', function () {
+//     Artisan::call('cache:clear');
+//     return "Cache is cleared";
+// });

@@ -81,6 +81,8 @@
                 <div class="section-header-breadcrumb">
                     @if (url()->previous() == url('lmlj-selesai'))
                         <div class="breadcrumb-item"><a href="{{ url()->previous() }}">LMLJ Selesai</a></div>
+                    @elseif(url()->previous() == url('history'))
+                        <div class="breadcrumb-item"><a href="{{ url()->previous() }}">History LMLJ</a></div>
                     @else
                         <div class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></div>
                     @endif

@@ -250,11 +250,12 @@
     <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
 
     <script src="{{ asset('node_modules/daterangepicker/bower_components/moment/moment.js') }}"></script>
     <script src="{{ asset('node_modules/daterangepicker/bower_components/knockout/dist/knockout.debug.js') }}"></script>
     <script src="{{ asset('node_modules/daterangepicker/dist/daterangepicker.js') }}"></script>
+    {{-- <script src="https://cdn.datatables.net/plug-ins/1.12.1/filtering/row-based/range_dates.js"></script> --}}
+    <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
     {{-- <script src="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/date-range.js') }}"></script> --}}
     <script>
@@ -279,20 +280,6 @@
                 number--
             }
         }
-        $(".daterangepicker-field").daterangepicker({
-            forceUpdate: false,
-            orientation: 'left',
-            callback: function(startDate, endDate, period) {
-                console.log(period);
-                var title = startDate.format('L') + ' – ' + endDate.format('L');
-                // $(this).html(`<i class="fas fa-calendar"></i> ` + title)
-                if ($('#filter-date')) {
-                    console.log(true);
-                    $('#filter-date').remove();
-                }
-                $('#filtered').append(`<span id="filter-date" class="badge badge-light">${title}</span>`)
-            }
-        });
     </script>
 
 </body>

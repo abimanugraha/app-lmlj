@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Masalah;
 use App\Models\Produk;
+use Nette\Utils\Json;
 
 class HistoryController extends Controller
 {
     //
-
-    public function index()
+    public function getCollection()
     {
         $query = Masalah::query();
         $query->join('lmljs', 'masalahs.lmlj_id', '=', 'lmljs.id');
@@ -18,11 +18,11 @@ class HistoryController extends Controller
         $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
 
         // Pengkondisian
-        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', 1], ['masalahs.status', '<', 4]]);
-        $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['forwards.status', 0]]);
+        $query->where('masalahs.unit_tujuan_id', auth()->user()->unit->id);
+        $query->orwhere('forwards.unit_id', auth()->user()->unit->id);
+        $query->orwhere('lmljs.unit_pengaju_id', auth()->user()->unit->id);
         if (auth()->user()->role_id == 2) {
-            $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', 0]]);
-            $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['tembusans.status', 0]]);
+            $query->orwhere('tembusans.unit_id', auth()->user()->unit->id);
         }
 
         $list_get = [
@@ -40,6 +40,18 @@ class HistoryController extends Controller
 
 
         $collection = $query->get($list_get)->unique('id');
+        foreach ($collection as $item) {
+            $item->color = $this->getUrgensiColor($item->target);
+            $item->text_status = $this->getStatusText($item->status);
+            $item->color_status = $this->getStatusColor($item->status);
+        }
+        return $collection;
+    }
+
+    public function index()
+    {
+        $collection = $this->getCollection();
+        // dd($collection);
         $data = [
             'title' => 'History LMLJ',
             'slug'  => 'history',
@@ -52,5 +64,18 @@ class HistoryController extends Controller
         // dd(auth()->user()->unit->id);
         // dd($collection);
         return view('lmlj.history-lmlj', $data);
+    }
+
+    public function getHistoryLmlj(Request $request)
+    {
+        $collection = $this->getCollection();
+
+        $response = array(
+            'status' => 'success',
+            'awal' => $request->tanggal_awal,
+            'akhir' => $request->tanggal_akhir,
+            'unit_id' => $request->unit_id,
+        );
+        return response()->json($collection);
     }
 }
