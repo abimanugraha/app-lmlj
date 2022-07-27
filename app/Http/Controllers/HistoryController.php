@@ -18,7 +18,7 @@ class HistoryController extends Controller
         $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
 
         // Pengkondisian
-        $query->where('masalahs.unit_tujuan_id', auth()->user()->unit->id);
+        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '>', 0]]);
         $query->orwhere('forwards.unit_id', auth()->user()->unit->id);
         $query->orwhere('lmljs.unit_pengaju_id', auth()->user()->unit->id);
         if (auth()->user()->role_id == 2) {

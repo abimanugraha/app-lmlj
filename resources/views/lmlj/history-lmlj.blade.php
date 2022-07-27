@@ -27,8 +27,7 @@
                             <div class="card-header">
                                 <h4>History LMLJ</h4>
                                 <div class="card-header-action dropdown">
-                                    {{-- <input class="daterangepicker-field"> --}}
-                                    <div class="dropdown d-inline">
+                                    {{-- <div class="dropdown d-inline">
                                         <button class="btn btn-primary dropdown-toggle" type="button"
                                             id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
@@ -50,7 +49,7 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Separated link</a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <button class="btn btn-light icon-left btn-icon daterangepicker-field ml-2">
                                         <i class="fas fa-calendar"></i> Choose Date
                                     </button>

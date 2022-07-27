@@ -14,9 +14,14 @@ class Produk extends Model
     {
         return $this->hasMany(Komponen::class);
     }
-    
+
     public function masalah()
     {
         return $this->hasMany(Masalah::class);
+    }
+
+    public function lmlj()
+    {
+        return $this->hasMany(Lmlj::class);
     }
 }

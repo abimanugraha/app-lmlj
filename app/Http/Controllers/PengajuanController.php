@@ -12,6 +12,7 @@ use App\Models\Produk;
 use App\Models\Unit;
 use App\Models\Media;
 use App\Models\Tembusan;
+use Carbon\Carbon;
 
 class PengajuanController extends Controller
 {
@@ -83,6 +84,7 @@ class PengajuanController extends Controller
                 'urgensi' => $request->urgensi[$item],
                 'unit_tujuan_id' => $item,
                 'status' => $status,
+                'tanggal_acc' => new Carbon(),
                 'keterangan' => $this->getStatusText($status)
             ];
             Masalah::create($data_masalah);

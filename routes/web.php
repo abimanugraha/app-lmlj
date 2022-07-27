@@ -7,6 +7,7 @@ use App\Http\Controllers\KotakMasukController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\AnalyticController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -73,6 +74,7 @@ Route::post('/edit-profile', [SettingController::class, 'update']);
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth');
 Route::post('/ajax/history-lmlj', [HistoryController::class, 'getHistoryLmlj']);
 
+Route::get('/analytics', [AnalyticController::class, 'index'])->middleware('auth');
 
 // Route::get('/clear-cache', function () {
 //     Artisan::call('cache:clear');

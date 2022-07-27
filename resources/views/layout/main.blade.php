@@ -15,7 +15,7 @@
 
     <!-- Library CSS -->
     {{-- <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.css') }}"> --}}
-    <link rel="stylesheet" href="{{ asset('node_modules/daterangepicker/dist/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('node_modules/daterangepicker-tenor/dist/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/chocolat/dist/css/chocolat.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -195,6 +195,12 @@
                                 <span>History LMLJ</span>
                             </a>
                         </li>
+                        <li class="{{ $slug === 'analytics' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('analytics') }}">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Analisa</span>
+                            </a>
+                        </li>
                     </ul>
                 </aside>
             </div>
@@ -237,27 +243,28 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/coco.min.js') }}"></script> --}}
 
     <!-- JS Libraies -->
     <script src="{{ asset('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('node_modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-    <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script>
+    {{-- <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script> --}}
 
-    <script src="{{ asset('node_modules/daterangepicker/bower_components/moment/moment.js') }}"></script>
-    <script src="{{ asset('node_modules/daterangepicker/bower_components/knockout/dist/knockout.debug.js') }}"></script>
-    <script src="{{ asset('node_modules/daterangepicker/dist/daterangepicker.js') }}"></script>
-    {{-- <script src="https://cdn.datatables.net/plug-ins/1.12.1/filtering/row-based/range_dates.js"></script> --}}
+    <script src="{{ asset('node_modules/daterangepicker-tenor/bower_components/moment/moment.js') }}"></script>
+    <script src="{{ asset('node_modules/daterangepicker-tenor/bower_components/knockout/dist/knockout.debug.js') }}">
+    </script>
+    <script src="{{ asset('node_modules/daterangepicker-tenor/dist/daterangepicker.js') }}"></script>
     <script src="{{ asset('assets/js/modules-datatables.js') }}"></script>
-    {{-- <script src="{{ asset('node_modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/js/date-range.js') }}"></script> --}}
+    <script src="{{ asset('node_modules/chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/analytics-lmlj.js') }}"></script>
     <script>
         if ($('#listkotakmasuk').children().length > 0) {
             $('#beep').addClass('beep');

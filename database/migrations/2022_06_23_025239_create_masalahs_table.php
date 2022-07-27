@@ -24,11 +24,11 @@ class CreateMasalahsTable extends Migration
             $table->tinyInteger('status');
             $table->string('keterangan');
             $table->string('nolmlj')->nullable();
-            $table->foreignId('produk_id')->nullable();
-            $table->foreignId('unit_id')->nullable(); // Unit Tujuan
-            $table->foreignId('pengaju_id')->nullable();
-            $table->foreignId('ygmengetahui_id')->nullable();
-            $table->timestamp('tanggal_diterima')->nullable();
+            // $table->foreignId('produk_id')->nullable();
+            // $table->foreignId('unit_id')->nullable(); // Unit Tujuan
+            // $table->foreignId('pengaju_id')->nullable();
+            // $table->foreignId('ygmengetahui_id')->nullable();
+            $table->timestamp('tanggal_acc')->nullable();
             $table->timestamps();
         });
     }

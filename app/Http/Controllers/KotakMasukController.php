@@ -10,6 +10,7 @@ use App\Models\Jawaban;
 use App\Models\Lmlj;
 use App\Models\Unit;
 use App\Models\Tembusan;
+use Carbon\Carbon;
 
 class KotakMasukController extends Controller
 {
@@ -128,7 +129,7 @@ class KotakMasukController extends Controller
             Jawaban::create($data);
         }
 
-        // dd($masalah);
+        // dd($masalah);        
         $masalah->save();
         return redirect(url('/detail/' . $request->nolmlj))->with('status', 'Jawaban berhasil dikirim');
     }
@@ -141,6 +142,7 @@ class KotakMasukController extends Controller
         $lmlj->save();
         $masalah->status = 1;
         $masalah->keterangan = "Terkirim";
+        $masalah->tanggal_acc = new Carbon();
         $masalah->save();
         return $masalah->nolmlj;
         // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
