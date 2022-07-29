@@ -60,23 +60,12 @@ Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middlewar
 Route::get('/lembar-rekap-progress/{masalah:nolmlj}/{id}', [RekapController::class, 'rekap'])->middleware('auth');
 Route::post('/lembar-rekap-progress', [RekapController::class, 'store']);
 
-// Route::get('/lembar-rekap-progress/{nama}', function ($id = null) {
-//     return view('LMLJ/lembar-rekap', [
-//         'title' => 'Rekap Progress LMLJ',
-//         'slug'  => 'rekap-progress-lmlj',
-//     ]);
-// })->middleware('auth');
-
-
 Route::get('/setting', [SettingController::class, 'index'])->middleware('auth');
 Route::post('/edit-profile', [SettingController::class, 'update']);
 
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth');
 Route::post('/ajax/history-lmlj', [HistoryController::class, 'getHistoryLmlj']);
 
-Route::get('/analytics', [AnalyticController::class, 'index'])->middleware('auth');
-
-// Route::get('/clear-cache', function () {
-//     Artisan::call('cache:clear');
-//     return "Cache is cleared";
-// });
+Route::get('/analytics', [AnalyticController::class, 'index'])->middleware(['auth', 'role:2']);
+Route::get('/ajax/chart-data-lmlj/{year}', [AnalyticController::class, 'getDataChartLmlj']);
+Route::get('/ajax/data-statistic-lmlj/{month}', [AnalyticController::class, 'getDataStatistics']);

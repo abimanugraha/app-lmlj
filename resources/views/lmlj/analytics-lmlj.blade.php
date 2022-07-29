@@ -25,15 +25,15 @@
                                 {{ $title }}
                             </div>
                         </div>
-                        <div class="card-icon shadow-success bg-success">
-                            <h2 class="mt-1 text-white">A</h2>
+                        <div id="card-performa" class="card-icon shadow-{{ $performa->warna }} bg-{{ $performa->warna }}">
+                            <h2 id="performa" class="mt-1 text-white">{{ $performa->nilai }}</h2>
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
                                 <h4>Performa</h4>
                             </div>
                             <div class="card-body mt-2">
-                                <h5 class="text-success">Sangat Baik</h5>
+                                <h5 id="keterangan" class="text-{{ $performa->warna }}">{{ $performa->keterangan }}</h5>
                             </div>
                         </div>
                     </div>
@@ -44,84 +44,73 @@
                             <div class="card-stats-title">LMLJ Statistics -
                                 <div class="dropdown d-inline">
                                     <a class="font-weight-600 dropdown-toggle" data-toggle="dropdown" href="#"
-                                        id="orders-month">July</a>
+                                        id="orders-month">{{ date('M') }}</a>
                                     <ul class="dropdown-menu dropdown-menu-sm">
                                         <li class="dropdown-title">Select Month</li>
-                                        <li><a href="#" class="dropdown-item">January</a></li>
-                                        <li><a href="#" class="dropdown-item">February</a></li>
-                                        <li><a href="#" class="dropdown-item">March</a></li>
-                                        <li><a href="#" class="dropdown-item">April</a></li>
-                                        <li><a href="#" class="dropdown-item">May</a></li>
-                                        <li><a href="#" class="dropdown-item">June</a></li>
-                                        <li><a href="#" class="dropdown-item active">July</a></li>
-                                        <li><a href="#" class="dropdown-item">August</a></li>
-                                        <li><a href="#" class="dropdown-item">September</a></li>
-                                        <li><a href="#" class="dropdown-item">October</a></li>
-                                        <li><a href="#" class="dropdown-item">November</a></li>
-                                        <li><a href="#" class="dropdown-item">December</a></li>
+                                        <li><a href="#" id="m1" onclick="selectMonth(1)"
+                                                class="dropdown-item">January</a>
+                                        </li>
+                                        <li><a href="#" id="m2" onclick="selectMonth(2)"
+                                                class="dropdown-item">February</a>
+                                        </li>
+                                        <li><a href="#" id="m3" onclick="selectMonth(3)"
+                                                class="dropdown-item">March</a></li>
+                                        <li><a href="#" id="m4" onclick="selectMonth(4)"
+                                                class="dropdown-item">April</a></li>
+                                        <li><a href="#" id="m5" onclick="selectMonth(5)"
+                                                class="dropdown-item">May</a></li>
+                                        <li><a href="#" id="m6" onclick="selectMonth(6)"
+                                                class="dropdown-item">June</a></li>
+                                        <li><a href="#" id="m7" onclick="selectMonth(7)"
+                                                class="dropdown-item">July</a>
+                                        </li>
+                                        <li><a href="#" id="m8" onclick="selectMonth(8)"
+                                                class="dropdown-item">August</a></li>
+                                        <li><a href="#" id="m9" onclick="selectMonth(9)"
+                                                class="dropdown-item">September</a>
+                                        </li>
+                                        <li><a href="#" id="m10" onclick="selectMonth(10)"
+                                                class="dropdown-item">October</a>
+                                        </li>
+                                        <li><a href="#" id="m11" onclick="selectMonth(11)"
+                                                class="dropdown-item">November</a>
+                                        </li>
+                                        <li><a href="#" id="m12" onclick="selectMonth(12)"
+                                                class="dropdown-item">December</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-stats-items mb-4 mt-3">
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['pengajuan'] }}</div>
+                                    <div id="pengajuan" class="card-stats-item-count">{{ $total['pengajuan'] }}</div>
                                     <div class="card-stats-item-label">Pengajuan</div>
                                 </div>
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['completed'] }}</div>
+                                    <div id="completed" class="card-stats-item-count">{{ $total['completed'] }}</div>
                                     <div class="card-stats-item-label">Completed</div>
                                 </div>
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['tembusan'] }}</div>
+                                    <div id="tembusan" class="card-stats-item-count">{{ $total['tembusan'] }}</div>
                                     <div class="card-stats-item-label">Tembusan</div>
                                 </div>
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['total'] }}</div>
+                                    <div id="total" class="card-stats-item-count">{{ $total['total'] }}</div>
                                     <div class="card-stats-item-label">Total</div>
                                 </div>
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['respon_time'] }}</div>
+                                    <div id="respon-time" class="card-stats-item-count">{{ $total['respon_time'] }}</div>
                                     <div class="card-stats-item-label">Respon Time</div>
                                 </div>
                                 <div class="card-stats-item">
-                                    <div class="card-stats-item-count">{{ $total['finish'] }}</div>
-                                    <div class="card-stats-item-label">Finish</div>
+                                    <div id="finish" class="card-stats-item-count">{{ $total['finish'] }}</div>
+                                    <div class="card-stats-item-label">On Target</div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body"></div>
-                        {{-- <div class="card-icon shadow-primary bg-primary">
-                            <i class="fas fa-archive"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total LMLJ</h4>
-                            </div>
-                            <div class="card-body">
-                                59
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
-
-                {{-- <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card card-statistic-2">
-                        <div class="card-chart">
-                            <canvas id="sales-chart" height="80"></canvas>
-                        </div>
-                        <div class="card-icon shadow-primary bg-primary">
-                            <i class="fas fa-shopping-bag"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Sales</h4>
-                            </div>
-                            <div class="card-body">
-                                4,732
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
             <div class="row">
                 <div class="col-lg-8">
@@ -138,7 +127,7 @@
                     <div class="card gradient-bottom">
                         <div class="card-header">
                             <h4>Top 5 Produk</h4>
-                            <div class="card-header-action dropdown">
+                            {{-- <div class="card-header-action dropdown">
                                 <a href="#" data-toggle="dropdown" class="btn btn-danger dropdown-toggle">Month</a>
                                 <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                     <li class="dropdown-title">Select Period</li>
@@ -147,7 +136,7 @@
                                     <li><a href="#" class="dropdown-item active">Month</a></li>
                                     <li><a href="#" class="dropdown-item">This Year</a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card-body" id="top-5-scroll">
                             <ul class="list-unstyled list-unstyled-border">
@@ -156,8 +145,10 @@
                                         <img class="mr-3 rounded" width="55" src="#" alt="Produk">
                                         <div class="media-body">
                                             <div class="float-right">
-                                                <div class="font-weight-600 text-muted text-small">{{ $item->total_lmlj }}
-                                                    LMLJ</div>
+                                                <div class="badge badge-light">
+                                                    {{ $item->total_lmlj }}</div>
+                                                {{-- <div class="font-weight-600 text-muted text-small">{{ $item->total_lmlj }}
+                                                    LMLJ</div> --}}
                                             </div>
                                             <div class="media-title">{{ $item->nama }}</div>
                                             <div class="mt-1">
@@ -178,3 +169,43 @@
         </section>
     </div>
 @endsection
+
+<script>
+    function selectMonth(month) {
+        $(`.dropdown-item`).attr('class', 'dropdown-item');
+        var dm = $(`#m` + month).attr('class', 'dropdown-item active');
+        $(`#orders-month`).text(dm.text());
+
+        $.ajax({
+            url: `{{ url('ajax/data-statistic-lmlj') }}` + `/` + month,
+            success: function(res) {
+                const result = Object.values(res);
+                console.log(res);
+                $(`#pengajuan`).text(`${res.pengajuan}`);
+                $(`#completed`).text(`${res.completed}`);
+                $(`#completed`).text(`${res.completed}`);
+                $(`#tembusan`).text(`${res.tembusan}`);
+                $(`#tembusan`).text(`${res.tembusan}`);
+                $(`#total`).text(`${res.total}`);
+                $(`#respon-time`).text(`${res.respon_time}`);
+                $(`#finish`).text(`${res.finish}`);
+                $(`#card-performa`).attr(`class`,
+                    `card-icon shadow-${res.performa.warna} bg-${res.performa.warna}`);
+                $(`#performa`).text(res.performa.nilai);
+                $(`#keterangan`).text(res.performa.keterangan);
+                $(`#keterangan`).attr('class', `text-${res.performa.warna}`);
+            }
+        });
+    }
+
+    function chart(date = new Date()) {
+        $.ajax({
+            url: `{{ url('ajax/chart-data-lmlj') }}` + `/` + date.getFullYear(),
+            success: function(res) {
+                const result = Object.values(res);
+                generateChart(result);
+                // console.log(result);
+            }
+        });
+    }
+</script>

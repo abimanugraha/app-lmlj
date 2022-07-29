@@ -195,12 +195,14 @@
                                 <span>History LMLJ</span>
                             </a>
                         </li>
-                        <li class="{{ $slug === 'analytics' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ url('analytics') }}">
-                                <i class="fas fa-chart-area"></i>
-                                <span>Analisa</span>
-                            </a>
-                        </li>
+                        @if (auth()->user()->role_id == 2)
+                            <li class="{{ $slug === 'analytics' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ url('analytics') }}">
+                                    <i class="fas fa-chart-area"></i>
+                                    <span>Analisa</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </aside>
             </div>
