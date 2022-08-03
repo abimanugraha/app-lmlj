@@ -10,6 +10,7 @@ use App\Models\Jawaban;
 use App\Models\Lmlj;
 use App\Models\Unit;
 use App\Models\Tembusan;
+use App\Models\Komponen;
 use Carbon\Carbon;
 
 class KotakMasukController extends Controller
@@ -74,7 +75,7 @@ class KotakMasukController extends Controller
             'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->where('id', '!=', $masalah->lmlj->pengaju->unit->id)->get()
         ];
 
-
+        // dd($masalah->lmlj->produk->komponen);
         return view('lmlj.lembar-jawaban', $data);
     }
 
@@ -194,5 +195,13 @@ class KotakMasukController extends Controller
         $tembusan->save();
         // return redirect(url('kotak-masuk-lmlj'))->with('status', 'Berhasil dikonfirmasi! Lembar masalah terkirim');
         // $masalah->status = 1;
+    }
+
+    public function editkomponen($masalah_id, $komponen_id)
+    {
+        $masalah = Masalah::find($masalah_id);
+        $masalah->komponen_id = $komponen_id;
+        $masalah->save();
+        // return response()->json($masalah);
     }
 }

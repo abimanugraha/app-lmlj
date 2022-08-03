@@ -38,35 +38,52 @@
                             Nomor produk <b class="text-dark">{{ $masalah->lmlj->produk->nomor }}</b>
                         </div>
                     </div>
-                    <div class="row mb-1">
+                    <div class="row mb-1" id="input-nama-komponen">
                         <div class="col">
                             Nama Komponen
-                            <b class="text-dark">
-                                @if ($masalah->komponen)
+                            @if ($masalah->komponen)
+                                <b class="text-dark" id="nama-komponen">
                                     {{ $masalah->komponen->nama }}
-                            </b>
-                            @endif
-                            @if ($masalah->komponen->history->count() == 1)
-                                diganti
-                                <b class="text-dark">
-                                    {{ $masalah->komponen->history->first()->komponenbaru->nama }}
                                 </b>
+                                @if ($masalah->komponen->history->count() >= 1)
+                                    diganti
+                                    <b class="text-dark">
+                                        {{ $masalah->komponen->history->first()->komponenbaru->nama }}
+                                    </b>
+                                @endif
+                                @if ($masalah->status < 4 &&
+                                    ($masalah->unit_tujuan_id == auth()->user()->unit->id ||
+                                        $masalah->lmlj->unit_pengaju_id == auth()->user()->unit->id))
+                                    <a href="#" id="modal-5">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endif
+                            @else
+                                @if ($masalah->status < 4 &&
+                                    ($masalah->unit_tujuan_id == auth()->user()->unit->id ||
+                                        $masalah->lmlj->unit_pengaju_id == auth()->user()->unit->id))
+                                    <a href="#" id="modal-5">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endif
                             @endif
                         </div>
                     </div>
                     <div class="row mb-1">
                         <div class="col">
                             Nomor Komponen
-                            <b class="text-dark">
+                            <b class="text-dark" id="nomor-komponen">
                                 @if ($masalah->komponen)
                                     {{ $masalah->komponen->nomor }}
                                 @endif
                             </b>
-                            @if ($masalah->komponen->history->count() == 1)
-                                diganti
-                                <b class="text-dark">
-                                    {{ $masalah->komponen->history->first()->komponenbaru->nomor }}
-                                </b>
+                            @if ($masalah->komponen)
+                                @if ($masalah->komponen->history->count() == 1)
+                                    diganti
+                                    <b class="text-dark">
+                                        {{ $masalah->komponen->history->first()->komponenbaru->nomor }}
+                                    </b>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -207,6 +224,30 @@
         </div>
     </div>
 </div>
+
+<form class="modal-part" id="modal-login-part">
+    <div class="form-group">
+        <label>Nama Komponen</label>
+        <select required class="form-control select2" name="komponen_id" id="input-nama-komponen"
+            onchange="editkomponen(this.value)">
+            <option value="" selected>Pilih Komponen</option>
+            @foreach ($masalah->lmlj->produk->komponen as $item)
+                <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
+            @endforeach
+        </select>
+        <input type="text" class="form-control" id="id-komponen" name="id" hidden>
+        <input type="text" class="form-control" id="h-nama-komponen" name="nama" hidden>
+        <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
+
+    </div>
+    <div class="form-group">
+        <label>Nomor Komponen</label>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Nomor Komponen" name="nomor"
+                id="input-nomor-komponen">
+        </div>
+    </div>
+</form>
 <script>
     function konfirmasimasalah(id) {
         $.ajax({
@@ -214,6 +255,19 @@
             success: function(res) {
                 console.log(res);
                 window.location.href = `{{ url('ajax/konfirmasi-done') }}` + `/` + res;
+            }
+        });
+    }
+
+    function editkomponen(komponen_id) {
+        var array = komponen_id.split(",");
+        console.log(array[1]);
+        $("#id-komponen").val(array[0]);
+        $("#h-nama-komponen").val(array[1]);
+        $.ajax({
+            url: `{{ url('ajax/komponenbyid') }}` + `/` + komponen_id,
+            success: function(res) {
+                $("#input-nomor-komponen").val(res.nomor);
             }
         });
     }

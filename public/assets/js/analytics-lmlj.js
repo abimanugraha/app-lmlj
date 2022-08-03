@@ -1,7 +1,5 @@
 "use strict";
-$(document).ready(function() {
-  chart();
-});
+
 
 function generateChart(datachart){
   var ctx = document.getElementById("myChart").getContext('2d');

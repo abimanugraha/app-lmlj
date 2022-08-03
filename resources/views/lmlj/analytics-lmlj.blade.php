@@ -208,4 +208,7 @@
             }
         });
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        chart();
+    });
 </script>

@@ -62,8 +62,8 @@
                                                                         data-title="Foto Masalah"></div>
                                                                 </div>
                                                             @else
-                                                                <img src="assets/img/warning.png" alt=""
-                                                                    width="50">
+                                                                <img src="{{ asset('assets/img/warning.png') }}"
+                                                                    alt="" width="50">
                                                             @endif
                                                         </td>
                                                         <td class="align-middle">{{ $item->pengaju->unit->unit }}</td>

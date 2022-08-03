@@ -55,6 +55,7 @@ Route::get('/ajax/konfirmasitembusan/{tembusan:id}', [KotakMasukController::clas
 Route::get('/ajax/konfirmasi-done/{nolmlj}', [KotakMasukController::class, 'redirect']);
 Route::get('/ajax/konfirmasijawaban/{jawaban:id}', [KotakMasukController::class, 'konfirmasijawaban']);
 Route::get('/ajax/konfirmasi-jawaban-done/{nolmlj}', [KotakMasukController::class, 'redirectjawaban']);
+Route::get('/ajax/editkomponen/{masalah_id}/{komponen_id}', [KotakMasukController::class, 'editkomponen']);
 
 Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middleware('auth');
 Route::get('/lembar-rekap-progress/{masalah:nolmlj}/{id}', [RekapController::class, 'rekap'])->middleware('auth');
