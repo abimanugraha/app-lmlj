@@ -70,3 +70,5 @@ Route::post('/ajax/history-lmlj', [HistoryController::class, 'getHistoryLmlj']);
 Route::get('/analytics', [AnalyticController::class, 'index'])->middleware(['auth', 'role:2']);
 Route::get('/ajax/chart-data-lmlj/{year}', [AnalyticController::class, 'getDataChartLmlj']);
 Route::get('/ajax/data-statistic-lmlj/{month}', [AnalyticController::class, 'getDataStatistics']);
+
+Route::get('/test', [DashboardController::class, 'createxls']);

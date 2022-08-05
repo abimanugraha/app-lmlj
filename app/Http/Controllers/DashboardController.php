@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class DashboardController extends Controller
 {
     public $user;
@@ -50,7 +54,6 @@ class DashboardController extends Controller
     }
     public function index()
     {
-
         $data_masalah = $this->getCollectionMasalah();
         $data_lmlj = $data_masalah->unique('lmlj_id');
 
@@ -154,5 +157,28 @@ class DashboardController extends Controller
         }
 
         return view('dashboard.lmlj-selesai', $data);
+    }
+
+    public function createxls()
+    {
+        // dd("test");
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Hello World !');
+        $sheet->setTitle('test');
+
+        $clonedWorksheet = clone $spreadsheet->getSheetByName('test');
+        $clonedWorksheet->setTitle('test2');
+        $spreadsheet->addSheet($clonedWorksheet);
+        // $worksheet1 = $spreadsheet->createSheet();
+        // $worksheet1->setTitle('Another sheet');
+
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="test.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'xlsx');
+        $writer->save('php://output');
     }
 }
