@@ -95,7 +95,7 @@ function getunittembusan() {
     selected = $('#input-unit-tujuan option:selected').map(function() {
         return {id:this.value, unit:this.text};
     }).get();
-    console.log(selected);
+    // console.log(selected);
     if (selected.length ==0) {
         $("#input-tembusan").prop('disabled', true);
         $("#form-masalah").children().remove();  

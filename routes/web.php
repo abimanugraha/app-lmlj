@@ -66,6 +66,7 @@ Route::post('/edit-profile', [SettingController::class, 'update']);
 
 Route::get('/history', [HistoryController::class, 'index'])->middleware('auth');
 Route::post('/ajax/history-lmlj', [HistoryController::class, 'getHistoryLmlj']);
+Route::get('/history/print-history/{starDate}/{endDate}', [HistoryController::class, 'printHistory']);
 
 Route::get('/analytics', [AnalyticController::class, 'index'])->middleware(['auth', 'role:2']);
 Route::get('/ajax/chart-data-lmlj/{year}', [AnalyticController::class, 'getDataChartLmlj']);

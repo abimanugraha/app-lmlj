@@ -86,8 +86,9 @@ class AnalyticController extends Controller
         $list_get = [
             'masalahs.id',
             'masalahs.updated_at',
+            'lmljs.id AS lmlj_id',
         ];
-        $collection = $query->get($list_get)->unique('id');
+        $collection = $query->get($list_get)->unique('lmlj_id');
         // dd($collection);
 
         $filtered = $collection->groupBy((function ($date) {

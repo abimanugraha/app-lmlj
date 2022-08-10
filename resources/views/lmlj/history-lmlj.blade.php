@@ -27,47 +27,21 @@
                             <div class="card-header">
                                 <h4>History LMLJ</h4>
                                 <div class="card-header-action dropdown">
-                                    {{-- <div class="dropdown d-inline">
-                                        <button class="btn btn-primary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Produk
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <input type="text" class="form-control-sm" placeholder="Search">
-                                        </div>
+                                    <div class="d-inline">
+                                        <a href="#" onclick="printHistory()"
+                                            class="btn btn-primary icon-left btn-icon ml-2">
+                                            <i class="fas fa-print"></i> Print
+                                        </a>
                                     </div>
-                                    <div class="dropdown d-inline">
-                                        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            Unit
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Separated link</a>
-                                        </div>
-                                    </div> --}}
-                                    <button class="btn btn-light icon-left btn-icon daterangepicker-field ml-2">
+                                    <button class="btn btn-primary icon-left btn-icon daterangepicker-field ml-2">
                                         <i class="fas fa-calendar"></i> Choose Date
                                     </button>
-                                    <div class="dropdown-menu dropdown-menu-right datas">
-                                        <a href="#" class="dropdown-item has-icon"><i class="far fa-circle"></i>
-                                            Electronic</a>
-                                        <a href="#" class="dropdown-item has-icon"><i class="far fa-circle"></i>
-                                            T-shirt</a>
-                                        <a href="#" class="dropdown-item has-icon"><i class="far fa-circle"></i>
-                                            Hat</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="#" class="dropdown-item">View All</a>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="badges" id="filtered">
-
+                                    <input type="text" hidden id="startDate" value="01-01-2022">
+                                    <input type="text" hidden id="endDate" value="{{ Date('d-m-Y') }}">
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="table-history">
@@ -130,3 +104,11 @@
         </section>
     </div>
 @endsection
+<script>
+    function printHistory() {
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        // console.log(startDate, endDate);
+        window.location.href = `{{ url('history/print-history') }}` + `/` + startDate + `/` + endDate;
+    }
+</script>

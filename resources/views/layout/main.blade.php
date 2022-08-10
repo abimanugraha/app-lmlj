@@ -275,7 +275,7 @@
             onFormSubmit: function(modal, e, form) {
                 // Form Data
                 let data = $(e.target).serializeArray();
-                console.log(data);
+                // console.log(data);
                 $.ajax({
                     url: `{{ url('ajax/editkomponen') }}` + `/` + data[3].value + `/` + data[1].value,
                     success: function(res) {
@@ -302,7 +302,7 @@
                 e.preventDefault();
             },
             shown: function(modal, form) {
-                console.log(form)
+                // console.log(form)
             },
             buttons: [{
                 text: 'Simpan',

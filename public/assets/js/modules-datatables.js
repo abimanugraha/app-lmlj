@@ -80,11 +80,13 @@ $(".daterangepicker-field").daterangepicker({
   orientation: 'left',
   callback: function(startDate, endDate, period) {
       // console.log(startDate.format('DD MM YYYY'));
-      var title = startDate.format('L') + ' – ' + endDate.format('L');
+      var title = startDate.format('D-MM-YYYY') + ' – ' + endDate.format('D-MM-YYYY');
       if ($('#filter-date')) {
           $('#filter-date').remove();
       }
-      $('#filtered').append(`<span id="filter-date" class="badge badge-light">${title}</span>`)
+      $('#filtered').append(`<span id="filter-date" class="badge badge-light">${title}</span>`);
+      $('#startDate').val(startDate.format('D-MM-YYYY'));
+      $('#endDate').val(endDate.format('D-MM-YYYY'));
       minDate = startDate;
       maxDate = endDate;
       filtertabel();
