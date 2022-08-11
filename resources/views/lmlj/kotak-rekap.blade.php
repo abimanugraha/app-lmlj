@@ -49,7 +49,8 @@
                                                                 data-title="Foto Masalah"></div>
                                                         </div>
                                                     @else
-                                                        <img src="assets/img/warning.png" alt="masalah" width="50">
+                                                        <img src="{{ asset('assets/img/warning.png') }}" alt="masalah"
+                                                            width="50">
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">{{ $item->masalah->lmlj->pengaju->unit->unit }}

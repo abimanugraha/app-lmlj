@@ -232,7 +232,9 @@
             onchange="editkomponen(this.value)">
             <option value="" selected>Pilih Komponen</option>
             @foreach ($masalah->lmlj->produk->komponen as $item)
-                <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
+                @if ($item->status == 1)
+                    <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
+                @endif
             @endforeach
         </select>
         <input type="text" class="form-control" id="id-komponen" name="id" hidden>

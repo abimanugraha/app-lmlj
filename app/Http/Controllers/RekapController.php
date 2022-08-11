@@ -82,11 +82,11 @@ class RekapController extends Controller
                 'status' => 1
             ];
             HistoryKomponen::create($data_history_komponen);
-            $komponen_lama = Komponen::find($request->komponen_id)->first();
+            $komponen_lama = Komponen::where('id', $request->komponen_id)->first();
             $komponen_lama->status = 0;
             $komponen_lama->save();
-            // dd($komponen_lama);
         }
+        // dd($komponen_lama);
 
         $validated = $this->validate($request, [
             'media.*' => 'mimes:jpeg,png,mov,mp4,mkv,avi,jpg',

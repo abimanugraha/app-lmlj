@@ -27,8 +27,7 @@
                             <h4>Lembar Rekap</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{ url('lembar-rekap-progress') }}" method="post"
-                                enctype="multipart/form-data">
+                            <form action="{{ url('lembar-rekap-progress') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-4" id="tanggal">
@@ -88,8 +87,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-5">
-                                        <label for="input-nama-komponen">Nama Komponen</label>
-                                        <input type="text" class="form-control" id="input-nama-komponen"
+                                        <label for="input-nama-komponens">Nama Komponen</label>
+                                        <input type="text" class="form-control" id="input-nama-komponens"
                                             placeholder="Nama Komponen" name="nama" required disabled>
                                     </div>
                                     <div class="form-group col-md-4">
@@ -159,10 +158,10 @@
     function showkomponen() {
         var x = $("#check-tambah-komponen").is(":checked");
         if (x) {
-            document.getElementById('input-nama-komponen').disabled = false;
+            document.getElementById('input-nama-komponens').disabled = false;
             document.getElementById('input-nomor-komponen').disabled = false;
         } else {
-            document.getElementById('input-nama-komponen').disabled = true;
+            document.getElementById('input-nama-komponens').disabled = true;
             document.getElementById('input-nomor-komponen').disabled = true;
         }
     }
