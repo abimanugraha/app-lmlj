@@ -21,11 +21,11 @@ class HistoryController extends Controller
         $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
 
         // Pengkondisian
-        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '>', 0]]);
-        $query->orwhere('forwards.unit_id', auth()->user()->unit->id);
-        $query->orwhere('lmljs.unit_pengaju_id', auth()->user()->unit->id);
+        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '=', 4]]);
+        $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.status', '=', 4]]);
+        $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', '=', 4]]);
         if (auth()->user()->role_id == 2) {
-            $query->orwhere('tembusans.unit_id', auth()->user()->unit->id);
+            $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['masalahs.status', '=', 4]]);
         }
 
         $list_get = [
@@ -62,11 +62,11 @@ class HistoryController extends Controller
         $to = Carbon::createFromFormat('d-m-Y', $endDate);
         // dd($to);
         // $to = Carbon::now();
-        $query->where([['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to]]);
-        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '>', 0]]);
-        $query->orwhere('forwards.unit_id', auth()->user()->unit->id);
+        // $query->where([['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to]]);
+        $query->where([['masalahs.unit_tujuan_id', auth()->user()->unit->id], ['masalahs.status', '=', 4], ['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to]]);
+        $query->orwhere([['forwards.unit_id', auth()->user()->unit->id], ['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to], ['masalahs.status', '=', 4]]);
         if (auth()->user()->role_id == 2) {
-            $query->orwhere('tembusans.unit_id', auth()->user()->unit->id);
+            $query->orwhere([['tembusans.unit_id', auth()->user()->unit->id], ['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to], ['masalahs.status', '=', 4]]);
         }
 
         $list_get = [
@@ -98,7 +98,7 @@ class HistoryController extends Controller
         $from = Carbon::createFromFormat('d-m-Y', $startDate);
         $to = Carbon::createFromFormat('d-m-Y', $endDate);
         $query->where([['masalahs.created_at', '>=', $from], ['masalahs.created_at', '<=', $to]]);
-        $query->where('lmljs.unit_pengaju_id', auth()->user()->unit->id);
+        $query->where([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', '=', 4]]);
         $list_get = [
             'masalahs.*',
             'lmljs.id AS lmlj_id',
@@ -154,7 +154,8 @@ class HistoryController extends Controller
         $spreadsheet = $reader->load($filename);
         $pengajuan = $this->getCollectionPengjauan($startDate, $endDate);
         $ajuan = $this->getCollectionAjuan($startDate, $endDate);
-        // dd($pengajuan[0]->lmlj->tembusan);
+        // dd($pengajuan);
+        // dd($ajuan);
 
         $sheet = $spreadsheet->getSheetByName('PENGAJUAN');
         $no = 1;
@@ -206,6 +207,8 @@ class HistoryController extends Controller
                 $temp = $temp . $i . ". " . $jawaban->perbaikan[0]->created_at->format('d-m-Y') . " -> " . $jawaban->perbaikan[0]->perbaikan . " by unit " . $jawaban->unit->unit . "\n";
                 $i++;
             }
+
+
             $sheet->setCellValue('J' . ($no + 2), $temp);
             $sheet->getStyle('J' . ($no + 2))->getAlignment()->setWrapText(true);
             if ($item->jawaban[0]->media->count() > 0) {
@@ -225,13 +228,15 @@ class HistoryController extends Controller
                     $drawing->setWorksheet($spreadsheet->getActiveSheet());
                 }
             }
-            $temp = "";
+            $temp = null;
             $i = 1;
+            // dd($item->jawaban[1]->keputusan);
             foreach ($item->jawaban as $jawaban) {
                 $temp = $temp . $i . ". " . $jawaban->keputusan . "\n";
                 $i++;
             }
             $sheet->setCellValue('M' . ($no + 2), $temp);
+            // dd($temp);
 
 
             $no++;
@@ -313,11 +318,6 @@ class HistoryController extends Controller
         $sheet->getStyle('A3:M' . ($no + 1))->applyFromArray($styleArray);
 
 
-        // $clonedWorksheet = clone $spreadsheet->getSheetByName('test');
-        // $clonedWorksheet->setTitle('test2');
-        // $spreadsheet->addSheet($clonedWorksheet);
-
-        // dd($spreadsheet);
 
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
