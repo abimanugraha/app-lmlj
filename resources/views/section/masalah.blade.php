@@ -231,13 +231,13 @@
         <select required class="form-control select2" name="komponen_id" id="input-nama-komponen"
             onchange="editkomponen(this.value)">
             <option value="" selected>Pilih Komponen</option>
-            @foreach ($masalah->lmlj->produk->komponen as $item)
+            @foreach ($komponen as $item)
                 @if ($item->status == 1)
                     <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
                 @endif
             @endforeach
         </select>
-        <input type="text" class="form-control" id="id-komponen" name="id" hidden>
+        <input type="text" class="form-control" id="h-id-komponen" name="id" hidden>
         <input type="text" class="form-control" id="h-nama-komponen" name="nama" hidden>
         <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
 
@@ -246,7 +246,7 @@
         <label>Nomor Komponen</label>
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Nomor Komponen" name="nomor"
-                id="input-nomor-komponen">
+                id="h-input-nomor-komponen">
         </div>
     </div>
 </form>
@@ -263,13 +263,12 @@
 
     function editkomponen(komponen_id) {
         var array = komponen_id.split(",");
-        console.log(array[1]);
-        $("#id-komponen").val(array[0]);
+        $("#h-id-komponen").val(array[0]);
         $("#h-nama-komponen").val(array[1]);
         $.ajax({
             url: `{{ url('ajax/komponenbyid') }}` + `/` + komponen_id,
             success: function(res) {
-                $("#input-nomor-komponen").val(res.nomor);
+                $("#h-input-nomor-komponen").val(res.nomor);
             }
         });
     }

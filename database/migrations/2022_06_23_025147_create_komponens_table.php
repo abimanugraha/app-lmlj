@@ -15,7 +15,6 @@ class CreateKomponensTable extends Migration
     {
         Schema::create('komponens', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('masalah_id')->nullable();
             $table->foreignId('produk_id')->nullable();
             $table->string('nama');
             $table->string('nomor');

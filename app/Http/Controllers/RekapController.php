@@ -56,6 +56,7 @@ class RekapController extends Controller
             'media_masalah' => $masalah->media,
             'detail_masalah' => $masalah->detailmasalah,
             'jawaban_id' => $_id,
+            'komponen' => Komponen::all(),
             'number' =>  1
         ];
         // dd($masalah->lmlj);

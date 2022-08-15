@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Forward;
 use App\Models\Lmlj;
 use App\Models\Masalah;
+use App\Models\Komponen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,6 +118,7 @@ class DashboardController extends Controller
             'media_masalah' => $masalah->media,
             'detail_masalah' => $masalah->detailmasalah,
             'jawaban' => $masalah->jawaban,
+            'komponen' => Komponen::all(),
             'number' =>  1
         ];
         foreach ($masalah->jawaban as $item) {
@@ -124,7 +126,7 @@ class DashboardController extends Controller
             $item->text_status = $this->getStatusText($item->status);
             $item->color_status = $this->getStatusColor($item->status);
         }
-        // dd($masalah->forward);
+        // dd($data['komponen']);
 
 
         return view('lmlj.detail', $data);

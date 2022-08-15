@@ -71,6 +71,7 @@ class KotakMasukController extends Controller
             'media_masalah' => $masalah->media,
             'detail_masalah' => $masalah->detailmasalah,
             'jawaban' => $masalah->jawaban,
+            'komponen' => Komponen::all(),
             'number' =>  1,
             'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->where('id', '!=', $masalah->lmlj->pengaju->unit->id)->get()
         ];

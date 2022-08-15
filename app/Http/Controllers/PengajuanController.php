@@ -129,7 +129,8 @@ class PengajuanController extends Controller
 
     public function getKomponenByProdukId($produk_id)
     {
-        $data = Komponen::where('produk_id', $produk_id)->get();
+        // $data = Komponen::where('produk_id', $produk_id)->get();
+        $data = Komponen::all();
         return response()->json($data);
     }
     public function getUnitTembusan($unit_user, Request $request)
