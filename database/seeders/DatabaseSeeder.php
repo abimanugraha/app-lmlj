@@ -58,984 +58,984 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        // for ($i = 1; $i < 11; $i++) {
-        //     $user = new User;
-        //     $user->nama = 'Nama CC ' . penyebut($i);
-        //     $user->username = penyebut($i) . 'cc';
-        //     $user->password = bcrypt('12345');
-        //     $user->role_id = 2;
-        //     $user->unit_id = $i;
-        //     $user->picture = 'user.png';
-        //     $user->save();
-        // }
-        // for ($i = 1; $i < 11; $i++) {
-        //     $user = new User;
-        //     $user->nama = 'Nama ' . penyebut($i);
-        //     $user->username = penyebut($i);
-        //     $user->password = bcrypt('12345');
-        //     $user->role_id = 1;
-        //     $user->unit_id = $i;
-        //     $user->picture = 'user.png';
-        //     $user->save();
-        // }
+        for ($i = 1; $i < 11; $i++) {
+            $user = new User;
+            $user->nama = 'Nama CC ' . penyebut($i);
+            $user->username = penyebut($i) . 'cc';
+            $user->password = bcrypt('12345');
+            $user->role_id = 2;
+            $user->unit_id = $i;
+            $user->picture = 'user.png';
+            $user->save();
+        }
+        for ($i = 1; $i < 11; $i++) {
+            $user = new User;
+            $user->nama = 'Nama ' . penyebut($i);
+            $user->username = penyebut($i);
+            $user->password = bcrypt('12345');
+            $user->role_id = 1;
+            $user->unit_id = $i;
+            $user->picture = 'user.png';
+            $user->save();
+        }
 
-        // for ($i = 1; $i < 11; $i++) {
-        //     DB::table('units')->insert([
-        //         'unit' => penyebut($i),
-        //         'kanit' => "Kanit " . penyebut($i),
-        //     ]);
-        // }
+        for ($i = 1; $i < 11; $i++) {
+            DB::table('units')->insert([
+                'unit' => penyebut($i),
+                'kanit' => "Kanit " . penyebut($i),
+            ]);
+        }
 
         // Produk::factory(10)->create();
 
         $produk = '[
             {
                 "Produk": "Bowl Stand Double",
-                "Nomor": "D0006SS00M"
+                "Nomor": "36302"
             },
             {
                 "Produk": "Bowl Stand Single",
-                "Nomor": "D0005SS00M"
+                "Nomor": "36301"
             },
             {
                 "Produk": "Dining Table",
-                "Nomor": "F0053PS07M"
+                "Nomor": "MA104"
             },
             {
                 "Produk": "Examination Stool",
-                "Nomor": "F0001SS00M01"
+                "Nomor": "34251"
             },
             {
                 "Produk": "Foot Step",
-                "Nomor": "H0023MSJ2M"
+                "Nomor": "MA301"
             },
             {
                 "Produk": "Infuse Stand 4 Hook",
-                "Nomor": "H0010SSK0M01"
+                "Nomor": "36163"
             },
             {
                 "Produk": "Mattress Foam Adult 192x84x10",
-                "Nomor": "0BKMM00337"
+                "Nomor": "MM204"
             },
             {
                 "Produk": "Mattress Foam Adult 200x77x10",
-                "Nomor": "0BKMM00341"
+                "Nomor": "MM205"
             },
             {
                 "Produk": "Mattress Foam Adult 200x90x10",
-                "Nomor": "0BKMM00348"
+                "Nomor": "MM201"
             },
             {
                 "Produk": "Mattress Foam Adult 200x90x10BiD",
-                "Nomor": "0BKMM00350"
+                "Nomor": "MM203"
             },
             {
                 "Produk": "Mattress Foam Adult 200x90x10Mi",
-                "Nomor": "0BKMM00339"
+                "Nomor": "MM202"
             },
             {
                 "Produk": "Mattress Foam Baby 63x35x6",
-                "Nomor": "0BKMM00347"
+                "Nomor": "MM221"
             },
             {
                 "Produk": "Mattress Foam Child 170x70x10",
-                "Nomor": "0BKMM00346"
+                "Nomor": "MM211"
             },
             {
                 "Produk": "Mattress Latex Adult 192x84x10",
-                "Nomor": "0BKMM00357"
+                "Nomor": "MM131"
             },
             {
                 "Produk": "Mattress Latex Adult 200x90x10",
-                "Nomor": "0BKMM00369"
+                "Nomor": "MM101"
             },
             {
                 "Produk": "Mattress Latex Baby 615x35x75",
-                "Nomor": "0BKMM00367"
+                "Nomor": "MM121"
             },
             {
                 "Produk": "Mattress Latex Child 170x70x10",
-                "Nomor": "0BKMM00365"
+                "Nomor": "MM111"
             },
             {
                 "Produk": "Overbed Table Gas Spring",
-                "Nomor": "F0012MSK1G"
+                "Nomor": "73033"
             },
             {
                 "Produk": "Overbed Table Gas Spring",
-                "Nomor": "F0040MSJ0G"
+                "Nomor": "73173"
             },
             {
                 "Produk": "Overbed Table Gas Spring",
-                "Nomor": "F0047MSK1G"
+                "Nomor": "MA102"
             },
             {
                 "Produk": "Overbed Table Gas Spring",
-                "Nomor": "F0022MSK1G03"
+                "Nomor": "MA103"
             },
             {
                 "Produk": "Overbed Table Pin Lock",
-                "Nomor": "F0041MSJ0M"
+                "Nomor": "73173M"
             },
             {
                 "Produk": "Overbed Table Pin Lock",
-                "Nomor": "F0046MSK1M"
+                "Nomor": "MA101"
             },
             {
                 "Produk": "Room Divider 2 Sheet",
-                "Nomor": "F0018SS00M01"
+                "Nomor": "36112"
             },
             {
                 "Produk": "Room Divider 3 Sheet",
-                "Nomor": "F0034SS00M"
+                "Nomor": "36203"
             },
             {
                 "Produk": "Bed Andalas SR Al 1 Crank",
-                "Nomor": "B0213MSJ0M"
+                "Nomor": "MB301"
             },
             {
                 "Produk": "Bed Andalas SR Al 2 Crank",
-                "Nomor": "B0214MSJ0M"
+                "Nomor": "MB302"
             },
             {
                 "Produk": "Bed Andalas SR Al 3 Crank",
-                "Nomor": "B0215MSJ0M"
+                "Nomor": "MB303"
             },
             {
                 "Produk": "Bed Andalas SR Al 3 Crank CLC",
-                "Nomor": "B0225MSJ0M"
+                "Nomor": "MB304"
             },
             {
                 "Produk": "Bed Andalas SR Al 3 Motor",
-                "Nomor": "B0195MSJ0E"
+                "Nomor": "MB305"
             },
             {
                 "Produk": "Bed La Nina SR Al 1 Crank",
-                "Nomor": "B0192MSJ0M"
+                "Nomor": "73061"
             },
             {
                 "Produk": "Bed La Nina SR Al 2 Crank",
-                "Nomor": "B0191MSJ0M"
+                "Nomor": "73062"
             },
             {
                 "Produk": "Bed La Nina SR Al 3 Crank",
-                "Nomor": "B0190MSJ0M"
+                "Nomor": "73063"
             },
             {
                 "Produk": "Bed La Nina SR Al 3 Crank CLC",
-                "Nomor": "B0189MSJ0M"
+                "Nomor": "73064"
             },
             {
                 "Produk": "Bed Baby Plastic",
-                "Nomor": "B0263PS12G"
+                "Nomor": "MBB11"
             },
             {
                 "Produk": "Bed Baby Rack Sys Stst",
-                "Nomor": "B0036SS00M"
+                "Nomor": "33611"
             },
             {
                 "Produk": "Bed Baby Steel",
-                "Nomor": "B0032MSK0M"
+                "Nomor": "33608"
             },
             {
                 "Produk": "Bed Baby Steel",
-                "Nomor": "B0222MSJ3M"
+                "Nomor": "MBB01"
             },
             {
                 "Produk": "Bed Baby Stst",
-                "Nomor": "B0196SS00M"
+                "Nomor": "33619"
             },
             {
                 "Produk": "Bed Borneo Homecare 4 Motor",
-                "Nomor": "J0077MSY7E"
+                "Nomor": "MB281"
             },
             {
                 "Produk": "Bed Borneo Jr SR Al 1 Crank",
-                "Nomor": "B0250MSK1M"
+                "Nomor": "MB211"
             },
             {
                 "Produk": "Bed Borneo Jr SR Al 2 Crank",
-                "Nomor": "B0249MSK1M"
+                "Nomor": "MB212"
             },
             {
                 "Produk": "Bed Borneo Jr SR Al 3 Crank",
-                "Nomor": "B0248MSK1M"
+                "Nomor": "MB213"
             },
             {
                 "Produk": "Bed Borneo Jr SR Al 3 Crk CLC",
-                "Nomor": "B0247MSK1M"
+                "Nomor": "MB214"
             },
             {
                 "Produk": "Bed Borneo Jr SR Al 3 Motor",
-                "Nomor": "B0251MSK1E"
+                "Nomor": "MB215"
             },
             {
                 "Produk": "Bed Celebes SB 1 Crank",
-                "Nomor": "B0175MSK1M"
+                "Nomor": "74001"
             },
             {
                 "Produk": "Bed Celebes SB 2 Crank",
-                "Nomor": "B0174MSK1M"
+                "Nomor": "74002"
             },
             {
                 "Produk": "Bed Celebes SB 3 Crank",
-                "Nomor": "B0173MSK1M"
+                "Nomor": "74003"
             },
             {
                 "Produk": "Bed Celebes SB 3 Crank CLC",
-                "Nomor": "B0166MSK1M01"
+                "Nomor": "74104"
             },
             {
                 "Produk": "Bed Celebes SB 3 Motor CLC",
-                "Nomor": "B0163MSK1E"
+                "Nomor": "74005"
             },
             {
                 "Produk": "Bed Celebes SB 3 Motor CLC",
-                "Nomor": "B0245MSK1E"
+                "Nomor": "74105"
             },
             {
                 "Produk": "Bed Celebes SB 4 Motor CLC",
-                "Nomor": "B0167MSK1E"
+                "Nomor": "74006"
             },
             {
                 "Produk": "Bed Celebes SB 4 Motor CLC",
-                "Nomor": "B0246MSK1E"
+                "Nomor": "74106"
             },
             {
                 "Produk": "Bed Celebes SB 5 Motor CLC",
-                "Nomor": "B0233MSK1E"
+                "Nomor": "74007"
             },
             {
                 "Produk": "Bed Celebes SR St 1 Crank",
-                "Nomor": "B0178MSK1M"
+                "Nomor": "74011"
             },
             {
                 "Produk": "Bed Celebes SR St 2 Crank",
-                "Nomor": "B0177MSK1M"
+                "Nomor": "74012"
             },
             {
                 "Produk": "Bed Celebes SR St 3 Crank",
-                "Nomor": "B0176MSK1M"
+                "Nomor": "74013"
             },
             {
                 "Produk": "Bed Celebes SR St 3 Crank CLC",
-                "Nomor": "B0165MSK1M01"
+                "Nomor": "74114"
             },
             {
                 "Produk": "Bed Lovina SB 1 Crank",
-                "Nomor": "B0184MSK1M"
+                "Nomor": "MB401"
             },
             {
                 "Produk": "Bed Lovina SB 2 Crank",
-                "Nomor": "B0183MSK1M"
+                "Nomor": "MB402"
             },
             {
                 "Produk": "Bed Lovina SB 3 Crank",
-                "Nomor": "B0182MSK1M"
+                "Nomor": "MB403"
             },
             {
                 "Produk": "Bed Lovina SB 3 Crank CLC",
-                "Nomor": "B0181MSK1M"
+                "Nomor": "MB404"
             },
             {
                 "Produk": "Bed Lovina SB 3 Motor",
-                "Nomor": "B0179MSK1E"
+                "Nomor": "MB405"
             },
             {
                 "Produk": "Bed Lovina SB 4 Motor",
-                "Nomor": "B0180MSK1E"
+                "Nomor": "MB406"
             },
             {
                 "Produk": "Bed Innova SB 3 Motor",
-                "Nomor": "B0266MSK1E"
+                "Nomor": "MB445"
             },
             {
                 "Produk": "Bed Innova SB 4 Motor",
-                "Nomor": "B0267SFGK1E"
+                "Nomor": "MB446"
             },
             {
                 "Produk": "Bed Lovina SR Al 1 Crank",
-                "Nomor": "B0242MSK1M"
+                "Nomor": "MB431"
             },
             {
                 "Produk": "Bed Lovina SR Al 2 Crank",
-                "Nomor": "B0243MSK1M"
+                "Nomor": "MB432"
             },
             {
                 "Produk": "Bed Lovina SR Al 3 Crank",
-                "Nomor": "B0244MSK1M"
+                "Nomor": "MB433"
             },
             {
                 "Produk": "Bed Lovina SR St 1 Crank",
-                "Nomor": "B0172MSK1M"
+                "Nomor": "75011"
             },
             {
                 "Produk": "Bed Lovina SR St 2 Crank",
-                "Nomor": "B0171MSK1M"
+                "Nomor": "MB412"
             },
             {
                 "Produk": "Bed Lovina SR St 3 Crank",
-                "Nomor": "B0170MSK1M"
+                "Nomor": "MB413"
             },
             {
                 "Produk": "Bed Lovina SR St 3 Crank CLC",
-                "Nomor": "B0168MSK1M"
+                "Nomor": "MB414"
             },
             {
                 "Produk": "Bed Infinite 3 Motor CLC",
-                "Nomor": "B0154MSK1E"
+                "Nomor": "79003"
             },
             {
                 "Produk": "Bed Infinite 3 Motor CLC WS",
-                "Nomor": "B0260MSK1E"
+                "Nomor": "79103W"
             },
             {
                 "Produk": "Bed Infinite 4 Motor CLC",
-                "Nomor": "B0169MSK1E"
+                "Nomor": "79001"
             },
             {
                 "Produk": "Bed Infinite 4 Motor CLC WS",
-                "Nomor": "B0259MSK1E"
+                "Nomor": "79101W"
             },
             {
                 "Produk": "Bed Titanium 3 Motor SW",
-                "Nomor": "B0193MSK1E"
+                "Nomor": "MB105"
             },
             {
                 "Produk": "Bed Titanium 3 Motor CLC",
-                "Nomor": "B0268MSK1E"
+                "Nomor": "MB115"
             },
             {
                 "Produk": "Bed Titanium 4 Motor SW",
-                "Nomor": "B0194MSK1E"
+                "Nomor": "MB106"
             },
             {
                 "Produk": "Bed Titanium 4 Motor CLC",
-                "Nomor": "B0269MSK1E"
+                "Nomor": "MB116"
             },
             {
                 "Produk": "Bed Delivery 4 Motor",
-                "Nomor": "B0262MSK1E"
+                "Nomor": "34191"
             },
             {
                 "Produk": "Bed Infinite 5 Motor CLC",
-                "Nomor": "B0265MSK1E"
+                "Nomor": "79002"
             },
             {
                 "Produk": "Bed Children Stst 1 Crank",
-                "Nomor": "B0029SS00M"
+                "Nomor": "33606C"
             },
             {
                 "Produk": "Bed Children Stst Flat",
-                "Nomor": "B0030SS00M"
+                "Nomor": "33606B"
             },
             {
                 "Produk": "Bed Economic 1 Crank",
-                "Nomor": "B0054MSK1M01"
+                "Nomor": "33014"
             },
             {
                 "Produk": "Bed Economic Flat",
-                "Nomor": "B0053MSK1M01"
+                "Nomor": "33013"
             },
             {
                 "Produk": "Bed Moluccas Jr SR Al 1 Crank",
-                "Nomor": "B0218MSK1M"
+                "Nomor": "MB521"
             },
             {
                 "Produk": "Bed Moluccas Jr SR Al 1 Crank",
-                "Nomor": "B0226MSK1M"
+                "Nomor": "MB531"
             },
             {
                 "Produk": "Bed Moluccas Jr SR Al 2 Crank",
-                "Nomor": "B0234MSK1M"
+                "Nomor": "MB522"
             },
             {
                 "Produk": "Bed Moluccas Jr SR Al 2 Crank",
-                "Nomor": "B0227MSK1M"
+                "Nomor": "MB532"
             },
             {
                 "Produk": "Bed Moluccas SR Al 1 Crank",
-                "Nomor": "B0216MSK1M"
+                "Nomor": "MB501"
             },
             {
                 "Produk": "Bed Moluccas SR Al 1 Crank",
-                "Nomor": "B0219MSK1M"
+                "Nomor": "MB511"
             },
             {
                 "Produk": "Bed Moluccas SR Al 2 Crank",
-                "Nomor": "B0217MSK1M"
+                "Nomor": "MB502"
             },
             {
                 "Produk": "Bed Moluccas SR Al 2 Crank",
-                "Nomor": "B0220MSK1M"
+                "Nomor": "MB512"
             },
             {
                 "Produk": "Bed Moluccas SR Al 3 Crank",
-                "Nomor": "B0221MSK1M"
+                "Nomor": "MB513"
             },
             {
                 "Produk": "Bed Moluccas SR St 1 Crank",
-                "Nomor": "B0237MSK1M"
+                "Nomor": "MB551"
             },
             {
                 "Produk": "Bed Moluccas SR St 2 Crank",
-                "Nomor": "B0236MSK1M"
+                "Nomor": "MB552"
             },
             {
                 "Produk": "Bed Moluccas SR St 3 Crank",
-                "Nomor": "B0235MSK1M"
+                "Nomor": "MB553"
             },
             {
                 "Produk": "Bed Pediatric Steel 1 Crank",
-                "Nomor": "B0223MSJ3M"
+                "Nomor": "MBC01"
             },
             {
                 "Produk": "Bed Pediatric Steel 2 Crank",
-                "Nomor": "B0264MSK1M"
+                "Nomor": "MBC02"
             },
             {
                 "Produk": "Bed Psychiatric",
-                "Nomor": "B0188MSK1M"
+                "Nomor": "33301"
             },
             {
                 "Produk": "Bed Satomak 3 Motor",
-                "Nomor": "J0026MSR9E"
+                "Nomor": "81003A"
             },
             {
                 "Produk": "Bed Sotamak 3 Crank",
-                "Nomor": "B0091MSK1M"
+                "Nomor": "77001"
             },
             {
                 "Produk": "Bed Sotamak 5 Motor",
-                "Nomor": "B0108MSK1E"
+                "Nomor": "78001"
             },
             {
                 "Produk": "Bed Supramak 1 Crank",
-                "Nomor": "B0072MSK1M"
+                "Nomor": "73007"
             },
             {
                 "Produk": "Bed Supramak 2 Crank",
-                "Nomor": "B0057MSK1M"
+                "Nomor": "73006"
             },
             {
                 "Produk": "Bed Supramak 2 Crank",
-                "Nomor": "B0073MSK1M"
+                "Nomor": "73010"
             },
             {
                 "Produk": "Bed Supramak 3 Crank CLC",
-                "Nomor": "B0069MSK1M"
+                "Nomor": "73005"
             },
             {
                 "Produk": "Bed Supramak 3 Motor",
-                "Nomor": "B0116MSK1E"
+                "Nomor": "73001"
             },
             {
                 "Produk": "Bed Supramak 3 Motor",
-                "Nomor": "B0086MSK1E"
+                "Nomor": "73003"
             },
             {
                 "Produk": "Bed Supramak 3 Motor CLC",
-                "Nomor": "B0115MSK1E"
+                "Nomor": "73002"
             },
             {
                 "Produk": "Bed Supramak 3 Motor CPR",
-                "Nomor": "B0114MSK1E"
+                "Nomor": "73003CPR"
             },
             {
                 "Produk": "Bedside Cabinet 760x490x450",
-                "Nomor": "E0059MSK1M"
+                "Nomor": "MC102"
             },
             {
                 "Produk": "Bedside Cabinet 765x460x475",
-                "Nomor": "E0051MSJ0M"
+                "Nomor": "73172"
             },
             {
                 "Produk": "Bedside Cabinet 885x465x420",
-                "Nomor": "E0052MSK1M"
+                "Nomor": "33132"
             },
             {
                 "Produk": "Bedside Cabinet 970x460x475",
-                "Nomor": "E0024MSK1M"
+                "Nomor": "31824"
             },
             {
                 "Produk": "Bedside Cabinet 985x490x450",
-                "Nomor": "E0058MSK1M"
+                "Nomor": "MC101"
             },
             {
                 "Produk": "Bedside Cabinet 990x470x455",
-                "Nomor": "E0004MSK1M"
+                "Nomor": "31811"
             },
             {
                 "Produk": "Cabinet Drugs Key Lock",
-                "Nomor": "E0047MSK1M"
+                "Nomor": "32921"
             },
             {
                 "Produk": "Cabinet Instrument",
-                "Nomor": "E0025MSK1M01"
+                "Nomor": "32911"
             },
             {
                 "Produk": "Cabinet Medicine",
-                "Nomor": "E0011MSK1M01"
+                "Nomor": "32912"
             },
             {
                 "Produk": "Cabinet Medicine",
-                "Nomor": "E0027MSK1M01"
+                "Nomor": "32913"
             },
             {
                 "Produk": "Cabinet Weekly Storage",
-                "Nomor": "E0049MSK1M"
+                "Nomor": "32923"
             },
             {
                 "Produk": "Locker 12 Cupboard",
-                "Nomor": "E0015MSK1M01"
+                "Nomor": "32515"
             },
             {
                 "Produk": "Locker 4 Cupboard",
-                "Nomor": "E0013MSK1M01"
+                "Nomor": "32513"
             },
             {
                 "Produk": "Locker 6 Cupboard",
-                "Nomor": "E0014MSK1M01"
+                "Nomor": "32514"
             },
             {
                 "Produk": "Couch Premium MAK Pro 2 Section",
-                "Nomor": "C0059MSK1E"
+                "Nomor": "34130"
             },
             {
                 "Produk": "Couch Premium MAK Pro 3 Section",
-                "Nomor": "C0060MSK1E"
+                "Nomor": "34131"
             },
             {
                 "Produk": "Couch Premium Plus Electra",
-                "Nomor": "C0054MSK1E"
+                "Nomor": "34127"
             },
             {
                 "Produk": "Couch Premium Plus Podiatry",
-                "Nomor": "C0030MSK1E"
+                "Nomor": "34121"
             },
             {
                 "Produk": "Couch Premium Plus Solo",
-                "Nomor": "C0052MSK1E"
+                "Nomor": "34123"
             },
             {
                 "Produk": "Couch Premium 2 Section 1 Motor",
-                "Nomor": "C0042MSK1E01"
+                "Nomor": "34219"
             },
             {
                 "Produk": "Couch Premium 2 Section 2 Motor",
-                "Nomor": "C0053MSK1E"
+                "Nomor": "34125"
             },
             {
                 "Produk": "Couch Premium 3 Section 1 Motor",
-                "Nomor": "C0043MSK1E"
+                "Nomor": "34120"
             },
             {
                 "Produk": "Couch Premium 3 Section 2 Motor",
-                "Nomor": "C0058MSK1E"
+                "Nomor": "ME304"
             },
             {
                 "Produk": "Couch Premium Changing Table",
-                "Nomor": "C0041MSK1E"
+                "Nomor": "34118"
             },
             {
                 "Produk": "Couch Wide Neurology Plinth",
-                "Nomor": "C0031MSK1E"
+                "Nomor": "34122"
             },
             {
                 "Produk": "Examination Table Pin Lock",
-                "Nomor": "C0009MSK1M"
+                "Nomor": "34104M"
             },
             {
                 "Produk": "Examination Table Steel",
-                "Nomor": "C0066MSJ2M"
+                "Nomor": "ME101"
             },
             {
                 "Produk": "Examination Table Steel",
-                "Nomor": "C0067MSJ2M"
+                "Nomor": "ME111"
             },
             {
                 "Produk": "Examination Table Steel FS",
-                "Nomor": "C0079MSJ2M"
+                "Nomor": "ME101FS"
             },
             {
                 "Produk": "Examination Table Steel FS",
-                "Nomor": "C0080MSJ2M"
+                "Nomor": "ME111FS"
             },
             {
                 "Produk": "Examination Table Stst",
-                "Nomor": "C0015SS00M"
+                "Nomor": "34101"
             },
             {
                 "Produk": "Examination Table Stst",
-                "Nomor": "C0018SS00M01"
+                "Nomor": "34205"
             },
             {
                 "Produk": "Examination Blood Donor Chair",
-                "Nomor": "A0018MSK1M"
+                "Nomor": "31306"
             },
             {
                 "Produk": "Examination Gyn. Table Electric",
-                "Nomor": "C0010MSK1E01"
+                "Nomor": "34207"
             },
             {
                 "Produk": "Examination Gyn. Table Stst",
-                "Nomor": "C0016SS00M01"
+                "Nomor": "34202"
             },
             {
                 "Produk": "Examination Gyn.Bed Electric",
-                "Nomor": "B0089MSK1E"
+                "Nomor": "34106E"
             },
             {
                 "Produk": "Examination Gyn.Bed Manual",
-                "Nomor": "B0082MSK1M"
+                "Nomor": "34106M"
             },
             {
                 "Produk": "Examination Gyn.Table LDe FS",
-                "Nomor": "C0081MSJ2M"
+                "Nomor": "ME112FS"
             },
             {
                 "Produk": "Examination Gyn.Table LDe Steel",
-                "Nomor": "C0068MSJ2M"
+                "Nomor": "ME112"
             },
             {
                 "Produk": "Examination Gyn. Chair Electric",
-                "Nomor": "C0013SS00E01"
+                "Nomor": "34208"
             },
             {
                 "Produk": "Examination Gyn. Chair Steel",
-                "Nomor": "C0020MSK1M"
+                "Nomor": "34110"
             },
             {
                 "Produk": "Examination Gyn. Chair Stst",
-                "Nomor": "C0037SS00M"
+                "Nomor": "34109"
             },
             {
                 "Produk": "Examination Gyn.Chair Stst 1 Cr",
-                "Nomor": "C0032SS00M"
+                "Nomor": "34117"
             },
             {
                 "Produk": "Operating Table Electric",
-                "Nomor": "C0014MSJ2E"
+                "Nomor": "52512E"
             },
             {
                 "Produk": "Operating Table Electric",
-                "Nomor": "C0071MSJ2E"
+                "Nomor": "MO212"
             },
             {
                 "Produk": "Operating Table Electric",
-                "Nomor": "C0070MSJ2E"
+                "Nomor": "MO211"
             },
             {
                 "Produk": "Operating Table Electric",
-                "Nomor": "C0077SS00E"
+                "Nomor": "MO213"
             },
             {
                 "Produk": "Operating Table Electrohydraulic",
-                "Nomor": "C0064SS00E"
+                "Nomor": "MO221"
             },
             {
                 "Produk": "Operating Table Electrohydraulic",
-                "Nomor": "C0083SS00E"
+                "Nomor": "MO221R"
             },
             {
                 "Produk": "Operating Table Electrohydraulic",
-                "Nomor": "C0084SS00E"
+                "Nomor": "MO221S"
             },
             {
                 "Produk": "Operating Table Electrohydraulic",
-                "Nomor": "C0078SS00E"
+                "Nomor": "MO222"
             },
             {
                 "Produk": "Operating Table Manual Pump",
-                "Nomor": "C0065MSJ2M01"
+                "Nomor": "MO201"
             },
             {
                 "Produk": "Chair Multi Function",
-                "Nomor": "K0035MSK1M"
+                "Nomor": "99312"
             },
             {
                 "Produk": "Table Multi Function",
-                "Nomor": "N0011MSK1M"
+                "Nomor": "99412"
             },
             {
                 "Produk": "Multi Functional Chair",
-                "Nomor": "A0019MSK9H"
+                "Nomor": "31309"
             },
             {
                 "Produk": "Stretcher Emergency Mobile Stst",
-                "Nomor": "A0021SS00M01"
+                "Nomor": "31218"
             },
             {
                 "Produk": "Stretcher Emergency Hydraulic",
-                "Nomor": "A0032MSK1H"
+                "Nomor": "31214"
             },
             {
                 "Produk": "Stretcher Folding",
-                "Nomor": "A0004MSK9M"
+                "Nomor": "31201"
             },
             {
                 "Produk": "Stretcher Mortuary",
-                "Nomor": "A0007MSK1M"
+                "Nomor": "31210"
             },
             {
                 "Produk": "Stretcher Multi Purpose",
-                "Nomor": "A0001SS00M"
+                "Nomor": "31206"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0016MSK1M"
+                "Nomor": "31209"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0022MSK1M"
+                "Nomor": "31209T"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0025MSK1H01"
+                "Nomor": "31219TH"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0031MSK1M01"
+                "Nomor": "31223"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0035MSK1M"
+                "Nomor": "MS301"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0040MSK1M"
+                "Nomor": "MS302"
             },
             {
                 "Produk": "Stretcher Transferring Patient",
-                "Nomor": "A0046MSK1M"
+                "Nomor": "MS303"
             },
             {
                 "Produk": "Stretcher Transporting Patient",
-                "Nomor": "A0013SS00M"
+                "Nomor": "31207"
             },
             {
                 "Produk": "Wheel Chair Steel",
-                "Nomor": "A0039MSK0M02"
+                "Nomor": "31315"
             },
             {
                 "Produk": "Wheel Chair Stst",
-                "Nomor": "A0045SS00M02"
+                "Nomor": "31313"
             },
             {
                 "Produk": "Trolley Anaesthesia",
-                "Nomor": "D0032MSK1M"
+                "Nomor": "36604"
             },
             {
                 "Produk": "Trolley Anaesthesia",
-                "Nomor": "D0048PS07M"
+                "Nomor": "36607"
             },
             {
                 "Produk": "Trolley Anaesthesia",
-                "Nomor": "D0067PS07M"
+                "Nomor": "36617"
             },
             {
                 "Produk": "Trolley Clean Washing",
-                "Nomor": "D0052MSJ2M"
+                "Nomor": "MT611"
             },
             {
                 "Produk": "Trolley Clean Washing",
-                "Nomor": "D0064SS00M"
+                "Nomor": "MT612"
             },
             {
                 "Produk": "Trolley Dirty Washing",
-                "Nomor": "D0060MSJ2M"
+                "Nomor": "MT601"
             },
             {
                 "Produk": "Trolley Drawer 600x400x225",
-                "Nomor": "D0069PS07M"
+                "Nomor": "MT561"
             },
             {
                 "Produk": "Trolley Drawer 600x400x150",
-                "Nomor": "D0070PS07M"
+                "Nomor": "MT562"
             },
             {
                 "Produk": "Trolley Drawer 600x400x75",
-                "Nomor": "D0071PS07M"
+                "Nomor": "MT563"
             },
             {
                 "Produk": "Trolley Drawer 600x400x50",
-                "Nomor": "D0072PS07M"
+                "Nomor": "MT564"
             },
             {
                 "Produk": "Trolley Tray 150x400x64",
-                "Nomor": "D0073PS07M"
+                "Nomor": "MT565"
             },
             {
                 "Produk": "Trolley Dressing",
-                "Nomor": "D0002SS00M01"
+                "Nomor": "35112"
             },
             {
                 "Produk": "Trolley Dressing",
-                "Nomor": "D0051SS00M"
+                "Nomor": "MT201"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0044MSK1M"
+                "Nomor": "36606"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0046PS07M"
+                "Nomor": "36609"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0068PS07M"
+                "Nomor": "36619"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0042MSK1M"
+                "Nomor": "36603A"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0062MSJ2M"
+                "Nomor": "MT501"
             },
             {
                 "Produk": "Trolley Emergency",
-                "Nomor": "D0063PS07M"
+                "Nomor": "MT502"
             },
             {
                 "Produk": "Trolley Food",
-                "Nomor": "D0007SS00M01"
+                "Nomor": "35213"
             },
             {
                 "Produk": "Trolley Food",
-                "Nomor": "D0053SS00M"
+                "Nomor": "MT301"
             },
             {
                 "Produk": "Trolley Food",
-                "Nomor": "D0061MSJ2M"
+                "Nomor": "MT302"
             },
             {
                 "Produk": "Trolley Instrument",
-                "Nomor": "D0047SS00M01"
+                "Nomor": "35111"
             },
             {
                 "Produk": "Trolley Instrument",
-                "Nomor": "D0050SS00M"
+                "Nomor": "MT101"
             },
             {
                 "Produk": "Trolley Mayo stand",
-                "Nomor": "D0003SS00M01"
+                "Nomor": "35113"
             },
             {
                 "Produk": "Trolley Medical Report",
-                "Nomor": "D0033MSK1M"
+                "Nomor": "36605"
             },
             {
                 "Produk": "Trolley Medicine",
-                "Nomor": "D0049PS07M"
+                "Nomor": "36608"
             },
             {
                 "Produk": "Trolley Medicine 20 Drawer",
-                "Nomor": "D0058MSK1M"
+                "Nomor": "MT401"
             },
             {
                 "Produk": "Trolley Medicine 40 Drawer",
-                "Nomor": "D0059MSK1M"
+                "Nomor": "MT402"
             },
             {
                 "Produk": "Waiting Chair 3 Seat",
-                "Nomor": "K0014MSK1M01"
+                "Nomor": "99114S3"
             },
             {
                 "Produk": "Waiting Chair 3 Seat",
-                "Nomor": "K0034MSJ2M"
+                "Nomor": "MK103"
             },
             {
                 "Produk": "Waiting Chair 4 Seat",
-                "Nomor": "K0009MSK1M01"
+                "Nomor": "99114S4"
             },
             {
                 "Produk": "Waiting Chair 4 Seat",
-                "Nomor": "K0033MSJ2M"
+                "Nomor": "MK104"
             },
             {
                 "Produk": "Bed Infinite 5 Motor CLC WS",
-                "Nomor": "B0261MSK1E"
+                "Nomor": "79102W"
             },
             {
                 "Produk": "Overbed Table Gas Spring",
-                "Nomor": "F0049MSK1G"
+                "Nomor": "75033"
             },
             {
                 "Produk": "Waiting Chair 4 Seat",
-                "Nomor": "K0042MSJ2M"
+                "Nomor": "MK204"
             },
             {
                 "Produk": "Cabinet Locker",
-                "Nomor": "E0070MSJ2M"
+                "Nomor": "MC404"
             },
             {
                 "Produk": "Cabinet Filing 1 Drawer",
-                "Nomor": "E0063MSJ2M"
+                "Nomor": "MC301"
             },
             {
                 "Produk": "Cabinet Filing 2 Drawer",
-                "Nomor": "E0064MSJ2M"
+                "Nomor": "MC302"
             },
             {
                 "Produk": "Cabinet Filing 3 Drawer",
-                "Nomor": "E0065MSJ2M"
+                "Nomor": "MC303"
             },
             {
                 "Produk": "Cabinet Filing 4 Drawer",
-                "Nomor": "E0066MSJ2M"
+                "Nomor": "MC304"
             },
             {
                 "Produk": "Bed Baby Gas Spring Stst",
-                "Nomor": "B0046SS00G"
+                "Nomor": "33610"
             },
             {
                 "Produk": "Bed Folding Romance Wo Backrest",
-                "Nomor": "P000360914"
+                "Nomor": "99001R-SO"
             },
             {
                 "Produk": "Bed Folding Dunlopillo",
-                "Nomor": "J0013MSK9M"
+                "Nomor": "99001D"
             },
             {
                 "Produk": "Bed Wallbed 900",
-                "Nomor": "J0036MSR9M"
+                "Nomor": "82001"
             },
             {
                 "Produk": "Bed Wallbed 1600",
-                "Nomor": "J0035MSR9M"
+                "Nomor": "82002"
             },
             {
                 "Produk": "Bed Celebes SB 5 Motor CLC",
-                "Nomor": "B0228SFGK1E"
+                "Nomor": "MB407"
             },
             {
                 "Produk": "Couch Premium Changing Table Junior",
-                "Nomor": "J0035MSR9M"
+                "Nomor": "34118j"
             },
             {
                 "Produk": "Bed Folding",
-                "Nomor": "J0002MSD7M"
+                "Nomor": "99001"
             },
             {
                 "Produk": "Foot Step",
-                "Nomor": "H0012MSK1M"
+                "Nomor": "34153"
             },
             {
                 "Produk": "TROLLEY URINAL & BEDPAN",
-                "Nomor": "D0004SS00M01"
+                "Nomor": "36403"
             },
             {
                 "Produk": "Modern Chair",
-                "Nomor": "K0004SSK0M"
+                "Nomor": "99102"
             },
             {
                 "Produk": "Waiting Chair 4 Seat",
-                "Nomor": "K0016MSK0M"
+                "Nomor": "99103S4"
             },
             {
                 "Produk": "BED EXTRA STANDING",
-                "Nomor": "J0008MSK0M"
+                "Nomor": "99003"
             }
         ]';
 

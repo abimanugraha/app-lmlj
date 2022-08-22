@@ -8,10 +8,8 @@
     <link rel="icon" href="assets/img/logo-mak-text.png">
 
     <!-- General CSS Files -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap-4.3.1/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.css') }}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
@@ -35,37 +33,43 @@
                                 <h4>Register</h4>
                             </div>
                             <div class="card-body">
-                                <form method="post" action="{{ url('registrasi') }}">  
-                                    @csrf                                  
+                                <form method="post" action="{{ url('registrasi') }}">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="nama">Nama</label>
-                                        <input id="nama" type="text" class="form-control @error('nama')is-invalid @enderror" name="nama" value="{{ old('nama') }}">
+                                        <input id="nama" type="text"
+                                            class="form-control @error('nama') is-invalid @enderror" name="nama"
+                                            value="{{ old('nama') }}">
                                         @error('nama')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>                                            
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input id="username" type="text" class="form-control @error('username')is-invalid @enderror" name="username">
+                                        <input id="username" type="text"
+                                            class="form-control @error('username') is-invalid @enderror"
+                                            name="username">
                                         @error('username')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>                                            
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input id="password" type="password" class="form-control @error('password')is-invalid @enderror" name="password">
+                                        <input id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            name="password">
                                         @error('password')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>                                            
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
-                                    </div>                                   
+                                    </div>
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label>Role</label>
@@ -87,7 +91,7 @@
                                                 <option value="4">PE</option>
                                             </select>
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                     {{-- <div class="form-group">
                                         <div class="custom-control custom-checkbox">

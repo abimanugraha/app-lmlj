@@ -95,7 +95,7 @@
                     @if ($masalah->media->count() > 0)
                         <div class="row mb-1">
                             <div class="col">
-                                Foto/Video
+                                Lampiran
                             </div>
                         </div>
                     @endif
@@ -113,10 +113,17 @@
                 <div class="row mb-1">
                     <div class="col">
                         <div class="gallery gallery-md">
+                            <?php $i = 1; ?>
                             @foreach ($masalah->media as $item)
-                                <div style="border: 2px solid #cdd3d8;" class="gallery-item"
-                                    data-image="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
-                                    data-title="{{ $item->file }}"></div>
+                                @if (substr($item->file, -3) == 'pdf')
+                                    <a class="badge badge-info mt-4"
+                                        href="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
+                                        target="_BLANK">Lampiran {{ $i++ }}</a>
+                                @else
+                                    <div style="border: 2px solid #cdd3d8;" class="gallery-item"
+                                        data-image="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
+                                        data-title="{{ $item->file }}"></div>
+                                @endif
                             @endforeach
                             {{-- <div class="gallery-item" data-image="{{ asset('assets/img/news/img02.jpg') }}"
                             data-title="Image 2"></div>

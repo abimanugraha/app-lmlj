@@ -3,7 +3,7 @@
 function validasiEkstensi(id){
     var inputFile = document.getElementById(`customFile-${id}`);
     var pathFile = inputFile.value;
-    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    var ekstensiOk = /(\.jpg|\.jpeg|\.png|\.gif|\.pdf)$/i;
     if(!ekstensiOk.exec(pathFile)){
         inputFile.value = '';
         $(`#customFile-${id}`).attr('class','custom-file-input is-invalid');
