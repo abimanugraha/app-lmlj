@@ -206,6 +206,10 @@ class KotakMasukController extends Controller
         $masalah = Masalah::find($masalah_id);
         $masalah->komponen_id = $komponen_id;
         $masalah->save();
-        // return response()->json($masalah);
+        $result = [
+            'nama' => $masalah->komponen->nama,
+            'nomor' => $masalah->komponen->nomor,
+        ];
+        return response()->json($result);
     }
 }

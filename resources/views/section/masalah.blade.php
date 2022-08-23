@@ -233,28 +233,19 @@
     </div>
 </div>
 
-<form class="modal-part" id="modal-login-part">
+<form class="modal-part" id="modal-komponen">
     <div class="form-group">
         <label>Nama Komponen</label>
-        <select required class="form-control select2" name="komponen_id" id="input-nama-komponen"
-            onchange="editkomponen(this.value)">
+        <select required class="form-control select2" name="komponen_id" id="input-nama-komponen">
             <option value="" selected>Pilih Komponen</option>
             @foreach ($komponen as $item)
                 @if ($item->status == 1)
-                    <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
+                    <option value="{{ $item->id }}">{{ $item->nama }} -
+                        {{ $item->nomor }}</option>
                 @endif
             @endforeach
         </select>
-        <input type="text" class="form-control" id="h-id-komponen" name="id" hidden>
-        <input type="text" class="form-control" id="h-nama-komponen" name="nama" hidden>
         <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
-    </div>
-    <div class="form-group">
-        <label>Nomor Komponen</label>
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Nomor Komponen" name="nomor"
-                id="h-input-nomor-komponen">
-        </div>
     </div>
 </form>
 <form class="modal-part" id="modal-produk">

@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $query = Masalah::query();
         $query->with(['lmlj', 'unit', 'jawaban', 'user']);
         $masalah = $query->where('nolmlj', $nolmlj)->orderBy('id', 'DESC')->first();
-        // dd($masalah);
+        // $masalah = Masalah::where('nolmlj', $nolmlj)->first();
 
         $pembagi = 1;
         if ($masalah->forward->count() > 0) {

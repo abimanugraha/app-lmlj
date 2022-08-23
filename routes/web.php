@@ -38,7 +38,7 @@ Route::get('/registrasi', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::get('/detail/{nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
-Route::get('/detail-ajax/{masalah:id}', [DashboardController::class, 'detail'])->middleware('auth');
+Route::get('/detail-ajax/{nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
 Route::get('/lmlj-selesai', [DashboardController::class, 'selesai'])->middleware('auth');
 
 Route::get('/pengajuan-lmlj', [PengajuanController::class, 'index'])->middleware('auth');

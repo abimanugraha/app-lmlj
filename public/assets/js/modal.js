@@ -1,14 +1,13 @@
 $("#modal-5").fireModal({
     title: 'Edit Komponen',
-    body: $("#modal-login-part"),
+    body: $("#modal-komponen"),
     footerClass: 'bg-whitesmoke',
     autoFocus: false,
     onFormSubmit: function(modal, e, form) {
         // Form Data
         let data = $(e.target).serializeArray();
-        // console.log(data);
         $.ajax({
-            url: window.location.origin + `/app-lmlj/ajax/editkomponen` + `/` + data[3].value + `/` + data[1].value,
+            url: window.location.origin + `/app-lmlj/ajax/editkomponen` + `/` + data[1].value + `/` + data[0].value,
             success: function(res) {
                 // DO AJAX HERE
                 let fake_ajax = setTimeout(function() {
@@ -21,8 +20,8 @@ $("#modal-5").fireModal({
                     }, 1500);
 
                     clearInterval(fake_ajax);
-                    $('#nama-komponen').text(data[2].value);
-                    $('#nomor-komponen').text(data[4].value);
+                    $('#nama-komponen').text(res.nama);
+                    $('#nomor-komponen').text(res.nomor);
                 }, 1000);
             }
         });
@@ -51,12 +50,11 @@ $("#modal-6").fireModal({
     onFormSubmit: function(modal, e, form) {
         // Form Data
         let data = $(e.target).serializeArray();
-        console.log(data);
+        // console.log(data);
         $.ajax({
             url: window.location.origin + `/app-lmlj/ajax/editproduk/` + data[1].value + `/` + data[0].value,
             success: function(res) {
                 // DO AJAX HERE
-                console.log(res);
                 let fake_ajax = setTimeout(function() {
                     form.stopProgress();
                     modal.find('.modal-body').prepend(

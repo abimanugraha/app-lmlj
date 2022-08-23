@@ -75,8 +75,9 @@
                                             </div>
                                         </a>
                                     @elseif($item->status_tembusan == 0 && $item->unit_tembusan_id == auth()->user()->unit->id)
+                                        {{ $item->nolmlj }}
                                         <a href="#"
-                                            onclick="konfirmasi({{ $item->tembusan_id . ',' . $item->id }})"
+                                            onclick="konfirmasi('{{ $item->nolmlj }}', {{ $item->tembusan_id }})"
                                             class="dropdown-item dropdown-item-unread">
                                             <div class="dropdown-item-icon bg-{{ $item->color }} text-white">
                                                 {{ $item->target }}
@@ -126,7 +127,8 @@
                     </li>
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('upload_media/user/' . auth()->user()->picture) }}"
+                            <img alt="image"
+                                src="{{ asset('storage/upload_media/user/' . auth()->user()->picture) }}"
                                 class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->nama }}</div>
                         </a>
@@ -203,13 +205,12 @@
                 </aside>
             </div>
             <script>
-                function konfirmasi(tembusan_id, masalah_id) {
-                    // console.log(tembusan_id);
+                function konfirmasi(nolmlj, tembusan_id) {
                     $.ajax({
                         url: `{{ url('ajax/konfirmasitembusan') }}` + `/` + tembusan_id,
                         success: function(res) {
                             // console.log(res);
-                            window.location.href = `{{ url('detail-ajax') }}` + `/` + masalah_id;
+                            window.location.href = `{{ url('detail-ajax') }}` + `/` + nolmlj;
                         }
                     });
                 }
