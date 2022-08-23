@@ -31,6 +31,13 @@
                     <div class="row mb-1">
                         <div class="col mb-0">
                             Nama produk <b class="text-dark">{{ $masalah->lmlj->produk->nama }}</b>
+                            @if ($masalah->status < 4 &&
+                                ($masalah->unit_tujuan_id == auth()->user()->unit->id ||
+                                    $masalah->lmlj->unit_pengaju_id == auth()->user()->unit->id))
+                                <a href="#" id="modal-6">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @endif
                         </div>
                     </div>
                     <div class="row mb-1">
@@ -87,6 +94,18 @@
                             @endif
                         </div>
                     </div>
+                </div>
+                <div class="col-4 text-right">
+                    @if ($masalah->status == 4)
+                        <figure>
+                            <img src="{{ asset('assets/img/solved.png') }}" alt="status" style="width:80%">
+                            <figcaption>{{ $masalah->updated_at->format('d-M-Y') }}</figcaption>
+                        </figure>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <div class="row mb-1">
                         <div class="col">
                             Masalah <b class="text-dark">{{ $masalah->masalah }}</b>
@@ -100,14 +119,6 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-4 text-right">
-                    @if ($masalah->status == 4)
-                        <figure>
-                            <img src="{{ asset('assets/img/solved.png') }}" alt="status" style="width:80%">
-                            <figcaption>{{ $masalah->updated_at->format('d-M-Y') }}</figcaption>
-                        </figure>
-                    @endif
-                </div>
             </div>
             @if ($masalah->media->count() > 0)
                 <div class="row mb-1">
@@ -117,24 +128,14 @@
                             @foreach ($masalah->media as $item)
                                 @if (substr($item->file, -3) == 'pdf')
                                     <a class="badge badge-info mt-4"
-                                        href="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
+                                        href="{{ asset('storage/upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
                                         target="_BLANK">Lampiran {{ $i++ }}</a>
                                 @else
                                     <div style="border: 2px solid #cdd3d8;" class="gallery-item"
-                                        data-image="{{ asset('upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
+                                        data-image="{{ asset('storage/upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
                                         data-title="{{ $item->file }}"></div>
                                 @endif
                             @endforeach
-                            {{-- <div class="gallery-item" data-image="{{ asset('assets/img/news/img02.jpg') }}"
-                            data-title="Image 2"></div>
-                        <div class="gallery-item" data-image="{{ asset('assets/img/news/img03.jpg') }}"
-                            data-title="Image 3"></div>
-                        <div class="gallery-item" data-image="{{ asset('assets/img/news/img04.jpg') }}"
-                            data-title="Image 4"></div>
-                        <div class="gallery-item gallery-more" data-image="{{ asset('assets/img/news/img05.jpg') }}"
-                            data-title="Image 12">
-                            <div>+2</div>
-                        </div> --}}
                         </div>
                     </div>
                 </div>
@@ -247,7 +248,6 @@
         <input type="text" class="form-control" id="h-id-komponen" name="id" hidden>
         <input type="text" class="form-control" id="h-nama-komponen" name="nama" hidden>
         <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
-
     </div>
     <div class="form-group">
         <label>Nomor Komponen</label>
@@ -257,6 +257,26 @@
         </div>
     </div>
 </form>
+<form class="modal-part" id="modal-produk">
+    <div class="form-group">
+        <label>Produk</label>
+        <select required class="form-control select2" name="produk_id" id="input-produk"
+            onchange="editproduk(this.value)">
+            <option value="" selected>Pilih produk</option>
+            @foreach ($komponen as $item)
+                @if ($item->status == 1)
+                    <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
+                @endif
+            @endforeach
+        </select>
+        <input type="text" class="form-control" id="h-id-produk" name="id" hidden>
+        <input type="text" class="form-control" id="h-nama-produk" name="nama" hidden>
+        <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
+    </div>
+</form>
+
+
+
 <script>
     function konfirmasimasalah(id) {
         $.ajax({

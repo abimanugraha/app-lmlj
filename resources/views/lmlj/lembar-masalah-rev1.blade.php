@@ -35,6 +35,7 @@
                                     {{-- Input Awal --}}
                                     <div class="form-row">
                                         <input type="text" name="nolmlj" value={{ $nolmlj }} hidden>
+                                        <input type="text" name="nocom" value="0" id="nocom" hidden>
                                         <div class="form-group col-3">
                                             <label for="input-unit-tujuan">Unit Tujuan</label>
                                             <select class="form-control select2" name="unit_tujuan_id[]"
@@ -55,13 +56,26 @@
                                                 id="input-tembusan" disabled>
                                             </select>
                                         </div>
-                                        <div class="form-group col-3">
-                                            <label for="input-nama-produk">Nama Produk</label>
-                                            <select class="form-control select2" name="produk_id" onchange="showkomponen()"
-                                                id="input-nama-produk" required>
+                                        @if (auth()->user()->unit->id == 1)
+                                            <div class="form-group col-2">
+                                                <label for="input-complaint">Complaint</label>
+                                                <select disabled class="form-control select2" name="complaint"
+                                                    onchange="fillfromcomplaint()" id="input-complaint">
+                                                    <option value="0" selected>Pilih Complaint</option>
+                                                    @foreach ($complaint as $item)
+                                                        <option value="{{ $item }}">{{ $item->nocom }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endif
+                                        <div class="form-group {{ $col }}">
+                                            <label for="input-nama-produk">Produk</label>
+                                            <select disabled class="form-control select2" name="produk_id"
+                                                onchange="showkomponen()" id="input-nama-produk" required>
                                                 <option value="0" selected>Pilih Produk</option>
                                                 @foreach ($produk as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                    <option value="{{ $item->id }}">{{ $item->nama }} -
+                                                        {{ $item->nomor }}</option>
                                                 @endforeach
                                             </select>
                                             @error('produk_id')
@@ -70,12 +84,12 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-3">
+                                        {{-- <div class="form-group {{ $col }}">
                                             <label for="input-nomor-produk">Nomor Produk</label>
                                             <select class="form-control select2" name="" disabled
                                                 id="input-nomor-produk">
                                             </select>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                 </div>

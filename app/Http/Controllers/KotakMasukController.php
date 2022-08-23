@@ -58,8 +58,11 @@ class KotakMasukController extends Controller
         return view('lmlj.kotak-masuk', $data);
     }
 
-    public function jawab(Masalah $masalah)
+    public function jawab($nolmlj)
     {
+        $query = Masalah::query();
+        $query->with(['lmlj', 'unit', 'jawaban', 'user']);
+        $masalah = $query->where('nolmlj', $nolmlj)->orderBy('id', 'DESC')->first();
 
         $masalah->target = $this->getDefaultTarget($masalah->urgensi);
         $masalah->color_urgensi = $this->getUrgensiColor($masalah->target);
@@ -82,7 +85,7 @@ class KotakMasukController extends Controller
 
     public function store(Request $request)
     {
-        $masalah = Masalah::where('nolmlj', $request->nolmlj)->first();
+        $masalah = Masalah::where('nolmlj', $request->nolmlj)->orderBy('id', 'DESC')->first();
 
         if ($masalah->forward->where('unit_id', auth()->user()->unit->id)->count() == 1) {
             $forward = Forward::find($masalah->forward->where('unit_id', auth()->user()->unit->id)->first()->id);

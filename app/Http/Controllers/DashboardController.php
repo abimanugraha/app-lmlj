@@ -88,16 +88,13 @@ class DashboardController extends Controller
         return view('dashboard.index', $data);
     }
 
-    public function detail(Masalah $masalah)
+    public function detail($nolmlj)
     {
-
-        // auth()->user()->unit->masalah = $this->getKotakMasuk();
         $query = Masalah::query();
         $query->with(['lmlj', 'unit', 'jawaban', 'user']);
-        $masalah = $query->find($masalah->id);
-
+        $masalah = $query->where('nolmlj', $nolmlj)->orderBy('id', 'DESC')->first();
         // dd($masalah);
-        // dd($masalah->lmlj->tembusan);
+
         $pembagi = 1;
         if ($masalah->forward->count() > 0) {
             $pembagi = $masalah->forward->count() + 1;
@@ -106,9 +103,6 @@ class DashboardController extends Controller
         $masalah->color_urgensi = $this->getUrgensiColor($masalah->target);
         $masalah->color_realisasi = $this->getUrgensiColor($masalah->created_at->diffInDays($masalah->updated_at));
         $lebar_status = $masalah->jawaban->count() ? 65 / (1 + $pembagi) : 50 - 1;
-        // dd($pembagi);
-        // dd($masalah->jawaban->count());
-        // $lebar_status = if( $masalah->jawaban->count()==0) {50-1}  else{} ;
         $data = [
             'title' => 'Detail LMLJ',
             'slug'  => 'dashboard',

@@ -1,5 +1,40 @@
 <script>
 
+function test() { 
+    
+}
+
+function fillfromcomplaint(){
+    let complaint = JSON.parse($("#input-complaint").val());
+    selected = $('#input-unit-tujuan option:selected').map(function() {
+        return {id:this.value, unit:this.text};
+    }).get();
+
+    if(complaint ==0){
+        selected.forEach(item => {
+            $(`#input-masalah-${item.id}`).val('Masukan urain singkat masalah');    
+        }); 
+        
+    }else{
+        var no= no_detail - selected.length;
+        selected.forEach(item => {
+            kurangdetail(item.id, no);
+            no++;
+        });
+        var no=no_detail;
+        selected.forEach(item => {
+            $('#nocom').val(complaint.nocom);
+            $(`#input-masalah-${item.id}`).val('Masalah produk ' + complaint.namaproduk + ' (SC' +complaint.nocom+')');
+            tambahdetail(item.id);
+            $(`#input-detail-masalah-${item.id}-1`).val(complaint.deskripsi);
+            $(`#input-detail-masalah-${item.id}-${no}`).val('Berdasarkan surat complaint NO:'+ complaint.nocom);
+            var url = 'http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg';
+            
+            no++;
+        }); 
+    }
+}
+
 function validasiEkstensi(id){
     var inputFile = document.getElementById(`customFile-${id}`);
     var pathFile = inputFile.value;
@@ -50,7 +85,7 @@ function showkomponen() {
                 $.each(res, function(index, data) {
                     if(data.status==1){
                         $(`#input-nama-komponen-${item.id}`).append(
-                            `<option value="${data.id}">${data.nama}</option>`)                        
+                            `<option value="${data.id}">${data.nama} - ${data.nomor}</option>`)                        
                     }
                 });                
             });           
@@ -71,12 +106,12 @@ function shownumberkomponen(id) {
     });
 }
 
-var no_detail = 1;
+var no_detail = 2;
 function tambahdetail(id) {
     $(`#box-detail-masalah-${id}`).append(`
     <div class="d-inline-flex  mb-2" id="div-detail-${id}-${no_detail}">
         <input name="detail[${id}][]" type="text" class="form-control"
-            id="input-detail-masalah-2" placeholder="Masukan detail masalah">
+            id="input-detail-masalah-${id}-${no_detail}" placeholder="Masukan detail masalah">
         <a class="btn btn-icon btn-danger ml-1 text-white"
             id="btn-tambah-detail-#" onclick="kurangdetail(${id}, ${no_detail})">
             <i class="fas fa-minus mt-2"></i>
@@ -95,9 +130,10 @@ function getunittembusan() {
     selected = $('#input-unit-tujuan option:selected').map(function() {
         return {id:this.value, unit:this.text};
     }).get();
-    // console.log(selected);
     if (selected.length ==0) {
         $("#input-tembusan").prop('disabled', true);
+        $("#input-complaint").prop('disabled', true);
+        $("#input-nama-produk").prop('disabled', true);
         $("#form-masalah").children().remove();  
         $('#button-kirim-lmlj').children().remove();          
     }else{ 
@@ -133,26 +169,20 @@ function getunittembusan() {
                                         <div class="card-body">
                                             <h6 style="min-height: 100%" class="text-primary">Unit ${item.unit}</h6>
                                             <div class="form-row mt-3">
-                                                <div class="form-group col-md-6">
-                                                    <label for="input-nama-komponen-${item.id}">Nama Komponen</label>
+                                                <div class="form-group col-md-12">
+                                                    <label for="input-nama-komponen-${item.id}">Komponen</label>
                                                     <select class="form-control select2"
-                                                        name="komponen_id[${item.id}]" id="input-nama-komponen-${item.id}" disabled
+                                                        name="komponen_id[${item.id}]" id="input-nama-komponen-${item.id}"
                                                         onchange="shownumberkomponen(${item.id})">
                                                         <option value="" selected>Pilih Komponen</option>
                                                     </select>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="input-nomor-komponen-${item.id}">Nomor Komponen</label>
-                                                    <select class="form-control select2" disabled
-                                                        id="input-nomor-komponen-${item.id}">
-                                                    </select>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-12">
                                                     <label for="input-no-lmlj">Uraian Singkat </label>
                                                     <input type="text"
-                                                        class="form-control"
+                                                        class="form-control" id="input-masalah-${item.id}"
                                                         name="masalah[${item.id}]" placeholder="Uraian singkat masalah" required>
                                                 </div>
                                             </div>
@@ -160,7 +190,7 @@ function getunittembusan() {
                                                 <label for="input-detail-masalah">Detail Masalah</label>
                                                 <div class="d-inline-flex mb-2">
                                                     <input name="detail[${item.id}][]" type="text" class="form-control"
-                                                        id="input-detail-masalah" placeholder="Masukan detail masalah">
+                                                        id="input-detail-masalah-${item.id}-1" placeholder="Masukan detail masalah">
                                                     <a class="btn btn-icon btn-primary ml-1 text-white"
                                                         id="btn-tambah-detail-${item.id}" onclick="tambahdetail(${item.id})">
                                                         <i class="fas fa-plus mt-2"></i>
@@ -218,6 +248,8 @@ function getunittembusan() {
         let data = {unit_id};
         $("#input-tembusan").children().remove();
         $("#input-tembusan").prop('disabled', false);
+        $("#input-complaint").prop('disabled', false);
+        $("#input-nama-produk").prop('disabled', false);
         $.ajax({
             url: `{{ url('ajax/unittembusan') }}` + `/` + unit_user,
             contentType: 'application/json',

@@ -12,14 +12,57 @@ use App\Models\Produk;
 use App\Models\Unit;
 use App\Models\Media;
 use App\Models\Tembusan;
+use App\Models\Complaint;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class PengajuanController extends Controller
 {
+
+    public function test()
+    {
+        $url = 'http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg';
+        $info = pathinfo($url);
+        $contents = file_get_contents($url);
+        $file = '/opt/lampp/temp/' . $info['basename'];
+        file_put_contents($file, $contents);
+        $uploaded_file = new UploadedFile($file, $info['basename']);
+        $name = 'tes.' . $uploaded_file->getClientOriginalExtension();
+        // $uploaded_file->move(public_path() . '/upload_media/masalah/satu/', $name);
+        // $file_path = $uploaded_file->store('upload_media/masalah');
+        // dd($uploaded_file);
+        // Storage::disk('public')->store(
+        //     'upload_media/masalah/',
+        //     $uploaded_file,
+        //     $name
+        // );
+        $path = $uploaded_file->storeAs(
+            'avatars',
+            $name
+        );
+        dd($path);
+        // Storage::move($url, public_path() . '/upload_media/masalah/satu/', $info['basename']);
+
+
+
+
+        // $url = 'http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg';
+        // $contents = Storage::get('http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg');
+        // $contents = Storage::url($url);
+        // $contents = file_get_contents($url);
+        // dd($contents);
+    }
     public function index()
     {
+
         $collection = Lmlj::where('created_at', 'like', date('Y') . '%')
             ->get();
+        $col = 'col-6';
+        if (auth()->user()->unit->id == 1) {
+            $col = 'col-4';
+        }
         $data = [
             'title'     => 'Pengajuan LMLJ',
             'slug'      => 'pengajuan-lmlj',
@@ -29,15 +72,15 @@ class PengajuanController extends Controller
             'produk'    => Produk::all(),
             'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->get(),
             'user'      => auth()->user(),
-            'ygmengetahui' => auth()->user()->unit->user->where('role_id', 2)->first()
+            'ygmengetahui' => auth()->user()->unit->user->where('role_id', 2)->first(),
+            'complaint' => Complaint::where('status', 'Proses')->get(),
+            'col' => $col
         ];
         return view('lmlj.lembar-masalah-rev1', $data);
     }
 
     function store(Request $request)
     {
-        // dd($request->request);
-        // dd($request->nolmlj);
         $status = 0;
         $spv_pengaju_id = null;
         $pesan = 'Lembar masalah berhasil dikirim! Menunggu konfirmasi!';
@@ -65,7 +108,6 @@ class PengajuanController extends Controller
             $masalah_id = 1;
         }
         $alphabet = range('A', 'Z');
-        // dd($request->unit_tujuan_id);
         if (count($request->unit_tujuan_id) > 1) {
             for ($i = 0; $i < count($request->unit_tujuan_id); $i++) {
                 $nolmlj[$request->unit_tujuan_id[$i]] = $request->nolmlj . '-' . $alphabet[$i];
@@ -73,7 +115,6 @@ class PengajuanController extends Controller
         } else {
             $nolmlj[$request->unit_tujuan_id[0]] = $request->nolmlj;
         }
-        // dd($nolmlj);
         foreach ($request->unit_tujuan_id as $item) {
             $data_masalah = [
                 'lmlj_id' => $lmlj_id,
@@ -102,12 +143,40 @@ class PengajuanController extends Controller
                     $file_name = $item->getClientOriginalExtension();
                     $name = $request->nolmlj . '-M' . $masalah_id . '-' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
-                    $item->move(public_path() . '/upload_media/masalah/' . strtolower($unit[0]), $name);
+                    $item->move(public_path() . '/storage/upload_media/masalah/' . strtolower($unit[0]), $name);
                     $data_media = [
                         'masalah_id' => $masalah_id,
                         'file' => $name,
                     ];
                     Media::create($data_media);
+                }
+            }
+            if ($request->nocom > 0) {
+                $imagesc = json_decode($request->complaint);
+                for ($i = 1; $i < 5; $i++) {
+                    $param = 'gambar' . $i;
+                    if ($imagesc->{$param}) {
+                        // $path = $imagesc->{$param};
+                        $path = str_replace(' ', '%20', $imagesc->{$param});
+                        $url = "http://28.11.5.6/support-user/monitoring-complaint/images/foto/" . $path;
+                        $info = pathinfo($url);
+                        $contents = file_get_contents($url);
+                        $file = '/opt/lampp/temp/' . $info['basename'];
+                        file_put_contents($file, $contents);
+                        $uploaded_file = new UploadedFile($file, $info['basename']);
+                        $id = sprintf("%02d", $i);
+                        $name = $request->nolmlj . '-CRM' . $masalah_id . '-' . $id . '.' . $info['extension'];
+                        $unit = explode("-", $name);
+                        $path = $uploaded_file->storeAs(
+                            'upload_media/masalah/' . strtolower($unit[0]),
+                            $name
+                        );
+                        $data_media = [
+                            'masalah_id' => $masalah_id,
+                            'file' => $name,
+                        ];
+                        Media::create($data_media);
+                    }
                 }
             }
             $masalah_id++;

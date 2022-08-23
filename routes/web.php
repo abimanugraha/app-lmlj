@@ -36,7 +36,7 @@ Route::get('/registrasi', function () {
 })->middleware('auth');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
-Route::get('/detail/{masalah:nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
+Route::get('/detail/{nolmlj}', [DashboardController::class, 'detail'])->middleware('auth');
 Route::get('/detail-ajax/{masalah:id}', [DashboardController::class, 'detail'])->middleware('auth');
 Route::get('/lmlj-selesai', [DashboardController::class, 'selesai'])->middleware('auth');
 
@@ -48,7 +48,7 @@ Route::get('/ajax/komponenbyid/{komponen:id}', [PengajuanController::class, 'get
 Route::get('/ajax/unittembusan/{unit_user}', [PengajuanController::class, 'getUnitTembusan']);
 
 Route::get('/kotak-masuk-lmlj', [KotakMasukController::class, 'index'])->middleware('auth');
-Route::get('/lembar-jawaban/{masalah:nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
+Route::get('/lembar-jawaban/{nolmlj}', [KotakMasukController::class, 'jawab'])->middleware('auth');
 Route::post('/lembar-jawaban', [KotakMasukController::class, 'store']);
 Route::get('/ajax/konfirmasi/{masalah:id}', [KotakMasukController::class, 'konfirmasimasalah']);
 Route::get('/ajax/konfirmasitembusan/{tembusan:id}', [KotakMasukController::class, 'konfirmasitembusan']);
@@ -73,3 +73,6 @@ Route::get('/ajax/chart-data-lmlj/{year}', [AnalyticController::class, 'getDataC
 Route::get('/ajax/data-statistic-lmlj/{month}', [AnalyticController::class, 'getDataStatistics']);
 
 Route::get('/test', [DashboardController::class, 'createxls']);
+
+
+Route::get('ajax/test', [PengajuanController::class, 'test']);
