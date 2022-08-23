@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Masalah;
+use App\Models\Produk;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -177,5 +178,21 @@ class Controller extends BaseController
             $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
             return $filtered;
         }
+    }
+    public function getProduk()
+    {
+        $data = Produk::all();
+        return response()->json($data);
+    }
+    public function editproduk($lmlj_id, $produk_id)
+    {
+        $lmlj = Lmlj::find($lmlj_id);
+        $lmlj->produk_id = (int)$produk_id;
+        $result = [
+            'nama' => $lmlj->produk->nama,
+            'nomor' => $lmlj->produk->nomor,
+        ];
+        $lmlj->save();
+        return response()->json($result);
     }
 }

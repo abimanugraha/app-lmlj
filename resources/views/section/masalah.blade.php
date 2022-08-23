@@ -30,7 +30,7 @@
                 <div class="col">
                     <div class="row mb-1">
                         <div class="col mb-0">
-                            Nama produk <b class="text-dark">{{ $masalah->lmlj->produk->nama }}</b>
+                            Nama produk <b id="nama-produk" class="text-dark">{{ $masalah->lmlj->produk->nama }}</b>
                             @if ($masalah->status < 4 &&
                                 ($masalah->unit_tujuan_id == auth()->user()->unit->id ||
                                     $masalah->lmlj->unit_pengaju_id == auth()->user()->unit->id))
@@ -42,7 +42,7 @@
                     </div>
                     <div class="row mb-1">
                         <div class="col">
-                            Nomor produk <b class="text-dark">{{ $masalah->lmlj->produk->nomor }}</b>
+                            Nomor produk <b id="nomor-produk" class="text-dark">{{ $masalah->lmlj->produk->nomor }}</b>
                         </div>
                     </div>
                     <div class="row mb-1" id="input-nama-komponen">
@@ -260,18 +260,10 @@
 <form class="modal-part" id="modal-produk">
     <div class="form-group">
         <label>Produk</label>
-        <select required class="form-control select2" name="produk_id" id="input-produk"
-            onchange="editproduk(this.value)">
-            <option value="" selected>Pilih produk</option>
-            @foreach ($komponen as $item)
-                @if ($item->status == 1)
-                    <option value="{{ $item->id }},{{ $item->nama }}">{{ $item->nama }}</option>
-                @endif
-            @endforeach
+        <select required class="form-control select2" name="produk_id" id="modal-input-produk">
+            <option value="0" selected>Pilih produk</option>
         </select>
-        <input type="text" class="form-control" id="h-id-produk" name="id" hidden>
-        <input type="text" class="form-control" id="h-nama-produk" name="nama" hidden>
-        <input type="text" class="form-control" value="{{ $masalah->id }}" name="masalah_id" hidden>
+        <input type="text" class="form-control" value="{{ $masalah->lmlj->id }}" name="lmlj_id" hidden>
     </div>
 </form>
 
@@ -282,7 +274,6 @@
         $.ajax({
             url: `{{ url('ajax/konfirmasi') }}` + `/` + id,
             success: function(res) {
-                console.log(res);
                 window.location.href = `{{ url('ajax/konfirmasi-done') }}` + `/` + res;
             }
         });

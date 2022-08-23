@@ -56,7 +56,7 @@
                                                 id="input-tembusan" disabled>
                                             </select>
                                         </div>
-                                        @if (auth()->user()->unit->id == 1)
+                                        @if (auth()->user()->unit->id == 3)
                                             <div class="form-group col-2">
                                                 <label for="input-complaint">Complaint</label>
                                                 <select disabled class="form-control select2" name="complaint"

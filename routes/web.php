@@ -8,6 +8,7 @@ use App\Http\Controllers\RekapController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AnalyticController;
+use App\Http\Controllers\Controller;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -56,6 +57,7 @@ Route::get('/ajax/konfirmasi-done/{nolmlj}', [KotakMasukController::class, 'redi
 Route::get('/ajax/konfirmasijawaban/{jawaban:id}', [KotakMasukController::class, 'konfirmasijawaban']);
 Route::get('/ajax/konfirmasi-jawaban-done/{nolmlj}', [KotakMasukController::class, 'redirectjawaban']);
 Route::get('/ajax/editkomponen/{masalah_id}/{komponen_id}', [KotakMasukController::class, 'editkomponen']);
+Route::get('ajax/editproduk/{lmlj_id}/{produk_id}', [Controller::class, 'editproduk']);
 
 Route::get('/rekap-progress-lmlj', [RekapController::class, 'index'])->middleware('auth');
 Route::get('/lembar-rekap-progress/{masalah:nolmlj}/{id}', [RekapController::class, 'rekap'])->middleware('auth');
@@ -76,3 +78,4 @@ Route::get('/test', [DashboardController::class, 'createxls']);
 
 
 Route::get('ajax/test', [PengajuanController::class, 'test']);
+Route::get('ajax/getproduk', [Controller::class, 'getProduk']);

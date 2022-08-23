@@ -44,15 +44,6 @@ class PengajuanController extends Controller
         );
         dd($path);
         // Storage::move($url, public_path() . '/upload_media/masalah/satu/', $info['basename']);
-
-
-
-
-        // $url = 'http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg';
-        // $contents = Storage::get('http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg');
-        // $contents = Storage::url($url);
-        // $contents = file_get_contents($url);
-        // dd($contents);
     }
     public function index()
     {
@@ -60,7 +51,7 @@ class PengajuanController extends Controller
         $collection = Lmlj::where('created_at', 'like', date('Y') . '%')
             ->get();
         $col = 'col-6';
-        if (auth()->user()->unit->id == 1) {
+        if (auth()->user()->unit->id == 3) {
             $col = 'col-4';
         }
         $data = [
@@ -143,7 +134,7 @@ class PengajuanController extends Controller
                     $file_name = $item->getClientOriginalExtension();
                     $name = $request->nolmlj . '-M' . $masalah_id . '-' . $id . '.' . $file_name;
                     $unit = explode("-", $name);
-                    $item->move(public_path() . '/storage/upload_media/masalah/' . strtolower($unit[0]), $name);
+                    $item->move(public_path() . '/storage/upload_media/masalah/' . $unit[0], $name);
                     $data_media = [
                         'masalah_id' => $masalah_id,
                         'file' => $name,
@@ -168,7 +159,7 @@ class PengajuanController extends Controller
                         $name = $request->nolmlj . '-CRM' . $masalah_id . '-' . $id . '.' . $info['extension'];
                         $unit = explode("-", $name);
                         $path = $uploaded_file->storeAs(
-                            'upload_media/masalah/' . strtolower($unit[0]),
+                            'upload_media/masalah/' . $unit[0],
                             $name
                         );
                         $data_media = [
