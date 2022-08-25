@@ -161,6 +161,7 @@ class Controller extends BaseController
             return $filtered->count();
         } elseif ($type == "total") {
             $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
+            $filtered = $filtered->where('status', '<', 5);
             return $filtered->count();
         }
     }

@@ -28,7 +28,6 @@ function fillfromcomplaint(){
             tambahdetail(item.id);
             $(`#input-detail-masalah-${item.id}-1`).val(complaint.deskripsi);
             $(`#input-detail-masalah-${item.id}-${no}`).val('Berdasarkan surat complaint NO:'+ complaint.nocom);
-            var url = 'http://28.11.5.6/support-user/monitoring-complaint/images/foto/WhatsApp%20Image%202022-08-03%20at%2011.58.00%20AM.jpeg';
             
             no++;
         }); 
@@ -224,7 +223,7 @@ function getunittembusan() {
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-8">
-                                                    <label for="input-foto-video">Foto/Video</label>
+                                                    <label for="input-foto-video">Lampiran</label>
                                                     <div class="custom-file">
                                                         <input type="file"
                                                             class="custom-file-input"

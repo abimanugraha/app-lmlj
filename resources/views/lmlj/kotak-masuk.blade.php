@@ -82,57 +82,6 @@
                                                 @endif
                                             @endforeach
                                         @endif
-                                        {{-- @foreach ($masalah as $item)
-                                            <tr>
-                                                <td>{{ $number++ }}</td>
-                                                <td>{{ $item->updated_at->format('d-M-Y') }}</td>
-                                                <td class="align-middle">
-                                                    <div class="badge badge-secondary text-dark">
-                                                        {{ $item->nolmlj }}
-                                                    </div>
-                                                </td>
-                                                <td>{{ $item->masalah }}</td>
-                                                <td>
-                                                    <img src="assets/img/warning.png" alt="masalah" width="50">
-                                                </td>
-                                                <td>{{ $item->pengaju->unit->unit }}</td>
-                                                <td><a href="{{ url('lembar-jawaban/' . $item->nolmlj) }}"
-                                                        class="btn btn-success">Jawab</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach --}}
-                                        {{-- <tr>
-                                            <td>1</td>
-                                            <td>2022-06-01</td>
-                                            <td class="align-middle">
-                                                <div class="badge badge-secondary text-dark">
-                                                    UNIT-LMLJ/06/22/001
-                                                </div>
-                                            </td>
-                                            <td>Lorem ipsum</td>
-                                            <td>
-                                                <img src="assets/img/warning.png" alt="masalah" width="50">
-                                            </td>
-                                            <td>Unit Pengaju</td>
-                                            <td><a href="{{ url('lembar-jawaban') }}" class="btn btn-success">Jawab</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>2022-06-01</td>
-                                            <td class="align-middle">
-                                                <div class="badge badge-secondary text-dark">
-                                                    UNIT-LMLJ/06/22/001
-                                                </div>
-                                            </td>
-                                            <td>Lorem ipsum</td>
-                                            <td>
-                                                <img src="assets/img/warning.png" alt="masalah" width="50">
-                                            </td>
-                                            <td>Unit Pengaju</td>
-                                            <td><a href="{{ url('lembar-jawaban') }}" class="btn btn-success">Jawab</a>
-                                            </td>
-                                        </tr> --}}
                                     </tbody>
                                 </table>
                             </div>

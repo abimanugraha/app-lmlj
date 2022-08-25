@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('node_modules/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/chocolat/dist/css/chocolat.css') }}">
     <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}"> --}}
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -169,10 +169,16 @@
                                 <span>Pengajuan LMLJ</span>
                             </a>
                         </li>
-                        <li class="{{ $slug === 'kotak-masuk-lmlj' ? 'active' : '' }}">
+                        {{-- <li class="{{ $slug === 'kotak-masuk-lmlj' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('kotak-masuk-lmlj') }}">
                                 <i class="fas fa-inbox"></i>
                                 <span>Kotak Masuk LMLJ</span>
+                            </a>
+                        </li> --}}
+                        <li class="{{ $slug === 'kotak-keluar-lmlj' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ url('kotak-keluar-lmlj') }}">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Kotak Keluar LMLJ</span>
                             </a>
                         </li>
                         <li class="{{ $slug === 'rekap-progress-lmlj' ? 'active' : '' }}">
@@ -233,15 +239,6 @@
     </div>
 
     <!-- General JS Scripts -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script> --}}
-    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/bootstrap-4.3.1/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -255,14 +252,12 @@
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     <!-- JS Libraies -->
+    <script src="{{ asset('node_modules/cleave.js/dist/cleave.min.js') }}"></script>
     <script src="{{ asset('node_modules/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('node_modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-    {{-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> --}}
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    {{-- <script src="{{ asset('node_modules/datatables/media/js/jquery.dataTables.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js') }}"></script> --}}
-
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('node_modules/daterangepicker-tenor/bower_components/moment/moment.js') }}"></script>
     <script src="{{ asset('node_modules/daterangepicker-tenor/bower_components/knockout/dist/knockout.debug.js') }}">
     </script>
@@ -292,6 +287,8 @@
             $('#beep').addClass('beep');
         }
     </script>
+
+    @include('script.script-kotak-keluar')
 
 </body>
 

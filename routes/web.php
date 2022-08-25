@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\AnalyticController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\KotakKeluarController;
 use App\Models\Jawaban;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -76,6 +77,12 @@ Route::get('/ajax/data-statistic-lmlj/{month}', [AnalyticController::class, 'get
 
 Route::get('/test', [DashboardController::class, 'createxls']);
 
-
 Route::get('ajax/test', [PengajuanController::class, 'test']);
 Route::get('ajax/getproduk', [Controller::class, 'getProduk']);
+
+Route::get('/kotak-keluar-lmlj', [KotakKeluarController::class, 'index'])->middleware('auth');
+Route::get('/ajax/delete-lmlj/{id}', [KotakKeluarController::class, 'deletelmlj'])->middleware('auth');
+Route::get('/ajax/delete-lampiran/{id}', [KotakKeluarController::class, 'deletelampiran'])->middleware('auth');
+Route::get('/ajax/turnon-lmlj/{id}', [KotakKeluarController::class, 'turnonlmlj'])->middleware('auth');
+Route::get('/edit/{nolmlj}', [KotakKeluarController::class, 'edit'])->middleware('auth');
+Route::post('/edit-masalah', [KotakKeluarController::class, 'editmasalah'])->middleware('auth');

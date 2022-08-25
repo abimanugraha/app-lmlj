@@ -51,6 +51,14 @@ var tableHistory = $("#table-history").dataTable({
   ]
 });
 
+$("#table-outbox").dataTable({
+  pageLength : 5,
+    lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'All']],
+  "columnDefs": [
+    { "sortable": true }
+  ]
+});
+
 
 
 var minDate, maxDate;
