@@ -24,11 +24,12 @@ class KotakKeluarController extends Controller
         $query->leftJoin('tembusans', 'lmljs.id', '=', 'tembusans.lmlj_id');
 
         // Pengkondisian
-        $query->where([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', '<=', 1]]);
+        $query->where([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', '<', 2]]);
         $query->orwhere([['lmljs.unit_pengaju_id', auth()->user()->unit->id], ['masalahs.status', 10]]);
         $query->with('lmlj', 'unit');
 
         $collection = $query->get('masalahs.*')->unique('id');
+        // dd($collection);
         return $collection;
     }
 

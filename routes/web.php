@@ -79,6 +79,8 @@ Route::get('/test', [DashboardController::class, 'createxls']);
 
 Route::get('ajax/test', [PengajuanController::class, 'test']);
 Route::get('ajax/getproduk', [Controller::class, 'getProduk']);
+Route::get('ajax/getunittembusan/{masalah_id}', [Controller::class, 'getUnitTembusanMasalah']);
+Route::get('ajax/edittembusan/{lmlj_id}/{tembusan}', [Controller::class, 'editTembusan']);
 
 Route::get('/kotak-keluar-lmlj', [KotakKeluarController::class, 'index'])->middleware('auth');
 Route::get('/ajax/delete-lmlj/{id}', [KotakKeluarController::class, 'deletelmlj'])->middleware('auth');

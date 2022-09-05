@@ -64,9 +64,10 @@ class PengajuanController extends Controller
             'unit'      => Unit::where('id', '!=', auth()->user()->unit->id)->get(),
             'user'      => auth()->user(),
             'ygmengetahui' => auth()->user()->unit->user->where('role_id', 2)->first(),
-            'complaint' => Complaint::where('status', 'Proses')->get(),
+            'complaint' => Complaint::where('status', 'Proses')->orwhere('tglcom', '>', Carbon::now()->subDays(30))->orderBy('nocom', 'desc')->get(),
             'col' => $col
         ];
+        // dd($data['complaint']);
         return view('lmlj.lembar-masalah-rev1', $data);
     }
 

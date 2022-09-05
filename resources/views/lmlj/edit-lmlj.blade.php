@@ -305,7 +305,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         var array = JSON.parse($('#tembusan').val());
         array.forEach(item => {
-            let test = $(`#option-tembusan-${item}`).attr("selected", "selected");;
+            let test = $(`#option-tembusan-${item}`).attr("selected", "selected");
         });
 
         var detail = JSON.parse($('#detailmasalah').val());

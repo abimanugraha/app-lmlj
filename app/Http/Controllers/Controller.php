@@ -9,7 +9,8 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Masalah;
 use App\Models\Produk;
-use App\Models\User;
+use App\Models\Tembusan;
+use App\Models\Unit;
 use Carbon\Carbon;
 
 class Controller extends BaseController
@@ -160,7 +161,8 @@ class Controller extends BaseController
             $filtered = $collection->where('status', '>=', 0)->where('status', '<', 4);
             return $filtered->count();
         } elseif ($type == "total") {
-            $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
+            // $filtered = $collection->where('created_at', '>', Carbon::now()->subDays(Carbon::now()->day));
+            $filtered = $collection->where('status', '>=', 0)->where('status', '<=', 4);
             $filtered = $filtered->where('status', '<', 5);
             return $filtered->count();
         }
@@ -194,6 +196,41 @@ class Controller extends BaseController
             'nomor' => $lmlj->produk->nomor,
         ];
         $lmlj->save();
+        return response()->json($result);
+    }
+    public function getUnitTembusanMasalah($masalah_id)
+    {
+        $masalah = Masalah::find($masalah_id);
+        $unit = [$masalah->unit_tujuan_id, auth()->user()->unit->id];
+        $data = Unit::whereNotIn('id', $unit)->get();
+
+        return response()->json($data);
+    }
+    public function editTembusan($lmlj_id, $tembusan)
+    {
+        $tembusan = explode(',', $tembusan);
+        if ($tembusan[0] != 0) {
+            foreach ($tembusan as $item) {
+                $data = Tembusan::where('unit_id', $item)->first();
+                if (!$data) {
+                    $databaru = [
+                        'lmlj_id' => $lmlj_id,
+                        'unit_id' => $item,
+                        'status' => 0
+                    ];
+                    Tembusan::create($databaru);
+                }
+            }
+            Tembusan::where('lmlj_id', $lmlj_id)->whereNotIn('unit_id', $tembusan)->delete();
+            $temp = Tembusan::where('lmlj_id', $lmlj_id)->get();
+            foreach ($temp as $item) {
+                $result[] = $item->unit->unit;
+            }
+        } else {
+            $result[0] = 0;
+            Tembusan::where('lmlj_id', $lmlj_id)->delete();
+        }
+
         return response()->json($result);
     }
 }

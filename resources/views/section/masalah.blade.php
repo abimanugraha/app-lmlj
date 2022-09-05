@@ -130,6 +130,10 @@
                                     <a class="badge badge-info mt-4"
                                         href="{{ asset('storage/upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
                                         target="_BLANK">Lampiran {{ $i++ }}</a>
+                                @elseif(substr($item->file, -3) == 'mp4')
+                                    <a class="badge badge-info mt-4"
+                                        href="{{ asset('storage/upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
+                                        target="_BLANK">Lampiran {{ $i++ }}</a>
                                 @else
                                     <div style="border: 2px solid #cdd3d8;" class="gallery-item"
                                         data-image="{{ asset('storage/upload_media/masalah/' . $masalah->lmlj->pengaju->unit->unit . '/' . $item->file) }}"
@@ -169,21 +173,25 @@
                     </div>
                 </div>
             @endif
-            @if ($masalah->lmlj->tembusan->count() > 0)
-                <div class="row mb-1">
-                    <div class="col">
-                        List CC
-                    </div>
+            <div class="row mb-1" id="label-list-cc">
+                <div class="col">
+                    List CC
+                    <a href="#" id="modal-7">
+                        <i class="fas fa-edit"></i>
+                    </a>
                 </div>
+            </div>
+            @if ($masalah->lmlj->tembusan->count() > 0)
                 @foreach ($masalah->lmlj->tembusan as $item)
                     <div class="row mb-1">
                         <div class="col">
-                            <p class="text-dark"><i class="fas fa-caret-right"></i>
+                            <p class="text-dark list-cc"><i class="fas fa-caret-right"></i>
                                 {{ $item->unit->unit }}
                             </p>
                         </div>
                     </div>
                 @endforeach
+                <input hidden id="list-tembusan" type="text" value="{{ $masalah->lmlj->tembusan }}">
             @endif
             <div class="row mb-1 mt-3">
                 <div class="col text-center">
@@ -234,9 +242,9 @@
 </div>
 
 <form class="modal-part" id="modal-komponen">
-    <div class="form-group">
+    <div class="form-group" id="modal-parent-komponen">
         <label>Nama Komponen</label>
-        <select required class="form-control select2" name="komponen_id" id="input-nama-komponen">
+        <select required class="form-control select2" name="komponen_id" id="modal-input-nama-komponen">
             <option value="" selected>Pilih Komponen</option>
             @foreach ($komponen as $item)
                 @if ($item->status == 1)
@@ -249,12 +257,21 @@
     </div>
 </form>
 <form class="modal-part" id="modal-produk">
-    <div class="form-group">
+    <div class="form-group" id="modal-parent-produk">
         <label>Produk</label>
-        <select required class="form-control select2" name="produk_id" id="modal-input-produk">
+        <select required class="form-control select2" name="produk_id" id="modal-input-produk-masalah">
             <option value="0" selected>Pilih produk</option>
         </select>
         <input type="text" class="form-control" value="{{ $masalah->lmlj->id }}" name="lmlj_id" hidden>
+    </div>
+</form>
+<form class="modal-part" id="modal-tembusan">
+    <div class="form-group" id="modal-parent-tembusan">
+        <label for="input-no-lmlj">Tembusan</label>
+        <input type="text" id="modal-masalah-id" value="{{ $masalah->id }}" hidden>
+        <input type="text" class="form-control" value="{{ $masalah->lmlj->id }}" name="lmlj_id" hidden>
+        <select name="tembusan" class="form-control select2" multiple="" id="modal-input-tembusan">
+        </select>
     </div>
 </form>
 

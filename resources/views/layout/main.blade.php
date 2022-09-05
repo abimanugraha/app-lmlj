@@ -169,12 +169,12 @@
                                 <span>Pengajuan LMLJ</span>
                             </a>
                         </li>
-                        {{-- <li class="{{ $slug === 'kotak-masuk-lmlj' ? 'active' : '' }}">
+                        <li class="{{ $slug === 'kotak-masuk-lmlj' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('kotak-masuk-lmlj') }}">
                                 <i class="fas fa-inbox"></i>
                                 <span>Kotak Masuk LMLJ</span>
                             </a>
-                        </li> --}}
+                        </li>
                         <li class="{{ $slug === 'kotak-keluar-lmlj' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ url('kotak-keluar-lmlj') }}">
                                 <i class="fas fa-paper-plane"></i>

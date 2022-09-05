@@ -41,48 +41,46 @@
                                     <tbody>
                                         @if (count($masalah) > 0)
                                             @foreach ($masalah as $item)
-                                                @if ($item->status != 0 || auth()->user()->role_id == 2)
-                                                    <tr id="lmlj-{{ $item->id }}">
-                                                        <td class="align-middle">{{ $number++ }}</td>
-                                                        <td class="align-middle">{{ $item->updated_at->format('d-M-Y') }}
-                                                        </td>
-                                                        <td class="align-middle">
-                                                            <div class="badge badge-secondary text-dark">
-                                                                {{ $item->nolmlj }}
+                                                <tr id="lmlj-{{ $item->id }}">
+                                                    <td class="align-middle">{{ $number++ }}</td>
+                                                    <td class="align-middle">{{ $item->updated_at->format('d-M-Y') }}
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <div class="badge badge-secondary text-dark">
+                                                            {{ $item->nolmlj }}
+                                                        </div>
+                                                    </td>
+                                                    <td class="align-middle">{{ $item->unit->unit }}</td>
+                                                    <td class="align-middle" id="status-{{ $item->id }}">
+                                                        @if ($item->status == 10)
+                                                            <div id="badge-non-aktif-{{ $item->id }}"
+                                                                class="badge badge-danger text-white">
+                                                                Non-Aktif
                                                             </div>
-                                                        </td>
-                                                        <td class="align-middle">{{ $item->unit->unit }}</td>
-                                                        <td class="align-middle" id="status-{{ $item->id }}">
-                                                            @if ($item->status == 10)
-                                                                <div id="badge-non-aktif-{{ $item->id }}"
-                                                                    class="badge badge-danger text-white">
-                                                                    Non-Aktif
-                                                                </div>
-                                                            @else
-                                                                <div id="badge-aktif-{{ $item->id }}"
-                                                                    class="badge badge-success text-white">
-                                                                    Active
-                                                                </div>
-                                                            @endif
-                                                        </td>
-                                                        <td class="align-middle" id="aksi-{{ $item->id }}">
-                                                            <a href="{{ url('edit/' . $item->nolmlj) }}"
-                                                                class="btn btn-primary">Edit
+                                                        @else
+                                                            <div id="badge-aktif-{{ $item->id }}"
+                                                                class="badge badge-success text-white">
+                                                                Active
+                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                    <td class="align-middle" id="aksi-{{ $item->id }}">
+                                                        <a href="{{ url('edit/' . $item->nolmlj) }}"
+                                                            class="btn btn-primary">Edit
+                                                        </a>
+                                                        @if ($item->status == 10)
+                                                            <a id="aktif-{{ $item->id }}" href="#"
+                                                                onclick="turnonlmlj({{ $item->id }})"
+                                                                class="btn btn-success">Aktifkan
                                                             </a>
-                                                            @if ($item->status == 10)
-                                                                <a id="aktif-{{ $item->id }}" href="#"
-                                                                    onclick="turnonlmlj({{ $item->id }})"
-                                                                    class="btn btn-success">Aktifkan
-                                                                </a>
-                                                            @else
-                                                                <a id="non-aktif-{{ $item->id }}" href="#"
-                                                                    onclick="deletelmlj({{ $item->id }})"
-                                                                    class="btn btn-danger">Delete
-                                                                </a>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                                                        @else
+                                                            <a id="non-aktif-{{ $item->id }}" href="#"
+                                                                onclick="deletelmlj({{ $item->id }})"
+                                                                class="btn btn-danger">Delete
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         @endif
                                     </tbody>

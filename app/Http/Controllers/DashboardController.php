@@ -39,7 +39,7 @@ class DashboardController extends Controller
         $query->orwhere([['masalahs.unit_tujuan_id', $this->user->unit->id], ['masalahs.status', '>', 0]]);
         $query->orwhere('forwards.unit_id', $this->user->unit->id);
         if ($this->user->role_id == 2) {
-            $query->orwhere('tembusans.unit_id', $this->user->unit->id);
+            $query->orwhere([['tembusans.unit_id', $this->user->unit->id], ['masalahs.status', '>', 0]]);
         }
         $list_get = [
             'masalahs.*',
@@ -56,6 +56,7 @@ class DashboardController extends Controller
     public function index()
     {
         $data_masalah = $this->getCollectionMasalah();
+        // dd($data_masalah);
         $data_lmlj = $data_masalah->unique('lmlj_id');
 
         // dd($data_lmlj);
